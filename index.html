@@ -189,6 +189,7 @@ html,body{overscroll-behavior:none;height:100%;margin:0;background:var(--bg);col
 
 /*DESK: desktop monitor mode. Phones keep the layout above untouched; at 1024px+ the app gets a sidebar and a live overview.*/
 #side,.dsh{display:none}
+.sch-pa{display:flex;flex-direction:column;gap:12px}
 @media(min-width:1024px){
  #side{display:flex;flex-direction:column;gap:4px;position:fixed;left:0;top:0;bottom:0;width:236px;z-index:55;padding:20px 14px;background:var(--card);border-right:1px solid var(--line)}
  .sd-brand{display:flex;align-items:center;gap:10px;padding:2px 8px 18px}
@@ -214,39 +215,55 @@ html,body{overscroll-behavior:none;height:100%;margin:0;background:var(--bg);col
  .sch-tw{max-height:calc(100vh - 290px)}.sch-t{width:100%}.sch-t th,.sch-t td{min-width:31px;height:34px;font-size:12.5px}.sch-t th.sch-rh{min-width:150px}
  .sch-tw td[data-sv]:hover,.sch-tw td[data-csv]:hover{outline:2px solid var(--acc);outline-offset:-2px}
  #colsheet{place-items:center}#colsheet>div{border-radius:16px;border-bottom:1px solid var(--line);max-width:480px}
- /* overview */
- #home{left:236px;align-items:stretch;text-align:left;padding:28px 32px 40px;gap:18px;background:var(--bg)}
+ /* overview: slim header bar, even tiles, two equal live boards */
+ #home{left:236px;align-items:stretch;text-align:left;padding:0;gap:0;background:var(--bg)}
  #home::before,.hm-m{display:none!important}
- .dsh{display:flex;flex-direction:column;gap:18px;width:100%;max-width:1500px;margin:0 auto}
- .dsh-h{display:flex;align-items:flex-end;justify-content:space-between;gap:16px;flex-wrap:wrap}
- .dsh-h h1{margin:0;font:700 26px/1.2 system-ui,sans-serif;letter-spacing:0}.dsh-h p{margin:4px 0 0;font:500 13px/1.4 system-ui,sans-serif;color:var(--mut)}
- .dsh-clock{text-align:right}.dsh-clock b{display:block;font:300 38px/1 system-ui,sans-serif;font-variant-numeric:tabular-nums;letter-spacing:.02em}.dsh-clock span{font:500 12.5px/1.6 system-ui,sans-serif;color:var(--mut)}
- .dsh-st{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:12px}
- .dsh-t{padding:14px 16px;border:1px solid var(--line);border-radius:12px;background:var(--card)}
- .dsh-t small{display:block;font:700 10.5px/1.4 system-ui,sans-serif;letter-spacing:.1em;text-transform:uppercase;color:var(--mut)}
- .dsh-t b{display:block;margin-top:4px;font:600 30px/1.1 system-ui,sans-serif;font-variant-numeric:tabular-nums}
+ .dsh{display:flex;flex-direction:column;flex:1;width:100%;margin:0}
+ .dsh-h{position:sticky;top:0;z-index:5;display:flex;align-items:center;gap:18px;min-height:46px;padding:0 28px;background:var(--card);border-bottom:1px solid var(--line)}
+ .dsh-h .lb{align-self:stretch;display:flex;align-items:center;padding-right:18px;border-right:1px solid var(--line);font:700 11px/1 system-ui,sans-serif;letter-spacing:.12em;text-transform:uppercase}
+ .dsh-h .dt{font:500 13px/1 system-ui,sans-serif;color:var(--mut)}.dsh-h .sp{flex:1}
+ .dsh-h .clk{align-self:stretch;display:flex;align-items:center;gap:10px;padding-left:18px;border-left:1px solid var(--line);font:600 18px/1 system-ui,sans-serif;font-variant-numeric:tabular-nums}
+ .dsh-h .clk i{width:8px;height:8px;border-radius:50%;background:var(--ok-ink);box-shadow:0 0 0 3px color-mix(in srgb,var(--ok-ink) 22%,transparent)}
+ .dsh-b{display:flex;flex-direction:column;flex:1;gap:16px;width:100%;max-width:1760px;margin:0 auto;padding:20px 28px 28px}
+ .dsh-st{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:16px}
+ .dsh-t{display:flex;flex-direction:column;gap:4px;padding:14px 18px;border:1px solid var(--line);border-radius:10px;background:var(--card)}
+ .dsh-t small{font:700 10.5px/1.4 system-ui,sans-serif;letter-spacing:.1em;text-transform:uppercase;color:var(--mut)}
+ .dsh-t b{font:600 28px/1.1 system-ui,sans-serif;font-variant-numeric:tabular-nums}.dsh-t span{font:500 12px/1.4 system-ui,sans-serif;color:var(--mut)}
  .dsh-t.ok b{color:var(--ok-ink)}.dsh-t.bad b{color:var(--err)}
- .dsh-g{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:16px;align-items:start}
- .dp{display:flex;flex-direction:column;gap:14px;padding:18px;border:1px solid var(--line);border-radius:14px;background:var(--card);min-width:0}
- .dp>header{display:flex;align-items:center;justify-content:space-between;gap:10px}.dp h2{margin:0;font:700 17px/1.3 system-ui,sans-serif}
- .dp h2 small{margin-left:8px;font:500 12px/1 system-ui,sans-serif;color:var(--mut)}
- .dp-open{min-height:34px;padding:0 14px;border:1px solid var(--line);border-radius:999px;background:var(--bg);color:var(--acc-ink);font:700 12.5px/1 system-ui,sans-serif;cursor:pointer}.dp-open:hover{background:var(--hl)}
- .dp h3{margin:0 0 6px;font:700 10.5px/1.4 system-ui,sans-serif;letter-spacing:.1em;text-transform:uppercase;color:var(--mut)}
- .dp-l{display:flex;flex-direction:column;gap:6px}
- .dp-r{display:grid;grid-template-columns:minmax(0,1.15fr) auto minmax(0,1.4fr);gap:10px;align-items:center;padding:8px 12px;border-radius:10px;background:var(--bg);border:1px solid var(--line)}
- .dp-r.on{background:var(--okbg);border-color:var(--ok-ink)}.dp-r b{font:600 13.5px/1.3 system-ui,sans-serif}.dp-r i{font:normal 12px/1.3 system-ui,sans-serif;color:var(--mut)}
- .dp-r .sch-dw{justify-content:flex-end;flex-wrap:nowrap}
- .dp-none{margin:0;padding:10px 12px;border:1px dashed var(--line);border-radius:10px;color:var(--mut);font-size:13px}
- .dp-mx{overflow:auto;border:1px solid var(--line);border-radius:10px}
- .dp-mx table{width:100%;border-collapse:collapse;font-size:13px}.dp-mx th,.dp-mx td{padding:8px 10px;border-bottom:1px solid var(--line);border-right:1px solid var(--line);text-align:left;vertical-align:middle}
- .dp-mx tr>*:last-child{border-right:0}.dp-mx tbody tr:last-child>*{border-bottom:0}
- .dp-mx thead th{background:var(--bg);font:700 11px/1.3 system-ui,sans-serif;color:var(--mut);letter-spacing:.04em}.dp-mx thead th i{display:block;font:normal 500 11px/1.3 system-ui,sans-serif}
- .dp-mx tbody th{font:600 13px/1.3 system-ui,sans-serif;white-space:nowrap}
- .dp-mx td.now{background:var(--okbg);box-shadow:inset 0 0 0 2px var(--ok-ink)}.dp-mx td.past{opacity:.5}
- .dp-mx td .sch-nm{margin-left:6px}
+ .dsh-g{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:16px;align-items:stretch;flex:1}
+ .dp{display:flex;flex-direction:column;min-width:0;overflow:hidden;border:1px solid var(--line);border-radius:10px;background:var(--card);padding:0;gap:0}
+ .dp>header{display:flex;align-items:center;gap:10px;min-height:54px;padding:0 18px;border-bottom:1px solid var(--line)}
+ .dp h2{margin:0;font:700 15px/1.2 system-ui,sans-serif}.dp h2 small{display:block;margin:3px 0 0;font:500 12px/1.2 system-ui,sans-serif;color:var(--mut)}
+ .dp-hs{flex:1}
+ .dp-pill{padding:5px 10px;border-radius:999px;background:var(--bg);font:600 12px/1 system-ui,sans-serif;color:var(--mut)}.dp-pill b{color:var(--ink);font-variant-numeric:tabular-nums}.dp-pill.ok{background:var(--okbg);color:var(--ok-ink)}.dp-pill.ok b{color:var(--ok-ink)}
+ .dp-open{min-height:32px;padding:0 14px;border:1px solid var(--line);border-radius:8px;background:var(--bg);color:var(--acc-ink);font:700 12px/1 system-ui,sans-serif;cursor:pointer}.dp-open:hover{background:var(--hl)}
+ .dp-mx{flex:1;display:flex;min-height:0}
+ .dp-mx table{width:100%;height:100%;border-collapse:collapse;table-layout:fixed;font:13.5px system-ui,sans-serif}
+ .dp-mx th,.dp-mx td{padding:0 12px;text-align:left;vertical-align:middle;border-bottom:1px solid var(--line);white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+ .dp-mx th+th,.dp-mx td+td{border-left:1px solid var(--line)}.dp-mx tbody tr:last-child>*{border-bottom:0}
+ .dp-mx thead th{height:50px;background:var(--bg);border-top:3px solid var(--line)}
+ .dp-mx thead th.ds{border-top-color:var(--ccsp-ds-ln)}.dp-mx thead th.ns{border-top-color:var(--ccsp-ns-ln)}
+ .dp-mx thead b{display:block;font:700 12.5px/1.3 system-ui,sans-serif}.dp-mx thead small{display:block;font:500 11.5px/1.3 system-ui,sans-serif;color:var(--mut)}
+ .dp-mx thead th:first-child{width:92px}
+ .dp-mx tbody th{height:54px;font:600 13.5px/1.2 system-ui,sans-serif}
+ .dp-mx td.now{background:var(--okbg);box-shadow:inset 0 0 0 1.5px var(--ok-ink)}.dp-mx td.past{opacity:.5}
+ .dp-mx td.rd{color:var(--mut);background:repeating-linear-gradient(135deg,transparent 0 7px,color-mix(in srgb,var(--line) 45%,transparent) 7px 8px)}
+ .dp-mx td.cf{outline:2px solid var(--err);outline-offset:-2px}
+ .dp .sch-c{--cc:var(--sg-ot);min-width:32px;padding:2px 8px;border-radius:6px;font:700 12px/1.5 system-ui,sans-serif;background:color-mix(in srgb,var(--cc) 14%,var(--card));color:color-mix(in srgb,var(--cc) 74%,var(--ink));box-shadow:inset 0 0 0 1px color-mix(in srgb,var(--cc) 26%,transparent)}
+ .dp .sch-c.sg-nh{--cc:var(--sg-nh)}.dp .sch-c.sg-mn{--cc:var(--sg-mn)}.dp .sch-c.sg-gt{--cc:var(--sg-gt)}.dp .sch-c.sg-ex{--cc:var(--sg-ex)}.dp .sch-c.sg-ot{--cc:var(--sg-ot)}
+ .dp .sch-c.ccsg-cc{--cc:var(--ccsg-cc)}.dp .sch-c.ccsg-ch{--cc:var(--ccsg-ch)}.dp .sch-c.ccsg-rd{--cc:var(--ccsg-rd)}.dp .sch-c.ccsg-ot{--cc:var(--ccsg-ot)}
+ .dp .sch-nm{margin-left:8px;font-size:13px}
+ .dp-ft{padding:14px 18px 16px;border-top:1px solid var(--line);background:var(--bg)}
+ .dp-ft h3{margin:0 0 10px;font:700 10.5px/1.4 system-ui,sans-serif;letter-spacing:.1em;text-transform:uppercase;color:var(--mut)}.dp-ft h3 b{color:var(--ink)}
+ .dp-up{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));grid-auto-rows:38px;gap:8px;min-height:84px;align-content:start}
+ .dp-more{justify-content:center;border-style:dashed;background:transparent;font:600 12px/1 system-ui,sans-serif;color:var(--mut)}
+ .dp-u{display:flex;align-items:center;gap:8px;min-width:0;padding:7px 10px;border:1px solid var(--line);border-radius:8px;background:var(--card)}
+ .dp-u i{flex:none;width:44px;font:normal 600 11.5px/1 system-ui,sans-serif;color:var(--mut)}.dp-u .sch-nm{overflow:hidden;text-overflow:ellipsis;white-space:nowrap;min-width:0}
+ .dp-none{margin:0;padding:22px 18px;color:var(--mut);font-size:13px}
+ .dp-mx>.dp-none{flex:1;display:grid;place-items:center;text-align:center}
  .dsh-ft{font:400 11.5px/1.6 system-ui,sans-serif;color:var(--mut)}
 }
-@media(min-width:1024px) and (max-width:1320px){.dsh-g{grid-template-columns:minmax(0,1fr)}}
+@media(min-width:1024px) and (max-width:1180px){.dsh-g{grid-template-columns:minmax(0,1fr)}}
 @media(min-width:1024px) and (max-width:1180px){.dsh-st{grid-template-columns:repeat(2,minmax(0,1fr))}}
 
 /*DAYGRID: symmetrical day cards on desktop. Every shift row has the same two-line shape; columns are sized in JS so the last row never orphans.*/
@@ -270,6 +287,175 @@ html,body{overscroll-behavior:none;height:100%;margin:0;background:var(--bg);col
  .sch-card .sch-dw .sch-c,.sch-card .sch-dw .sch-rd{flex:none}
  .sch-card .sch-dw em{margin-left:auto;flex:none}
 }
+
+/*PRO: professional desktop main screen. Slim toolbar like the DGFN header, underline tabs, two-column Person view, table-style lists.*/
+@media(min-width:1024px){
+ #side button:focus:not(:focus-visible){outline:none}
+ .app-body{display:flex;flex-direction:column;gap:14px;padding:0 28px 32px;background:var(--bg)}
+ .app-body:has(>.sch-pa){display:grid;grid-template-columns:340px minmax(0,1fr);grid-auto-flow:row dense;align-content:start;gap:14px 22px}
+ .app-body:has(>.sch-pa)>*{grid-column:1/-1}
+ .app-body:has(>.sch-pa)>.sch-pa{grid-column:1;align-self:start;position:sticky;top:62px}
+ .app-body:has(>.sch-pa)>.sch-pl,.app-body:has(>.sch-pa)>.sch-empty{grid-column:2;align-self:start}
+ /* toolbar */
+ .app-body>.sch-top{grid-column:1/-1;position:sticky;top:0;z-index:6;margin:0 -28px;padding:0 28px;min-height:46px;display:flex;flex-direction:row;flex-wrap:wrap;align-items:center;gap:0 18px;background:var(--card);border-bottom:1px solid var(--line)}
+ .sch-top::before{order:0;display:flex;align-items:center;align-self:stretch;padding-right:18px;border-right:1px solid var(--line);font:700 11px/1 system-ui,sans-serif;letter-spacing:.12em;text-transform:uppercase;color:var(--ink)}
+ #body-geo .sch-top::before{content:"Geologist"}#body-cc .sch-top::before{content:"Core Checkers"}
+ .sch-top>.sch-mrow{order:1;flex:1 1 0;min-width:120px;flex-wrap:nowrap;gap:12px}
+ .sch-top>.sch-seg{order:2;max-width:none;grid-template-columns:repeat(4,auto);gap:2px;padding:0;border:0;border-radius:0;background:none;align-self:stretch;padding-right:18px;border-right:1px solid var(--line)}
+ .sch-top>.sch-me{order:3;align-self:center;min-height:30px;padding:0 12px;border-radius:999px;font-size:12.5px;gap:6px;background:var(--bg)}
+ .sch-top>.sch-me.ask{order:6;flex:1 1 100%;margin:10px 0;border-radius:8px;align-items:stretch;padding:10px 12px}
+ .sch-top>:not(.sch-mrow):not(.sch-seg):not(.sch-me):not(.ed-tg){order:5;flex:1 1 100%}
+ .sch-top>.sch-cf,.sch-top>.sch-leg,.sch-top>.sch-hlp{margin:8px 0}.sch-top>.sch-cf{max-height:120px;overflow:auto}
+ .sch-seg button{min-height:46px;padding:0 16px;border-radius:0;border-bottom:2px solid transparent;font:700 11.5px/1 system-ui,sans-serif;letter-spacing:.08em;text-transform:uppercase;background:none;color:var(--mut)}
+ .sch-seg button:hover{color:var(--ink)}.sch-seg button.on{background:none;color:var(--acc-ink);border-bottom-color:var(--acc-fill)}
+ .sch-mrow select{min-height:30px;border-radius:6px;font-size:13px;padding:0 8px}
+ .sch-mrow>b{font:700 14px/1 system-ui,sans-serif}
+ .sch-rev{font-size:12px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;min-width:0}
+ .sch select,.sch input[type=date]{border-radius:6px;min-height:36px}
+ /* person view */
+ .sch-pick{max-width:none}.sch-pick select{width:100%}
+ .sch-pc{max-width:none;width:100%;border-radius:8px;padding:16px;gap:10px}
+ .sch-pc .sch-pch b{font-size:17px}
+ .sch-pc .sch-nx{padding:10px 12px;border-radius:6px;background:var(--hl)}.sch-pc .sch-nx span{font:700 10px/1.4 system-ui,sans-serif;letter-spacing:.1em;text-transform:uppercase}
+ .sch-pc .sch-cnt{padding-top:10px;border-top:1px solid var(--line)}
+ .sch-pl{display:flex;flex-direction:column;gap:0;border:1px solid var(--line);border-radius:8px;background:var(--card);overflow:hidden}
+ .sch-pl .sch-pr{border-right:0;border-bottom:0;border-radius:0;border-top:1px solid var(--line);padding:11px 18px;grid-template-columns:64px 240px minmax(0,1fr)}
+ .sch-pl .sch-pr:first-child{border-top:0}.sch-pl .sch-pr:not([class*=ccsp]){border-left:0}
+ .sch-pl .sch-pr:hover{background:var(--hl)}
+ .sch-pl .sch-pd b{font-variant-numeric:tabular-nums}
+ /* shared surfaces */
+ .sch-card,.sch-tw,.sch-msg,.sch-blank,.sch-rr,.sch-cf{border-radius:8px}
+ .sch-tw{max-height:calc(100vh - 230px)}
+ .sch-foot{padding-top:4px}
+}
+@media(min-width:1024px){.app-body>.sch-top:has(>.sch-cf,>.sch-leg,>.sch-hlp,>.sch-me.ask){position:relative}}
+@media(min-width:1024px) and (max-width:1250px){.app-body:has(>.sch-pa){grid-template-columns:300px minmax(0,1fr)}.sch-top>.sch-me:not(.ask)>span{display:none}.sch-seg button{padding:0 11px}}
+
+/*DM + EDIT: calm day matrix and supervisor edit mode. Desktop only; phones keep the card layout and stay view-only.*/
+.sch-dm,.ed-tg,.ed-bar,.ed-pan{display:none}
+@media(min-width:1024px){
+ .sch-dc{display:none}
+ .sch-dm{display:block;border:1px solid var(--line);border-radius:10px;background:var(--card);overflow:auto}
+ .dm{width:100%;border-collapse:separate;border-spacing:0;table-layout:fixed;font:14px system-ui,sans-serif}
+ .dm th,.dm td{padding:0 16px;height:58px;text-align:left;vertical-align:middle;border-bottom:1px solid var(--line)}
+ .dm th+th,.dm td+td{border-left:1px solid var(--line)}
+ .dm tbody tr:last-child>*{border-bottom:0}
+ .dm thead th{height:auto;padding:12px 16px;background:var(--bg);border-top:3px solid var(--line)}
+ .dm thead th.ds{border-top-color:var(--ccsp-ds-ln)}.dm thead th.ns{border-top-color:var(--ccsp-ns-ln)}
+ .dm thead th:first-child{width:170px;font:700 10.5px/1.4 system-ui,sans-serif;letter-spacing:.1em;text-transform:uppercase;color:var(--mut)}
+ .dm thead b{display:block;font:700 13.5px/1.3 system-ui,sans-serif}.dm thead small{display:block;margin-top:2px;font:500 12px/1.3 system-ui,sans-serif;color:var(--mut)}
+ .dm tbody th{font:600 14px/1.3 system-ui,sans-serif;background:var(--card)}.dm tbody th small{display:block;margin-top:2px;font:400 12px/1.3 system-ui,sans-serif;color:var(--mut)}
+ .dm td{white-space:nowrap;position:relative}
+ .dm td .sch-nm{margin-left:10px;font-size:14px}
+ .dm .sch-c{--cc:var(--sg-ot);min-width:36px;padding:2px 9px;border-radius:6px;font:700 12.5px/1.5 system-ui,sans-serif;background:color-mix(in srgb,var(--cc) 14%,var(--card));color:color-mix(in srgb,var(--cc) 74%,var(--ink));box-shadow:inset 0 0 0 1px color-mix(in srgb,var(--cc) 26%,transparent)}
+ .dm .sch-c.sg-nh{--cc:var(--sg-nh)}.dm .sch-c.sg-mn{--cc:var(--sg-mn)}.dm .sch-c.sg-gt{--cc:var(--sg-gt)}.dm .sch-c.sg-ex{--cc:var(--sg-ex)}.dm .sch-c.sg-ot{--cc:var(--sg-ot)}
+ .dm .sch-c.ccsg-cc{--cc:var(--ccsg-cc)}.dm .sch-c.ccsg-ch{--cc:var(--ccsg-ch)}.dm .sch-c.ccsg-rd{--cc:var(--ccsg-rd)}.dm .sch-c.ccsg-ot{--cc:var(--ccsg-ot)}
+ .dm-e{color:var(--mut);font-size:13px}
+ .dm td.rd{background:repeating-linear-gradient(135deg,transparent 0 7px,color-mix(in srgb,var(--line) 45%,transparent) 7px 8px)}
+ .dm td.now{background:var(--okbg);box-shadow:inset 0 0 0 1.5px var(--ok-ink)}
+ .dm-l{position:absolute;right:14px;top:50%;margin-top:-4px;width:8px;height:8px;border-radius:50%;font-size:0;background:var(--ok-ink);box-shadow:0 0 0 3px color-mix(in srgb,var(--ok-ink) 22%,transparent)}
+ .dm-k{display:flex;align-items:center;gap:8px;margin:0;padding:10px 16px;border-bottom:1px solid var(--line);font:500 12px/1 system-ui,sans-serif;color:var(--mut)}.dm-k i{display:inline-block;width:8px;height:8px;border-radius:50%;background:var(--ok-ink)}.dm-k u{display:inline-block;width:14px;height:10px;margin-left:10px;border:1px solid var(--line);text-decoration:none;background:repeating-linear-gradient(135deg,transparent 0 3px,var(--line) 3px 4px)}
+ .dm td.mine .sch-nm{font-weight:700}.dm td.mine::before{content:"";position:absolute;left:0;top:10px;bottom:10px;width:3px;border-radius:2px;background:var(--acc-fill)}
+ .dm td.cf{outline:2px solid var(--err);outline-offset:-2px}
+ .sch-t tr.ccsp-ds>td:not(.off){background:color-mix(in srgb,var(--ccsp-ds-bg) 55%,var(--card))}.sch-t tr.ccsp-ns>td:not(.off){background:color-mix(in srgb,var(--ccsp-ns-bg) 55%,var(--card))}
+ /* edit toggle + bar */
+ .ed-tg{order:4;display:inline-flex;align-items:center;min-height:30px;padding:0 14px;margin-left:auto;border:1px solid var(--acc-fill);border-radius:999px;background:none;color:var(--acc-ink);font:700 11px/1 system-ui,sans-serif;letter-spacing:.08em;text-transform:uppercase;cursor:pointer}
+ .ed-tg.on{background:var(--acc-fill);color:var(--bg)}
+ .sch-top>.sch-seg+.sch-me{margin-left:0}
+ .ed-bar{display:flex;flex-wrap:wrap;align-items:center;gap:8px 12px;padding:8px 12px;border:1px solid var(--acc);border-radius:10px;background:var(--card)}
+ .ed-lb{font:700 10.5px/1 system-ui,sans-serif;letter-spacing:.12em;text-transform:uppercase;color:var(--acc-ink);padding-right:12px;border-right:1px solid var(--line);align-self:stretch;display:flex;align-items:center}
+ .ed-f{display:flex;align-items:center;gap:8px;font:600 12px/1 system-ui,sans-serif;color:var(--mut)}.ed-f select{min-height:32px;max-width:230px}
+ .ed-d{width:1px;align-self:stretch;background:var(--line)}.ed-sp{flex:1}
+ .ed-b{min-height:32px;padding:0 14px;border:1px solid var(--line);border-radius:8px;background:var(--bg);color:var(--ink);font:600 12.5px/1 system-ui,sans-serif;cursor:pointer}
+ .ed-b:hover:not(:disabled){background:var(--hl)}.ed-b:disabled{opacity:.4;cursor:default}
+ .ed-b.on,.ed-b.pri{background:var(--acc-fill);border-color:var(--acc-fill);color:var(--bg)}
+ .ed-pv{font:600 12.5px/1 system-ui,sans-serif;color:var(--acc-ink);padding:6px 10px;border-radius:6px;background:var(--hl)}
+ .ed-wrap{display:grid;grid-template-columns:minmax(0,1fr) 330px;gap:16px;align-items:start}.ed-main{min-width:0;display:flex;flex-direction:column;gap:14px}
+ .ed-main .sch-tw{max-height:calc(100vh - 300px)}
+ .ed-pan{display:block;position:sticky;top:12px;max-height:calc(100vh - 110px);overflow:auto;border:1px solid var(--line);border-radius:10px;background:var(--card);padding:16px}
+ .ed-ph small{font:700 10.5px/1.4 system-ui,sans-serif;letter-spacing:.1em;text-transform:uppercase;color:var(--mut)}.ed-ph h3{margin:2px 0 0;font:700 16px/1.3 system-ui,sans-serif}.ed-ph p{margin:2px 0 0;font-size:13px}
+ .ed-ph.hint h3{font-size:14px}.ed-ph.hint p{line-height:1.55;margin-top:8px}
+ .ed-cur{display:flex;align-items:center;gap:10px;margin:10px 0 0;padding:8px 10px;border-radius:8px;background:var(--bg);min-height:38px}
+ .ed-q{width:100%;min-height:34px;margin:12px 0 4px;padding:0 10px;border:1px solid var(--line);border-radius:6px;background:var(--bg);color:var(--ink);font:13px system-ui,sans-serif}
+ .ed-sec{margin:14px 0 6px;font:700 10.5px/1.4 system-ui,sans-serif;letter-spacing:.1em;text-transform:uppercase;color:var(--mut)}.ed-sec b{color:var(--ink)}
+ .ed-r{display:grid;grid-template-columns:auto minmax(0,1fr) auto;gap:2px 10px;align-items:center;width:100%;padding:8px 10px;border:1px solid transparent;border-radius:8px;background:none;color:var(--ink);font:13px system-ui,sans-serif;text-align:left}
+ button.ed-r{cursor:pointer}button.ed-r:hover{background:var(--hl);border-color:var(--line)}
+ .ed-r.cur{background:var(--hl);border-color:var(--acc)}
+ .ed-r .ed-n{font-weight:600;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}.ed-r .ed-m{font-size:12px;color:var(--mut)}
+ .ed-r i{grid-column:2/-1;font:normal 12px/1.35 system-ui,sans-serif;color:var(--mut)}
+ .ed-r.sug{background:var(--okbg)}.ed-r.sug i{color:var(--ok-ink)}
+ .ed-r.warn i{color:var(--warn)}.ed-r.busy{opacity:.55}
+ td[data-ek]{cursor:cell}
+ .ed-main td.sel{outline:2px solid var(--acc);outline-offset:-2px;box-shadow:none}
+ .ed-main td.pend{outline:2px dashed var(--acc);outline-offset:-2px;font-style:italic}
+ .ed-main td.pt{background:var(--hl)!important}
+ .ed-main.paint td[data-ek]{cursor:crosshair;user-select:none}
+}
+@media(min-width:1024px) and (max-width:1250px){.ed-wrap{grid-template-columns:minmax(0,1fr) 290px}}
+
+/*TBGRID: toolbar as a grid so its height is always its content height*/
+@media(min-width:1024px){
+ .app-body>.sch-top{display:grid;grid-template-columns:auto minmax(0,1fr) auto auto auto;gap:0 18px;align-items:center}
+ .sch-top::before{grid-column:1;grid-row:1}
+ .sch-top>.sch-mrow{grid-column:2;grid-row:1}
+ .sch-top>.sch-seg{grid-column:3;grid-row:1}
+ .sch-top>.sch-me:not(.ask){grid-column:4;grid-row:1}
+ .sch-top>.ed-tg{grid-column:5;grid-row:1;margin-left:0;justify-self:end}
+ .sch-top>.sch-cf,.sch-top>.sch-leg,.sch-top>.sch-hlp,.sch-top>.sch-me.ask{grid-column:1/-1;grid-row:auto}
+}
+
+/*OVMID: on mid-width screens the board cells stack chip over name so no name is cut off*/
+@media(min-width:1181px) and (max-width:1699px){
+ .dp-mx td .sch-c{display:inline-flex}
+ .dp-mx td .sch-nm{display:block;margin:4px 0 0;font-size:12.5px;overflow:hidden;text-overflow:ellipsis}
+ .dp-up{grid-template-columns:repeat(2,minmax(0,1fr));min-height:130px}
+}
+
+/*RGC + NAMES: a very faint tint per rig, and people's names carry more weight everywhere*/
+:root{--rg0:#2f9e9e;--rg1:#4a78c9;--rg2:#d4962b;--rg3:#c9607a;--rg4:#8a6fc9;--rg5:#4fa36a;--rg6:#d9744a;--rg7:#6b8196;--rgp:8%}
+.rgc-0{--rgc:var(--rg0)}.rgc-1{--rgc:var(--rg1)}.rgc-2{--rgc:var(--rg2)}.rgc-3{--rgc:var(--rg3)}.rgc-4{--rgc:var(--rg4)}.rgc-5{--rgc:var(--rg5)}.rgc-6{--rgc:var(--rg6)}.rgc-7{--rgc:var(--rg7)}
+.sch-card[class*=rgc-],.sch-rl[class*=rgc-]{background:color-mix(in srgb,var(--rgc) var(--rgp),var(--card));border-color:color-mix(in srgb,var(--rgc) 22%,var(--line))}
+.sch-rl[class*=rgc-] .sch-rr:not(.today){background:transparent}
+.sch-pr[class*=rgc-]:not(.now):not(.today){background-color:color-mix(in srgb,var(--rgc) var(--rgp),var(--card))}
+.sch-t tbody tr[class*=rgc-]>th.sch-rh{background:color-mix(in srgb,var(--rgc) 12%,var(--card));box-shadow:inset 4px 0 0 var(--rgc)}
+.sch-t tbody tr[class*=rgc-]:not([class*=ccsp-])>td:not(.off):not(.hl):not(.cf){background-color:color-mix(in srgb,var(--rgc) var(--rgp),var(--card))}
+.dm tbody tr[class*=rgc-]>th,.dm tbody tr[class*=rgc-]>td:not(.now){background-color:color-mix(in srgb,var(--rgc) var(--rgp),var(--card))}
+.dm tbody tr[class*=rgc-]>th{background-color:color-mix(in srgb,var(--rgc) 12%,var(--card));box-shadow:inset 4px 0 0 var(--rgc)}
+.dp-mx tbody tr[class*=rgc-]>th,.dp-mx tbody tr[class*=rgc-]>td:not(.now){background-color:color-mix(in srgb,var(--rgc) var(--rgp),var(--card))}
+.dp-mx tbody tr[class*=rgc-]>th{background-color:color-mix(in srgb,var(--rgc) 12%,var(--card));box-shadow:inset 4px 0 0 var(--rgc)}
+.sch-nm{font-weight:600;color:var(--ink)}
+.sch-pch b{font-size:18px;font-weight:700}
+.sch-dl .sch-nm,.sch-rc .sch-nm{font-size:14px}
+.sch-me b{font-weight:700}
+@media(min-width:1024px){
+ .dm .sch-nm{font-weight:650;font-size:15px}
+ .dp .sch-nm{font-weight:650;font-size:14px}
+ .ed-r .ed-n{font-weight:700;font-size:13.5px}
+ .sch-pl .sch-pg{font-size:14px;font-weight:600}
+ .ed-main [data-er]{cursor:pointer}.ed-main [data-er]:hover{filter:brightness(.97)}
+ .ed-main th.sel{outline:2px solid var(--acc);outline-offset:-2px}
+ .ed-fl{display:flex;flex-direction:column;gap:4px;margin:10px 0 0;font:600 11.5px/1.2 system-ui,sans-serif;color:var(--mut)}
+ .ed-fl input{min-height:36px;padding:0 10px;border:1px solid var(--line);border-radius:6px;background:var(--bg);color:var(--ink);font:14px system-ui,sans-serif}
+ .ed-fl input:focus{outline:2px solid var(--acc);outline-offset:-1px}
+ .ed-2{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+ .ed-acts{display:flex;flex-wrap:wrap;gap:8px;margin-top:18px;padding-top:14px;border-top:1px solid var(--line)}.ed-acts .pri{margin-left:auto}
+}
+
+/*SOFT: borders stay quiet. Highlights use gentle tints and thin, translucent edges instead of hard outlines.*/
+.dm td.now,.dp-mx td.now{background:color-mix(in srgb,var(--okbg) 80%,var(--card));box-shadow:inset 3px 0 0 color-mix(in srgb,var(--ok-ink) 45%,transparent)}
+.sch-t tr.rg0 td,.sch-t tr.rg0 th{border-top:1px solid color-mix(in srgb,var(--ink) 20%,var(--line))}
+.dm td.cf,.dp-mx td.cf,.sch-t td.cf{outline:1.5px solid color-mix(in srgb,var(--err) 50%,transparent);outline-offset:-1.5px}
+.sch-pr.cf,.sch-dl.cf,.sch-rc.cf{box-shadow:inset 0 0 0 1px color-mix(in srgb,var(--err) 50%,transparent)}
+.sch-cf{border-color:color-mix(in srgb,var(--err) 40%,var(--line))}
+.sch-me.ask,.sch-top>.sch-me.ask,.ed-bar{border-color:var(--line)}
+.ed-tg{border-color:color-mix(in srgb,var(--acc-fill) 50%,transparent)}
+.ed-r.cur{border-color:color-mix(in srgb,var(--acc) 40%,var(--line))}
+.ed-main td.sel,.ed-main th.sel{outline:1.5px solid color-mix(in srgb,var(--acc) 55%,transparent);outline-offset:-1.5px}
+.ed-main td.pend{outline:1px dashed color-mix(in srgb,var(--acc) 50%,transparent);outline-offset:-1px}
+.sch-t tbody tr[class*=rgc-]>th.sch-rh,.dm tbody tr[class*=rgc-]>th,.dp-mx tbody tr[class*=rgc-]>th{box-shadow:inset 3px 0 0 color-mix(in srgb,var(--rgc) 60%,transparent)}
+.dm thead th,.dp-mx thead th{border-top-width:2px}
+.sch-card[class*=rgc-],.sch-rl[class*=rgc-]{border-color:color-mix(in srgb,var(--rgc) 14%,var(--line))}
+.sch-pr.now,.sch-dl.now{box-shadow:inset 3px 0 0 color-mix(in srgb,var(--ok-ink) 55%,transparent)}
 </style>
 </head>
 <body>
@@ -367,16 +553,29 @@ function schRoster(M){var R=((M&&M.roster)||[]).slice();R.sort(function(x,y){var
 function schOpts(M,sel,blank){var R=schRoster(M),g="",h=blank?'<option value="">'+dkE(blank)+'</option>':"";R.forEach(function(p){var gg=schGrp(M,p.c);if(gg!==g){h+=(g?'</optgroup>':'')+'<optgroup label="'+dkE(SCHG[gg]||gg)+'">';g=gg}h+='<option value="'+dkE(schN(p.c))+'"'+(schN(p.c)===schN(sel)?" selected":"")+'>'+dkE(p.c+" · "+(p.n||""))+'</option>'});return h+(g?'</optgroup>':'')}
 function schChip(M,c,nm){var g=schGrp(M,c),p=schWho(M,c);return'<span class="sch-c sg-'+(g||"OT").toLowerCase()+'" title="'+dkE(p?p.n:"Not in roster")+'">'+dkE(c)+'</span>'+(nm&&p?'<span class="sch-nm">'+dkE(p.n)+'</span>':nm&&!p?'<span class="sch-nm sch-mut">not in roster</span>':'')}
 function schClean(p){var o={month:p.month,title:String(p.title||""),rev:+p.rev||0,upd:String(p.upd||""),by:String(p.by||""),rigs:(p.rigs||[]).map(function(r){return{id:String(r.id),n:String(r.n||""),site:String(r.site||""),note:String(r.note||"")}}),shifts:(p.shifts||[]).map(function(s){return{id:String(s.id),n:String(s.n||""),tf:String(s.tf||""),tt:String(s.tt||"")}}),roster:(p.roster||[]).map(function(r){return{c:String(r.c||""),n:String(r.n||""),g:String(r.g||"")}}),cells:{},off:{}};
- Object.keys(p.cells||{}).forEach(function(k){var v=schN(p.cells[k]);if(v)o.cells[k]=v});Object.keys(p.off||{}).forEach(function(k){if(p.off[k])o.off[k]=1});return o}
+ return schCells(p,o)}
+/* tolerant cell import: accepts unpadded days (3 or 03 or 2026-12-03), rig/shift given by id or by name,
+   and cell values that are a code, a list of codes or an object. Counts what could not be placed. */
+function schCellV(v){if(Array.isArray(v)){for(var i=0;i<v.length;i++){var x=schCellV(v[i]);if(x)return x}return""}if(v&&typeof v==="object")return schN(v.c||v.code||v.id||"");return schN(v)}
+function schDayK(d){var m=/(\d{1,2})\s*$/.exec(String(d).trim());return m?(m[1].length<2?"0"+m[1]:m[1]):String(d).trim()}
+function schCells(p,o){var idx=function(L,x){x=String(x).trim().toLowerCase();for(var i=0;i<L.length;i++)if(L[i].id.toLowerCase()===x)return L[i].id;for(i=0;i<L.length;i++)if(L[i].n.trim().toLowerCase()===x)return L[i].id;return null};
+ var tot=0,ok=0,bad=[],src=p.cells||{};
+ Object.keys(src).forEach(function(k){var v=schCellV(src[k]);if(!v)return;tot++;var a=String(k).split("|"),r=a.length>=3?idx(o.rigs,a[0]):null,s=a.length>=3?idx(o.shifts,a[1]):null,d=a.length>=3?schDayK(a[2]):"";
+  if(r&&s&&+d>=1&&+d<=31){o.cells[r+"|"+s+"|"+d]=v;ok++}else bad.push(k)});
+ Object.keys(p.off||{}).forEach(function(k){if(p.off[k])o.off[schDayK(k)]=1});
+ o.skip={tot:tot,ok:ok,nbad:bad.length,bad:bad.slice(0,4)};return o}
+function schImpRes(N,m){var k=N.skip;delete N.skip;if(!k)return{ok:1,msg:m};
+ if(!k.tot)return{ok:0,msg:m+" But the packet has no filled cells."};
+ return{ok:k.nbad?0:1,msg:m+" "+k.ok+" of "+k.tot+" cells placed."+(k.nbad?" "+k.nbad+" skipped because their rig/shift/day key did not match, e.g. "+k.bad.join(", ")+".":"")}}
 function schImportObj(p,name){name=name||"packet";
  if(!p||!/^\d{4}-\d{2}$/.test(String(p.month||""))||typeof p.cells!=="object")return{ok:0,msg:name+": not a valid schedule packet."};
  if(p.kind==="dige-schedule"){
   var L=schMonLbl(p.month),N=schClean(p);SCHD.months[p.month]=N;try{localStorage.setItem(SCHK,JSON.stringify(SCHD))}catch(e){}
-  return{ok:1,msg:"Loaded "+L+" geologist schedule (rev "+(N.rev||0)+")."}
+  return schImpRes(N,"Loaded "+L+" geologist schedule (rev "+(N.rev||0)+").")
  }
  if(p.kind==="dige-cc-schedule"){
   var L2=schMonLbl(p.month),N2=ccSchClean(p);CCSCHD.months[p.month]=N2;try{localStorage.setItem(CCSCHK,JSON.stringify(CCSCHD))}catch(e){}
-  return{ok:1,msg:"Loaded "+L2+" core checkers schedule (rev "+(N2.rev||0)+")."}
+  return schImpRes(N2,"Loaded "+L2+" core checkers schedule (rev "+(N2.rev||0)+").")
  }
  return{ok:0,msg:name+": unrecognised packet kind."}
 }
@@ -414,22 +613,32 @@ function schViewHTML(M){var me=schMeCode(M),meP=schWho(M,me),v=SCHV.v,now=Date.n
   if(!who)h+='<p class="sch-empty">Pick a name or code to see their shifts.</p>';else{var L=A.filter(function(a){return a.c===who}),nx=null,on=null;L.forEach(function(a){if(a.st<=now&&a.en>now)on=a;else if(a.st>now&&!nx)nx=a});var cnt={};L.forEach(function(a){cnt[a.s.id]=(cnt[a.s.id]||0)+1});
    h+='<div class="sch-pc"><div class="sch-pch">'+schChip(M,who)+'<b>'+dkE(P?P.n:"Not in roster")+'</b><span class="sch-mut">'+dkE(SCHG[schGrp(M,who)]||"")+'</span></div>'+(on?'<p class="sch-now"><b>On duty</b> · '+dkE(schAsgL(on))+'</p>':'')+(nx?'<p class="sch-nx"><span>Next shift</span><b>'+dkE(schAsgL(nx))+'</b></p>':(!on?'<p class="sch-mut">No more shifts in '+dkE(schMonLbl(M.month))+'.</p>':''))+
     '<p class="sch-cnt">'+L.length+' shift'+(L.length===1?"":"s")+' in '+dkE(schMonLbl(M.month))+(L.length?' · '+(M.shifts||[]).filter(function(s){return cnt[s.id]}).map(function(s){return dkE(schShort(s))+" "+cnt[s.id]}).join(" · "):'')+'</p></div>';
-   h+=L.length?'<div class="sch-pl">'+L.map(function(a){var cl=a.en<=now?" past":a.D.iso===td?" today":"";if(on===a)cl+=" now";cl+=schCfK(CF,schAK(a));return'<div class="sch-pr'+cl+'"><span class="sch-pd"><b>'+a.D.n+'</b><i>'+SCHWL[a.D.w]+'</i></span><span class="sch-ps"><b>'+dkE(a.s.n)+'</b><i>'+dkE(schSpan(a.s))+'</i></span><span class="sch-pg">'+dkE(schRigL(a.r))+schCfB(CF,a)+'</span></div>'}).join("")+'</div>':'<p class="sch-empty">'+dkE(P?P.n:who)+' has no shifts in '+dkE(schMonLbl(M.month))+'.</p>'}}
+   h+=L.length?'<div class="sch-pl">'+L.map(function(a){var cl=a.en<=now?" past":a.D.iso===td?" today":"";if(on===a)cl+=" now";cl+=schCfK(CF,schAK(a));return'<div class="sch-pr rgc-'+(((M.rigs||[]).indexOf(a.r))%8)+cl+'"><span class="sch-pd"><b>'+a.D.n+'</b><i>'+SCHWL[a.D.w]+'</i></span><span class="sch-ps"><b>'+dkE(a.s.n)+'</b><i>'+dkE(schSpan(a.s))+'</i></span><span class="sch-pg">'+dkE(schRigL(a.r))+schCfB(CF,a)+'</span></div>'}).join("")+'</div>':'<p class="sch-empty">'+dkE(P?P.n:who)+' has no shifts in '+dkE(schMonLbl(M.month))+'.</p>'}}
  else if(v==="rig"){var rid=SCHV.rig&&(M.rigs||[]).some(function(r){return r.id===SCHV.rig})?SCHV.rig:((M.rigs||[])[0]||{}).id,R0=(M.rigs||[]).filter(function(r){return r.id===rid})[0];
   h+='<div class="sch-chips">'+(M.rigs||[]).map(function(r){return'<button type="button" data-sv="rig" data-v="'+dkE(r.id)+'" class="'+(r.id===rid?"on":"")+'">'+dkE(schRigL(r))+'</button>'}).join("")+'</div>'+(R0&&R0.note?'<p class="sch-mut sch-note">'+dkE(R0.note)+'</p>':'');
-  if(R0)h+='<div class="sch-rl">'+schDays(M.month).map(function(D){if((M.off||{})[D.d])return'<div class="sch-rr off"><span class="sch-pd"><b>'+D.n+'</b><i>'+SCHWL[D.w]+'</i></span><span class="sch-mut">No schedule</span></div>';
+  if(R0)h+='<div class="sch-rl rgc-'+(((M.rigs||[]).indexOf(R0))%8)+'">'+schDays(M.month).map(function(D){if((M.off||{})[D.d])return'<div class="sch-rr off"><span class="sch-pd"><b>'+D.n+'</b><i>'+SCHWL[D.w]+'</i></span><span class="sch-mut">No schedule</span></div>';
    return'<div class="sch-rr'+(D.iso===td?" today":D.iso<td?" past":"")+'"><span class="sch-pd"><b>'+D.n+'</b><i>'+SCHWL[D.w]+'</i></span><span class="sch-rs">'+(M.shifts||[]).map(function(s){var c=schN((M.cells||{})[R0.id+"|"+s.id+"|"+D.d]);return'<span class="sch-rc'+schCfK(CF,R0.id+"|"+s.id+"|"+D.d)+'"><i>'+dkE(schShort(s))+'</i>'+(c?schChip(M,c)+'<span class="sch-nm">'+dkE(schFirst(schWho(M,c))||"")+'</span>':'<span class="sch-mut">—</span>')+'</span>'}).join("")+'</span></div>'}).join("")+'</div>'}
  else if(v==="day"){var day=SCHV.day&&SCHV.day.slice(0,7)===M.month?SCHV.day:(td.slice(0,7)===M.month?td:M.month+"-01"),dd=day.slice(8);
   h+='<div class="sch-day"><button type="button" data-sv="dstep" data-v="-1" aria-label="Previous day">◀</button><input type="date" data-sv="dpick" value="'+dkE(day)+'" aria-label="Day"><button type="button" data-sv="dstep" data-v="1" aria-label="Next day">▶</button><button type="button" data-sv="dtoday">Today</button></div><h3 class="sch-dh">'+dkE(schDL(day))+(day===td?' · today':'')+'</h3>';
-  if((M.off||{})[dd])h+='<p class="sch-empty">No schedule on this day.</p>';else h+='<div class="sch-dc">'+(M.rigs||[]).map(function(r){return'<div class="sch-card"><b class="sch-ct">'+dkE(schRigL(r))+'</b>'+(r.note?'<span class="sch-mut sch-note">'+dkE(r.note)+'</span>':'')+(M.shifts||[]).map(function(s){var c=schN((M.cells||{})[r.id+"|"+s.id+"|"+dd]),a=A.filter(function(x){return x.r===r&&x.s===s&&x.D.d===dd})[0],isOn=a&&a.st<=now&&a.en>now;return'<div class="sch-dl'+schCfK(CF,r.id+"|"+s.id+"|"+dd)+(isOn?" now":"")+(c&&c===me?" mine":"")+'"><span class="sch-ds"><b>'+dkE(schShort(s))+'</b><i>'+dkE(schSpan(s))+'</i></span><span class="sch-dw">'+(c?schChip(M,c,true):'<span class="sch-mut">—</span>')+(isOn?'<em>On duty</em>':'')+'</span></div>'}).join("")+'</div>'}).join("")+'</div>'}
+  if((M.off||{})[dd])h+='<p class="sch-empty">No schedule on this day.</p>';else h+='<div class="sch-dc">'+(M.rigs||[]).map(function(r,ri){return'<div class="sch-card rgc-'+(ri%8)+'"><b class="sch-ct">'+dkE(schRigL(r))+'</b>'+(r.note?'<span class="sch-mut sch-note">'+dkE(r.note)+'</span>':'')+(M.shifts||[]).map(function(s){var c=schN((M.cells||{})[r.id+"|"+s.id+"|"+dd]),a=A.filter(function(x){return x.r===r&&x.s===s&&x.D.d===dd})[0],isOn=a&&a.st<=now&&a.en>now;return'<div class="sch-dl'+schCfK(CF,r.id+"|"+s.id+"|"+dd)+(isOn?" now":"")+(c&&c===me?" mine":"")+'"><span class="sch-ds"><b>'+dkE(schShort(s))+'</b><i>'+dkE(schSpan(s))+'</i></span><span class="sch-dw">'+(c?schChip(M,c,true):'<span class="sch-mut">—</span>')+(isOn?'<em>On duty</em>':'')+'</span></div>'}).join("")+'</div>'}).join("")+'</div>'+dayMatrix("geo",M,day,A,CF,me,now)}
  else{var hw=schN(SCHV.who);h+=schGridHTML(M,hw,td)}
  return h}
 function schGridHTML(M,hw,td){var days=schDays(M.month),off=M.off||{},CF=schConf(M,schAsg(M));
  var h='<div class="sch-tw"><table class="sch-t'+(hw?" hlon":"")+'"><thead><tr><th class="sch-rh" rowspan="2">Rig / shift</th>'+days.map(function(D){return'<th class="'+(off[D.d]?"off ":"")+(D.iso===td?"today ":"")+(D.w===0?"sun":"")+'">'+D.n+'</th>'}).join("")+'</tr><tr>'+days.map(function(D){return'<th class="sch-wd'+(off[D.d]?" off":"")+'">'+SCHWS[D.w]+'</th>'}).join("")+'</tr></thead><tbody>';
- (M.rigs||[]).forEach(function(r,rx){(M.shifts||[]).forEach(function(s,sx){h+='<tr class="'+(sx===0?"rg0 ":"")+'sh'+sx+'">'+'<th class="sch-rh">'+(sx===0?'<b>'+dkE(r.n)+'</b>'+(r.site?' <small>'+dkE(r.site)+'</small>':''):'')+'<span>'+dkE(s.n)+'</span></th>';
+ (M.rigs||[]).forEach(function(r,rx){(M.shifts||[]).forEach(function(s,sx){h+='<tr class="'+(sx===0?"rg0 ":"")+'sh'+sx+' rgc-'+(rx%8)+'">'+'<th class="sch-rh" data-er="'+r.id+'|'+s.id+'">'+(sx===0?'<b>'+dkE(r.n)+'</b>'+(r.site?' <small>'+dkE(r.site)+'</small>':''):'')+'<span>'+dkE(s.n)+'</span></th>';
   days.forEach(function(D){var k=r.id+"|"+s.id+"|"+D.d,c=schN((M.cells||{})[k]);
-   h+='<td class="'+(off[D.d]?"off":"")+(off[D.d]?"":schCfK(CF,k))+(c?" sg-"+schGrp(M,c).toLowerCase():"")+(hw&&c===hw?" hl":"")+'"'+(c?' data-sv="hl" data-v="'+dkE(c)+'"':'')+'>'+(off[D.d]?'':dkE(c))+'</td>'});
+   h+='<td class="'+(off[D.d]?"off":"")+(off[D.d]?"":schCfK(CF,k))+(c?" sg-"+schGrp(M,c).toLowerCase():"")+(hw&&c===hw?" hl":"")+'"'+(c?' data-sv="hl" data-v="'+dkE(c)+'"':'')+(off[D.d]?'':' data-ek="'+k+'"')+'>'+(off[D.d]?'':dkE(c))+'</td>'});
   h+='</tr>'})});
+ return h+'</tbody></table></div>'}
+
+
+/* ---- desktop day view: one rig x shift table, shift names and times once in the header ---- */
+function dayMatrix(kind,M,day,A,CF,me,now){var cc=kind==="cc",dd=day.slice(8),shifts=M.shifts||[];
+ var h='<div class="sch-dm"><p class="dm-k"><i></i>On duty now<u></u>'+(cc?"Rest day":"Unassigned")+'</p><table class="dm"><thead><tr><th>Rig</th>'+shifts.map(function(s){return'<th class="'+(cc?ccSchSP(s):"")+'" data-er="|'+s.id+'"><b>'+dkE(schShort(s))+'</b><small>'+dkE(schSpan(s))+'</small></th>'}).join("")+'</tr></thead><tbody>';
+ (M.rigs||[]).forEach(function(r,ri){h+='<tr class="rgc-'+(ri%8)+'"><th data-er="'+r.id+'|">'+dkE(r.n)+(r.site?'<small>'+dkE(r.site)+'</small>':'')+'</th>';
+  shifts.forEach(function(s){var k=r.id+"|"+s.id+"|"+dd,c=schN((M.cells||{})[k]),a=A.filter(function(x){return x.r===r&&x.s===s&&x.D.d===dd})[0],on=a&&a.st<=now&&a.en>now;
+   h+='<td class="'+(c?"":"rd ")+(on?"now ":"")+(c&&c===me?"mine ":"")+(CF&&CF.k[k]?"cf":"")+'" data-ek="'+k+'">'+(c?(cc?ccSchChip(M,c,true):schChip(M,c,true))+(on?'<em class="dm-l">Live</em>':''):'<span class="dm-e">'+(cc?"Rest day":"—")+'</span>')+'</td>'});
+  h+='</tr>'});
  return h+'</tbody></table></div>'}
 
 /* ---- CC schedule data ---- */
@@ -455,7 +664,7 @@ function ccSchSPL(s){var p=ccSchSP(s);return p==="ds"?"D/S":p==="ns"?"N/S":""}
 function ccSchSPB(s){var p=ccSchSP(s);return p?'<span class="sch-sp ccsp-'+p+'">'+ccSchSPL(s)+'</span>':''}
 function ccSchChip(M,c,nm){var g=ccSchGrp(M,c),p=ccSchWho(M,c);return'<span class="sch-c ccsg-'+(g||"OT").toLowerCase()+'" title="'+dkE(p?p.n:"Not in roster")+'">'+dkE(c)+'</span>'+(nm&&p?'<span class="sch-nm">'+dkE(p.n)+'</span>':nm&&!p?'<span class="sch-nm sch-mut">not in roster</span>':'')}
 function ccSchClean(p){var o={month:p.month,title:String(p.title||""),rev:+p.rev||0,upd:String(p.upd||""),by:String(p.by||""),rigs:(p.rigs||[]).map(function(r){return{id:String(r.id),n:String(r.n||""),site:String(r.site||""),note:String(r.note||"")}}),shifts:(p.shifts||[]).map(function(s){return{id:String(s.id),n:String(s.n||""),tf:String(s.tf||""),tt:String(s.tt||"")}}),roster:(p.roster||[]).map(function(r){return{c:String(r.c||""),n:String(r.n||""),g:String(r.g||"")}}),cells:{},off:{}};
- Object.keys(p.cells||{}).forEach(function(k){var v=schN(p.cells[k]);if(v)o.cells[k]=v});Object.keys(p.off||{}).forEach(function(k){if(p.off[k])o.off[k]=1});return o}
+ return schCells(p,o)}
 function ccSchAsg(M){var out=[],days=schDays(M.month),off=M.off||{};(M.rigs||[]).forEach(function(r){(M.shifts||[]).forEach(function(s){var a=schMin(s.tf),b=schMin(s.tt),len=(a!=null&&b!=null)?((b-a+1440)%1440||1440):720;
  days.forEach(function(D){if(off[D.d])return;var c=schN((M.cells||{})[r.id+"|"+s.id+"|"+D.d]);if(!c)return;var st=new Date(D.iso+"T00:00:00").getTime()+(a||0)*6e4;out.push({c:c,r:r,s:s,D:D,st:st,en:st+len*6e4})})})});
  return out.sort(function(x,y){return x.st-y.st||(M.rigs.indexOf(x.r)-M.rigs.indexOf(y.r))})}
@@ -480,21 +689,21 @@ function ccSchViewHTML(M){var me=ccSchMeCode(M),meP=ccSchWho(M,me),v=CCSCHV.v,no
      var la=byd[D.d],dc=(D.iso===td?" today":D.iso<td?" past":"");
      if(!la)return'<div class="sch-pr ccsp-rd'+dc+'"><span class="sch-pd"><b>'+D.n+'</b><i>'+SCHWL[D.w]+'</i></span><span class="sch-ps"><b class="ccsp-rd">Rest day</b><i>off</i></span><span class="sch-pg"><span class="sch-rd">RD</span></span></div>';
      return la.map(function(a){var cl=a.en<=now?" past":a.D.iso===td?" today":"";if(on===a)cl+=" now";cl+=schCfK(CF,schAK(a));
-      return'<div class="sch-pr ccsp-'+ccSchSP(a.s)+cl+'"><span class="sch-pd"><b>'+a.D.n+'</b><i>'+SCHWL[a.D.w]+'</i></span><span class="sch-ps"><b>'+dkE(a.s.n)+'</b><i>'+dkE(schSpan(a.s))+'</i></span><span class="sch-pg">'+ccSchSPB(a.s)+' '+dkE(schRigL(a.r))+schCfB(CF,a)+'</span></div>'}).join("")}).join("")+'</div>':'<p class="sch-empty">'+dkE(P?P.n:who)+' has no shifts in '+dkE(schMonLbl(M.month))+'.</p>'}}
+      return'<div class="sch-pr ccsp-'+ccSchSP(a.s)+' rgc-'+(((M.rigs||[]).indexOf(a.r))%8)+cl+'"><span class="sch-pd"><b>'+a.D.n+'</b><i>'+SCHWL[a.D.w]+'</i></span><span class="sch-ps"><b>'+dkE(a.s.n)+'</b><i>'+dkE(schSpan(a.s))+'</i></span><span class="sch-pg">'+ccSchSPB(a.s)+' '+dkE(schRigL(a.r))+schCfB(CF,a)+'</span></div>'}).join("")}).join("")+'</div>':'<p class="sch-empty">'+dkE(P?P.n:who)+' has no shifts in '+dkE(schMonLbl(M.month))+'.</p>'}}
  else if(v==="rig"){var rid=CCSCHV.rig&&(M.rigs||[]).some(function(r){return r.id===CCSCHV.rig})?CCSCHV.rig:((M.rigs||[])[0]||{}).id,R0=(M.rigs||[]).filter(function(r){return r.id===rid})[0];
   h+='<div class="sch-chips">'+(M.rigs||[]).map(function(r){return'<button type="button" data-csv="rig" data-v="'+dkE(r.id)+'" class="'+(r.id===rid?"on":"")+'">'+dkE(schRigL(r))+'</button>'}).join("")+'</div>'+(R0&&R0.note?'<p class="sch-mut sch-note">'+dkE(R0.note)+'</p>':'');
-  if(R0)h+='<div class="sch-rl">'+schDays(M.month).map(function(D){if((M.off||{})[D.d])return'<div class="sch-rr off"><span class="sch-pd"><b>'+D.n+'</b><i>'+SCHWL[D.w]+'</i></span><span class="sch-mut">No schedule</span></div>';
+  if(R0)h+='<div class="sch-rl rgc-'+(((M.rigs||[]).indexOf(R0))%8)+'">'+schDays(M.month).map(function(D){if((M.off||{})[D.d])return'<div class="sch-rr off"><span class="sch-pd"><b>'+D.n+'</b><i>'+SCHWL[D.w]+'</i></span><span class="sch-mut">No schedule</span></div>';
    return'<div class="sch-rr'+(D.iso===td?" today":D.iso<td?" past":"")+'"><span class="sch-pd"><b>'+D.n+'</b><i>'+SCHWL[D.w]+'</i></span><span class="sch-rs">'+(M.shifts||[]).map(function(s){var c=schN((M.cells||{})[R0.id+"|"+s.id+"|"+D.d]);return'<span class="sch-rc ccsp-'+ccSchSP(s)+schCfK(CF,R0.id+"|"+s.id+"|"+D.d)+'"><i>'+dkE(schShort(s))+'</i>'+(c?ccSchChip(M,c)+'<span class="sch-nm">'+dkE(schFirst(ccSchWho(M,c))||"")+'</span>':'<span class="sch-rd">RD</span><span class="sch-nm ccsp-rd">Rest day</span>')+'</span>'}).join("")+'</span></div>'}).join("")+'</div>'}
  else if(v==="day"){var day=CCSCHV.day&&CCSCHV.day.slice(0,7)===M.month?CCSCHV.day:(td.slice(0,7)===M.month?td:M.month+"-01"),dd=day.slice(8);
   h+='<div class="sch-day"><button type="button" data-csv="dstep" data-v="-1" aria-label="Previous day">◀</button><input type="date" data-csv="dpick" value="'+dkE(day)+'" aria-label="Day"><button type="button" data-csv="dstep" data-v="1" aria-label="Next day">▶</button><button type="button" data-csv="dtoday">Today</button></div><h3 class="sch-dh">'+dkE(schDL(day))+(day===td?' · today':'')+'</h3>';
-  if((M.off||{})[dd])h+='<p class="sch-empty">No schedule on this day.</p>';else h+='<div class="sch-dc">'+(M.rigs||[]).map(function(r){return'<div class="sch-card"><b class="sch-ct">'+dkE(schRigL(r))+'</b>'+(r.note?'<span class="sch-mut sch-note">'+dkE(r.note)+'</span>':'')+(M.shifts||[]).map(function(s){var c=schN((M.cells||{})[r.id+"|"+s.id+"|"+dd]),a=A.filter(function(x){return x.r===r&&x.s===s&&x.D.d===dd})[0],isOn=a&&a.st<=now&&a.en>now;return'<div class="sch-dl ccsp-'+(c?ccSchSP(s):"rd")+schCfK(CF,r.id+"|"+s.id+"|"+dd)+(isOn?" now":"")+(c&&c===me?" mine":"")+'"><span class="sch-ds"><b>'+dkE(schShort(s))+'</b><i>'+dkE(schSpan(s))+'</i>'+ccSchSPB(s)+'</span><span class="sch-dw">'+(c?ccSchChip(M,c,true):'<span class="sch-rd">RD</span><span class="sch-nm ccsp-rd">Rest day</span>')+(isOn?'<em>On duty</em>':'')+'</span></div>'}).join("")+'</div>'}).join("")+'</div>'}
+  if((M.off||{})[dd])h+='<p class="sch-empty">No schedule on this day.</p>';else h+='<div class="sch-dc">'+(M.rigs||[]).map(function(r,ri){return'<div class="sch-card rgc-'+(ri%8)+'"><b class="sch-ct">'+dkE(schRigL(r))+'</b>'+(r.note?'<span class="sch-mut sch-note">'+dkE(r.note)+'</span>':'')+(M.shifts||[]).map(function(s){var c=schN((M.cells||{})[r.id+"|"+s.id+"|"+dd]),a=A.filter(function(x){return x.r===r&&x.s===s&&x.D.d===dd})[0],isOn=a&&a.st<=now&&a.en>now;return'<div class="sch-dl ccsp-'+(c?ccSchSP(s):"rd")+schCfK(CF,r.id+"|"+s.id+"|"+dd)+(isOn?" now":"")+(c&&c===me?" mine":"")+'"><span class="sch-ds"><b>'+dkE(schShort(s))+'</b><i>'+dkE(schSpan(s))+'</i>'+ccSchSPB(s)+'</span><span class="sch-dw">'+(c?ccSchChip(M,c,true):'<span class="sch-rd">RD</span><span class="sch-nm ccsp-rd">Rest day</span>')+(isOn?'<em>On duty</em>':'')+'</span></div>'}).join("")+'</div>'}).join("")+'</div>'+dayMatrix("cc",M,day,A,CF,me,now)}
  else{h+=ccSchGridHTML(M,schN(CCSCHV.who),td)}
  return h}
 function ccSchGridHTML(M,hw,td){var days=schDays(M.month),off=M.off||{},CF=schConf(M,ccSchAsg(M));
  var h='<div class="sch-tw"><table class="sch-t'+(hw?" hlon":"")+'"><thead><tr><th class="sch-rh" rowspan="2">Rig / shift</th>'+days.map(function(D){return'<th class="'+(off[D.d]?"off ":"")+(D.iso===td?"today ":"")+(D.w===0?"sun":"")+'">'+D.n+'</th>'}).join("")+'</tr><tr>'+days.map(function(D){return'<th class="sch-wd'+(off[D.d]?" off":"")+'">'+SCHWS[D.w]+'</th>'}).join("")+'</tr></thead><tbody>';
- (M.rigs||[]).forEach(function(r,rx){(M.shifts||[]).forEach(function(s,sx){h+='<tr class="'+(sx===0?"rg0 ":"")+'sh'+sx+' ccsp-'+ccSchSP(s)+'">'+'<th class="sch-rh">'+(sx===0?'<b>'+dkE(r.n)+'</b>'+(r.site?' <small>'+dkE(r.site)+'</small>':''):'')+'<span>'+dkE(s.n)+'</span></th>';
+ (M.rigs||[]).forEach(function(r,rx){(M.shifts||[]).forEach(function(s,sx){h+='<tr class="'+(sx===0?"rg0 ":"")+'sh'+sx+' ccsp-'+ccSchSP(s)+' rgc-'+(rx%8)+'">'+'<th class="sch-rh" data-er="'+r.id+'|'+s.id+'">'+(sx===0?'<b>'+dkE(r.n)+'</b>'+(r.site?' <small>'+dkE(r.site)+'</small>':''):'')+'<span>'+dkE(s.n)+'</span></th>';
   days.forEach(function(D){var k=r.id+"|"+s.id+"|"+D.d,c=schN((M.cells||{})[k]);
-   h+='<td class="'+(off[D.d]?"off":(c?"ccsg-"+ccSchGrp(M,c).toLowerCase():"rdc"))+(off[D.d]?"":schCfK(CF,k))+(hw&&c===hw?" hl":"")+'"'+(c?' data-csv="hl" data-v="'+dkE(c)+'"':'')+'>'+(off[D.d]?'':(c?dkE(c):"RD"))+'</td>'});
+   h+='<td class="'+(off[D.d]?"off":(c?"ccsg-"+ccSchGrp(M,c).toLowerCase():"rdc"))+(off[D.d]?"":schCfK(CF,k))+(hw&&c===hw?" hl":"")+'"'+(c?' data-csv="hl" data-v="'+dkE(c)+'"':'')+(off[D.d]?'':' data-ek="'+k+'"')+'>'+(off[D.d]?'':(c?dkE(c):"RD"))+'</td>'});
   h+='</tr>'})});
  return h+'</tbody></table></div>'}
 
@@ -507,23 +716,158 @@ fi.addEventListener("change",function(){var f=fi.files;if(f&&f.length)schImportF
 function geoRefresh(){
  var mk=schCur(),M=SCHD.months[mk];SCHV.m=mk;
  if(!M){geoEl.innerHTML=schMsgHTML()+'<div class="sch-blank"><b>No geologist schedule on this device yet.</b><p>Import a schedule packet or a compiled DiGe-FN packet that contains schedules.</p><button type="button" class="sch-big" data-sv="imp">Import schedule</button></div>';return}
- geoEl.innerHTML=schMsgHTML()+schViewHTML(M)+'<div class="sch-foot"><button type="button" class="sch-lk" data-sv="imp">Import schedule packet</button></div>';dayCols()
+ geoEl.innerHTML=schMsgHTML()+schViewHTML(M)+'<div class="sch-foot"><button type="button" class="sch-lk" data-sv="imp">Import schedule packet</button></div>';dayCols();edDecorate("geo")
 }
 function ccRefresh(){
  var mk=ccSchCur(),M=CCSCHD.months[mk];CCSCHV.m=mk;
  if(!M){ccEl.innerHTML='<div class="sch-blank"><b>No core checkers schedule on this device yet.</b><p>Import a CC schedule packet or a compiled DiGe-FN packet that contains schedules.</p><button type="button" class="sch-big" data-csv="imp">Import CC schedule</button></div>';return}
- ccEl.innerHTML=ccSchViewHTML(M)+'<div class="sch-foot"><button type="button" class="sch-lk" data-csv="imp">Import CC schedule packet</button></div>';dayCols()
+ ccEl.innerHTML=ccSchViewHTML(M)+'<div class="sch-foot"><button type="button" class="sch-lk" data-csv="imp">Import CC schedule packet</button></div>';dayCols();edDecorate("cc")
 }
 
 
 /* day view columns: pick a column count that divides the rigs evenly where it can, so every row is full */
 var DKMQ=window.matchMedia?matchMedia("(min-width:1024px)"):null;
-function dayCols(){document.querySelectorAll(".sch-dc").forEach(function(g){
+function proWrap(){[geoEl,ccEl].forEach(function(el){var pk=el&&el.querySelector(":scope>.sch-pick");if(!pk||el.querySelector(":scope>.sch-pa"))return;var w=document.createElement("div");w.className="sch-pa";el.insertBefore(w,pk);w.appendChild(pk);var nx=w.nextElementSibling;if(nx&&nx.classList.contains("sch-pc"))w.appendChild(nx)})}
+function dayCols(){proWrap();document.querySelectorAll(".sch-dc").forEach(function(g){
  if(!DKMQ||!DKMQ.matches){g.style.removeProperty("--dc");return}
  var n=g.children.length,w=g.clientWidth,gap=10,min=180,mx=Math.max(1,Math.floor((w+gap)/(min+gap))),c=Math.min(n,mx);
  if(n>mx){var best=0,bs=-1;for(var k=mx;k>=Math.max(2,Math.ceil(mx/2));k--){var r=n%k,sc=r===0?1000+k:r*10+k;if(sc>bs){bs=sc;best=k}}c=best||mx}
  g.style.setProperty("--dc",String(Math.max(1,c)))})}
 window.addEventListener("resize",dayCols);
+
+
+/* ---- supervisor edit mode (desktop browser) ---- */
+var EDIT=false,ED={geo:edNew(),cc:edNew()};
+function edNew(){return{brush:"",erase:false,sel:"",row:null,hist:[],redo:[],pend:null,orig:null,q:"",m:"",painting:false,drag:null}}
+function edOn(){return EDIT&&DKMQ&&DKMQ.matches}
+function edK(kind){return kind==="geo"?{M:function(){var k=schCur();return k?SCHD.months[k]:null},asg:schAsg,grp:schGrp,chip:schChip,G:SCHG,opts:schOpts,V:function(){return SCHV},uk:schUiKeep,save:function(){try{localStorage.setItem(SCHK,JSON.stringify(SCHD))}catch(e){}},ref:geoRefresh,el:geoEl}
+ :{M:function(){var k=ccSchCur();return k?CCSCHD.months[k]:null},asg:ccSchAsg,grp:ccSchGrp,chip:ccSchChip,G:CCSCHG,opts:ccSchOpts,V:function(){return CCSCHV},uk:ccSchUiKeep,save:function(){try{localStorage.setItem(CCSCHK,JSON.stringify(CCSCHD))}catch(e){}},ref:ccRefresh,el:ccEl}}
+function edSlot(kind,M,k){var a=String(k).split("|"),r=(M.rigs||[]).filter(function(x){return x.id===a[0]})[0],s=(M.shifts||[]).filter(function(x){return x.id===a[1]})[0],D=schDays(M.month).filter(function(x){return x.d===a[2]})[0];if(!r||!s||!D)return null;
+ var f=schMin(s.tf),t=schMin(s.tt),len=(f!=null&&t!=null)?((t-f+1440)%1440||1440):(kind==="geo"?480:720),st=new Date(D.iso+"T00:00:00").getTime()+(f||0)*6e4;return{r:r,s:s,D:D,st:st,en:st+len*6e4,k:k}}
+/* who can take a slot: busy = overlapping shift, warn = short rest or long streak, ok = free. Ranked for suggestions. */
+function edCands(kind,M,slot,A){var K=edK(kind),by={},rowG={},dom="",mx=0,out=[],H=36e5;
+ A.forEach(function(a){if(schAK(a)===slot.k)return;(by[a.c]=by[a.c]||[]).push(a);if(a.r.id===slot.r.id&&a.s.id===slot.s.id){var g=K.grp(M,a.c);rowG[g]=(rowG[g]||0)+1}});
+ for(var g in rowG)if(rowG[g]>mx){mx=rowG[g];dom=g}
+ var yd=new Date(slot.D.iso+"T12:00:00");yd.setDate(yd.getDate()-1);var y=dkIso(yd);
+ ((M&&M.roster)||[]).forEach(function(p){var c=schN(p.c);if(!c)return;var L=by[c]||[],busy=null,i;
+  for(i=0;i<L.length;i++)if(L[i].st<slot.en&&slot.st<L[i].en){busy=L[i];break}
+  if(busy){out.push({p:p,c:c,st:"busy",why:"Already on "+busy.r.n+" · "+schShort(busy.s)+" at that time",load:L.length,score:-99,warn:[]});return}
+  var gb=Infinity,ga=Infinity,warn=[],why=[],score=-L.length,days={},before=0,after=0;
+  L.forEach(function(a){days[a.D.iso]=1;if(a.en<=slot.st)gb=Math.min(gb,slot.st-a.en);if(a.st>=slot.en)ga=Math.min(ga,a.st-slot.en)});
+  var gap=Math.min(gb,ga);if(gap<10*H)warn.push("Only "+Math.round(gap/H)+"h rest");
+  for(i=1;i<=7;i++){var q=new Date(slot.D.iso+"T12:00:00");q.setDate(q.getDate()-i);if(days[dkIso(q)])before++;else break}
+  for(i=1;i<=7;i++){var z=new Date(slot.D.iso+"T12:00:00");z.setDate(z.getDate()+i);if(days[dkIso(z)])after++;else break}
+  if(before+1+after>6)warn.push((before+1+after)+" days in a row");
+  if(L.some(function(a){return a.D.iso===y&&a.s.id===slot.s.id})){score+=2;why.push("Worked this shift yesterday")}
+  if(L.some(function(a){return a.D.iso===y&&a.r.id===slot.r.id})){score+=1;why.push("On this rig yesterday")}
+  if(dom&&K.grp(M,c)===dom){score+=3;why.push("Usual "+(K.G[dom]||dom).toLowerCase()+" for this row")}
+  if(warn.length)score-=6;
+  out.push({p:p,c:c,st:warn.length?"warn":"ok",why:why,warn:warn,load:L.length,score:score})});
+ out.sort(function(a,b){return b.score-a.score||String(a.c).localeCompare(String(b.c),undefined,{numeric:true})});return out}
+function edApply(M,ch,rev){(rev?ch.slice().reverse():ch).forEach(function(c){if(c.fn){(rev?c.un:c.fn)();return}var v=rev?c.from:c.to;if(v)M.cells[c.k]=v;else delete M.cells[c.k]})}
+function edPush(kind,ch){var E=ED[kind],M=edK(kind).M();ch=ch.filter(function(c){return c&&(c.fn||c.from!==c.to)});if(!ch.length)return;E.hist.push(ch);if(E.hist.length>300)E.hist.shift();E.redo=[];M.ed=1;edK(kind).save()}
+function edDo(kind,ch){var M=edK(kind).M();ch=ch.filter(function(c){return c&&(c.fn||c.from!==c.to)});if(!ch.length)return;edApply(M,ch,false);edPush(kind,ch)}
+function edUndo(kind,redo){var E=ED[kind],K=edK(kind),M=K.M(),ch=(redo?E.redo:E.hist).pop();if(!ch)return;edApply(M,ch,!redo);(redo?E.hist:E.redo).push(ch);M.ed=1;K.save()}
+function edRej(kind){var E=ED[kind],M=edK(kind).M();if(!E.pend)return;E.pend.ch.forEach(function(c){delete M.cells[c.k]});E.pend=null}
+function edAcc(kind){var E=ED[kind];if(!E.pend)return;var ch=E.pend.ch;E.pend=null;edPush(kind,ch)}
+function edAuto(kind,scope){var K=edK(kind),M=K.M(),E=ED[kind];edRej(kind);var sel=E.sel?edSlot(kind,M,E.sel):null,off=M.off||{},slots=[],ch=[],miss=0;
+ schDays(M.month).forEach(function(D){if(off[D.d])return;(M.rigs||[]).forEach(function(r){(M.shifts||[]).forEach(function(s){var k=r.id+"|"+s.id+"|"+D.d;if(M.cells[k])return;
+  if(scope==="day"&&(!sel||D.d!==sel.D.d))return;if(scope==="rig"&&(!sel||r.id!==sel.r.id))return;slots.push(k)})})});
+ slots.forEach(function(k){var slot=edSlot(kind,M,k),best=edCands(kind,M,slot,K.asg(M)).filter(function(x){return x.st==="ok"})[0];if(!best){miss++;return}M.cells[k]=best.c;ch.push({k:k,from:"",to:best.c})});
+ E.pend={ch:ch,miss:miss,scope:scope}}
+function edExport(kind){var K=edK(kind),M=K.M();if(!M)return;M.rev=(+M.rev||0)+1;M.upd=dkIso(new Date());M.ed=0;K.save();
+ var o={kind:kind==="geo"?"dige-schedule":"dige-cc-schedule",month:M.month,title:M.title,rev:M.rev,upd:M.upd,by:M.by,rigs:M.rigs,shifts:M.shifts,roster:M.roster,cells:M.cells,off:M.off};
+ var a=document.createElement("a");a.href=URL.createObjectURL(new Blob([JSON.stringify(o,null,1)],{type:"application/json"}));a.download=(kind==="geo"?"geologist":"core-checkers")+"-schedule-"+M.month+"-rev"+M.rev+".json";document.body.appendChild(a);a.click();setTimeout(function(){URL.revokeObjectURL(a.href);a.remove()},600)}
+function edRef(kind){var K=edK(kind),el=K.el,tw=el.querySelector(".sch-tw"),pn=el.querySelector(".ed-pan"),st=el.scrollTop,tl=tw?tw.scrollLeft:0,tt=tw?tw.scrollTop:0,pt=pn?pn.scrollTop:0;K.ref();
+ var tw2=el.querySelector(".sch-tw"),pn2=el.querySelector(".ed-pan");el.scrollTop=st;if(tw2){tw2.scrollLeft=tl;tw2.scrollTop=tt}if(pn2)pn2.scrollTop=pt}
+function edRow(K,M,x,cls,click,cur){var why=cls==="busy"?x.why:(cls==="warn"?x.warn.join(" · "):x.why.slice(0,2).join(" · "));
+ return(click?'<button type="button" class="ed-r '+cls+(x.c===cur?" cur":"")+'" data-ed="as" data-v="'+dkE(x.c)+'">':'<div class="ed-r '+cls+'">')+K.chip(M,x.c,false)+'<span class="ed-n">'+dkE(x.p.n||"")+'</span><span class="ed-m">'+x.load+' shift'+(x.load===1?"":"s")+'</span>'+(why?'<i>'+dkE(why)+'</i>':'')+(click?'</button>':'</div>')}
+function edListHTML(kind,M,slot){var K=edK(kind),E=ED[kind],cur=schN((M.cells||{})[E.sel]||""),c=edCands(kind,M,slot,K.asg(M)),q=String(E.q||"").toLowerCase(),
+ f=function(x){return!q||(x.c+" "+(x.p.n||"")).toLowerCase().indexOf(q)>=0},ok=c.filter(function(x){return x.st==="ok"}),
+ minL=ok.length?Math.min.apply(null,ok.map(function(x){return x.load})):0,
+ sug=ok.filter(function(x){return x.c!==cur}).slice(0,3).map(function(x){var w=x.why.slice();if(x.load===minL)w.unshift("Lowest load ("+x.load+")");return Object.assign({},x,{why:w})}),
+ w=c.filter(function(x){return x.st==="warn"&&f(x)}),b=c.filter(function(x){return x.st==="busy"&&f(x)}),a=ok.filter(f),h="";
+ if(sug.length&&!q)h+='<p class="ed-sec"><b>Suggested</b> · best fit first</p>'+sug.map(function(x){return edRow(K,M,x,"sug",true,cur)}).join("");
+ h+='<p class="ed-sec"><b>Available</b> · '+a.length+'</p>'+(a.length?a.map(function(x){return edRow(K,M,x,"ok",true,cur)}).join(""):'<p class="sch-mut">Nobody free for this slot.</p>');
+ if(w.length)h+='<p class="ed-sec"><b>Heads-up</b> · '+w.length+' (can still be assigned)</p>'+w.map(function(x){return edRow(K,M,x,"warn",true,cur)}).join("");
+ if(b.length)h+='<p class="ed-sec"><b>Busy</b> · '+b.length+'</p>'+b.map(function(x){return edRow(K,M,x,"busy",false,cur)}).join("");
+ return h}
+function edMeta(o,f,to){var from=o[f]==null?"":o[f];if(from===to)return null;return{fn:function(){o[f]=to},un:function(){o[f]=from}}}
+function edRowHTML(kind,M){var E=ED[kind],rg=(M.rigs||[]).filter(function(x){return x.id===E.row.r})[0],sh=(M.shifts||[]).filter(function(x){return x.id===E.row.s})[0];
+ var f=function(l,fld,v,t){return'<label class="ed-fl"><span>'+l+'</span><input type="'+(t||"text")+'" data-ef="'+fld+'" value="'+dkE(v)+'"></label>'};
+ var h='<div class="ed-ph"><small>Labels</small><h3>Rig and shift details</h3><p class="sch-mut">Press Enter or click away to save. Undo works here too.</p></div>';
+ if(rg)h+='<p class="ed-sec"><b>Rig</b></p>'+f("Name","rn",rg.n)+f("Site","rs",rg.site||"")+f("Note","rt",rg.note||"");
+ if(sh)h+='<p class="ed-sec"><b>Shift</b> · applies to every rig</p>'+f("Name","sn",sh.n)+'<div class="ed-2">'+f("Starts","sf",sh.tf||"","time")+f("Ends","st",sh.tt||"","time")+'</div>';
+ return h+'<div class="ed-acts"><button type="button" class="ed-b" data-ed="addrig">Add rig</button>'+(rg?'<button type="button" class="ed-b" data-ed="delrig">Delete rig</button>':'')+'<button type="button" class="ed-b pri" data-ed="rowx">Done</button></div>'}
+function edField(kind,ef,val){var K=edK(kind),M=K.M(),E=ED[kind];if(!M||!E.row)return;var rg=(M.rigs||[]).filter(function(x){return x.id===E.row.r})[0],sh=(M.shifts||[]).filter(function(x){return x.id===E.row.s})[0],v=String(val||"").trim(),m=null;
+ if(ef==="rn"&&rg&&v)m=edMeta(rg,"n",v);else if(ef==="rs"&&rg)m=edMeta(rg,"site",v);else if(ef==="rt"&&rg)m=edMeta(rg,"note",v);
+ else if(ef==="sn"&&sh&&v)m=edMeta(sh,"n",v);else if(ef==="sf"&&sh&&/^\d{1,2}:\d{2}$/.test(v))m=edMeta(sh,"tf",v);else if(ef==="st"&&sh&&/^\d{1,2}:\d{2}$/.test(v))m=edMeta(sh,"tt",v);
+ if(m)edDo(kind,[m])}
+function edAddRig(kind){var M=edK(kind).M(),E=ED[kind],n=(M.rigs||[]).length+1,id="r"+n;while((M.rigs||[]).some(function(x){return x.id===id}))id="r"+(++n);
+ var rig={id:id,n:"New rig",site:"",note:""};edDo(kind,[{fn:function(){M.rigs.push(rig)},un:function(){M.rigs.splice(M.rigs.indexOf(rig),1)}}]);E.row={r:id,s:E.row?E.row.s:""}}
+function edDelRig(kind){var M=edK(kind).M(),E=ED[kind],rg=E.row&&(M.rigs||[]).filter(function(x){return x.id===E.row.r})[0];if(!rg)return;
+ var cnt=Object.keys(M.cells).filter(function(k){return k.indexOf(rg.id+"|")===0}).length;if(!window.confirm("Delete "+rg.n+(cnt?" and its "+cnt+" assignments":"")+"? You can still undo this."))return;
+ var idx=M.rigs.indexOf(rg),saved={};Object.keys(M.cells).forEach(function(k){if(k.indexOf(rg.id+"|")===0)saved[k]=M.cells[k]});
+ edDo(kind,[{fn:function(){M.rigs.splice(M.rigs.indexOf(rg),1);Object.keys(saved).forEach(function(k){delete M.cells[k]})},un:function(){M.rigs.splice(Math.min(idx,M.rigs.length),0,rg);Object.keys(saved).forEach(function(k){M.cells[k]=saved[k]})}}]);E.row=null}
+function edPanelHTML(kind,M){if(ED[kind].row)return edRowHTML(kind,M);var E=ED[kind],K=edK(kind),slot=E.sel?edSlot(kind,M,E.sel):null;
+ if(!slot)return'<div class="ed-ph hint"><small>Availability</small><h3>Click any cell to select a slot</h3><p class="sch-mut">You will see who is free, who is busy, and who fits best. Click a name to assign.</p><p class="sch-mut"><b>To rename:</b> click a rig or shift label to edit its name, site and times, or to add and remove rigs.</p><p class="sch-mut"><b>To paint:</b> choose a person under Paint, then click or drag across cells. Use the eraser to clear.</p>'+(kind==="cc"?'<p class="sch-mut">For core checkers a blank cell is a rest day, so auto-fill only touches the scope you choose.</p>':'')+'</div>';
+ var cur=schN((M.cells||{})[E.sel]||"");
+ return'<div class="ed-ph"><small>'+dkE(slot.r.n)+'</small><h3>'+dkE(schShort(slot.s))+' · '+dkE(schDL(slot.D.iso))+'</h3><p class="sch-mut">'+dkE(schSpan(slot.s))+'</p><div class="ed-cur">'+(cur?K.chip(M,cur,true)+'<button type="button" class="sch-lk" data-ed="clr" style="margin-left:auto">Clear</button>':'<span class="sch-mut">'+(kind==="cc"?"Rest day (blank)":"Unassigned")+'</span>')+'</div></div><input class="ed-q" data-ed="q" placeholder="Search name or code" value="'+dkE(E.q)+'"><div class="ed-list">'+edListHTML(kind,M,slot)+'</div>'}
+function edBarHTML(kind,M){var K=edK(kind),E=ED[kind],v=K.V().v,p=E.pend,sel=E.sel?edSlot(kind,M,E.sel):null,h='<div class="ed-bar"><span class="ed-lb">Editing</span>';
+ if(v!=="month"&&v!=="day")return h+'<span class="sch-mut">Editing works in the Month and Day views.</span><button type="button" class="ed-b pri" data-ed="jm">Open Month view</button></div>';
+ h+='<label class="ed-f"><span>Paint</span><select data-ed="brush">'+K.opts(M,E.brush,"Off · click a slot instead")+'</select></label><button type="button" class="ed-b'+(E.erase?" on":"")+'" data-ed="erase">Eraser</button><span class="ed-d"></span>';
+ h+='<label class="ed-f"><span>Auto-fill</span><select data-ed="auto"><option value="">Choose scope…</option><option value="day"'+(sel?"":" disabled")+'>Empty slots on selected day</option><option value="rig"'+(sel?"":" disabled")+'>Empty slots on selected rig</option><option value="month">Every empty slot this month</option></select></label>';
+ if(p)h+='<span class="ed-pv"><b>'+p.ch.length+'</b> suggested'+(p.miss?" · "+p.miss+" could not be filled":"")+'</span><button type="button" class="ed-b pri" data-ed="acc">Accept</button><button type="button" class="ed-b" data-ed="rej">Discard</button>';
+ return h+'<span class="ed-sp"></span><button type="button" class="ed-b" data-ed="undo"'+(E.hist.length&&!p?"":" disabled")+'>Undo</button><button type="button" class="ed-b" data-ed="redo"'+(E.redo.length&&!p?"":" disabled")+'>Redo</button><button type="button" class="ed-b" data-ed="revert"'+(E.hist.length&&!p?"":" disabled")+'>Revert all</button><button type="button" class="ed-b pri" data-ed="export"'+(p?" disabled":"")+'>Export packet</button></div>'}
+function edDecorate(kind){var K=edK(kind),el=K.el,M=K.M(),top=el.querySelector(":scope>.sch-top");if(!top||!M)return;
+ if(!top.querySelector(".ed-tg"))top.insertAdjacentHTML("beforeend",'<button type="button" class="ed-tg'+(EDIT?" on":"")+'" data-ed="tg">'+(EDIT?"Editing":"Edit schedule")+'</button>');
+ var rv=top.querySelector(".sch-rev");if(rv&&M.ed)rv.textContent+=" · edited, not exported";
+ if(!edOn())return;var E=ED[kind];
+ if(E.m!==M.month){E.m=M.month;E.hist=[];E.redo=[];E.sel="";E.pend=null;E.orig={m:M.month,cells:Object.assign({},M.cells),rigs:JSON.parse(JSON.stringify(M.rigs||[])),shifts:JSON.parse(JSON.stringify(M.shifts||[]))}}
+ el.querySelectorAll("td[data-sv],td[data-csv]").forEach(function(t){t.removeAttribute("data-sv");t.removeAttribute("data-csv")});
+ top.insertAdjacentHTML("afterend",edBarHTML(kind,M));var bar=top.nextElementSibling,v=K.V().v;if(v!=="month"&&v!=="day")return;
+ var wrap=document.createElement("div"),main=document.createElement("div"),pan=document.createElement("aside"),n=bar.nextElementSibling,mv=[];
+ wrap.className="ed-wrap";main.className="ed-main"+((E.brush||E.erase)?" paint":"");pan.className="ed-pan";
+ while(n&&!n.classList.contains("sch-foot")){mv.push(n);n=n.nextElementSibling}
+ mv.forEach(function(x){main.appendChild(x)});pan.innerHTML=edPanelHTML(kind,M);wrap.appendChild(main);wrap.appendChild(pan);bar.after(wrap);
+ var ps={};if(E.pend)E.pend.ch.forEach(function(c){ps[c.k]=1});
+ main.querySelectorAll("td[data-ek]").forEach(function(t){var k=t.getAttribute("data-ek");if(k===E.sel)t.classList.add("sel");if(ps[k])t.classList.add("pend")});
+ if(E.row)main.querySelectorAll("[data-er]").forEach(function(t){if(t.getAttribute("data-er")===E.row.r+"|"+E.row.s)t.classList.add("sel")})}
+function edPaint(kind,td){var E=ED[kind],K=edK(kind),M=K.M(),k=td.getAttribute("data-ek"),code=E.erase?"":schN(E.brush),from=schN((M.cells||{})[k]||"");if(!k||from===code)return;
+ if(code)M.cells[k]=code;else delete M.cells[k];E.drag.push({k:k,from:from,to:code});td.classList.add("pt");td.textContent=code||(kind==="cc"?"RD":"")}
+function edAct(kind,a,v){var K=edK(kind),E=ED[kind],M=K.M();if(!M)return;
+ if(E.pend&&a!=="acc"&&a!=="rej"&&a!=="tg")edRej(kind);
+ if(a==="tg"){EDIT=!EDIT;if(EDIT){E.m="";var vw=K.V();if(vw.v!=="month"&&vw.v!=="day"){vw.v="month";K.uk()}}else{E.pend&&edRej(kind);E.brush="";E.erase=false;E.sel=""}}
+ else if(a==="jm"){K.V().v="month";K.uk()}
+ else if(a==="rowx"){E.row=null}else if(a==="addrig"){edAddRig(kind)}else if(a==="delrig"){edDelRig(kind)}
+ else if(a==="erase"){E.erase=!E.erase;if(E.erase)E.brush=""}
+ else if(a==="undo")edUndo(kind,false);else if(a==="redo")edUndo(kind,true);
+ else if(a==="acc")edAcc(kind);else if(a==="rej")edRej(kind);
+ else if(a==="as"&&E.sel&&v)edDo(kind,[{k:E.sel,from:schN(M.cells[E.sel]||""),to:schN(v)}]);
+ else if(a==="clr"&&E.sel)edDo(kind,[{k:E.sel,from:schN(M.cells[E.sel]||""),to:""}]);
+ else if(a==="revert"){if(E.orig&&E.orig.m===M.month&&window.confirm("Discard every edit made in this session and restore the schedule as it was when you started editing?")){M.cells=Object.assign({},E.orig.cells);M.rigs=JSON.parse(JSON.stringify(E.orig.rigs));M.shifts=JSON.parse(JSON.stringify(E.orig.shifts));E.row=null;E.hist=[];E.redo=[];E.sel="";K.save()}}
+ else if(a==="export"){edExport(kind)}
+ else return;
+ edRef(kind)}
+function edBind(kind){var K=edK(kind),el=K.el,E=ED[kind];
+ el.addEventListener("click",function(e){var t=e.target;
+  var b=t.closest&&t.closest("[data-ed]");
+  if(b&&el.contains(b)){if(b.tagName==="SELECT"||b.tagName==="INPUT")return;edAct(kind,b.getAttribute("data-ed"),b.getAttribute("data-v"));return}
+  var th=t.closest&&t.closest("[data-er]");if(th&&el.contains(th)&&edOn()){var ra=th.getAttribute("data-er").split("|");E.row={r:ra[0],s:ra[1]};E.sel="";edRef(kind);return}
+  var td=t.closest&&t.closest("td[data-ek]");if(!td||!el.contains(td)||!edOn()||E.brush||E.erase)return;
+  var k=td.getAttribute("data-ek");E.sel=E.sel===k?"":k;E.row=null;E.q="";edRef(kind)});
+ el.addEventListener("change",function(e){var t=e.target,ef=t.getAttribute&&t.getAttribute("data-ef");if(ef){edField(kind,ef,t.value);edRef(kind);return}var a=t.getAttribute&&t.getAttribute("data-ed");if(!a)return;
+  if(a==="brush"){if(E.pend)edRej(kind);E.brush=t.value;E.erase=false;edRef(kind)}
+  else if(a==="auto"&&t.value){edAuto(kind,t.value);edRef(kind)}});
+ el.addEventListener("input",function(e){var t=e.target;if(!t.getAttribute||t.getAttribute("data-ed")!=="q")return;E.q=t.value;var M=K.M(),slot=E.sel&&M?edSlot(kind,M,E.sel):null,l=el.querySelector(".ed-list");if(slot&&l)l.innerHTML=edListHTML(kind,M,slot)});
+ el.addEventListener("mousedown",function(e){if(!edOn()||e.button!==0||!(E.brush||E.erase))return;var td=e.target.closest&&e.target.closest("td[data-ek]");if(!td||!el.contains(td))return;
+  e.preventDefault();if(E.pend){edRej(kind);edRef(kind);td=el.querySelector('td[data-ek="'+td.getAttribute("data-ek")+'"]');if(!td)return}
+  E.painting=true;E.drag=[];edPaint(kind,td)});
+ el.addEventListener("mouseover",function(e){if(!E.painting)return;var td=e.target.closest&&e.target.closest("td[data-ek]");if(td&&el.contains(td))edPaint(kind,td)})}
+document.addEventListener("mouseup",function(){["geo","cc"].forEach(function(kind){var E=ED[kind];if(!E.painting)return;E.painting=false;var ch=E.drag||[];E.drag=null;if(ch.length){edPush(kind,ch);edRef(kind)}})});
+document.addEventListener("keydown",function(e){if(!edOn())return;var kind=curTab,E=ED[kind],tg=e.target&&e.target.tagName;if(tg==="INPUT"||tg==="SELECT"||tg==="TEXTAREA")return;
+ if((e.ctrlKey||e.metaKey)&&e.key.toLowerCase()==="z"){e.preventDefault();if(E.pend)edRej(kind);edUndo(kind,e.shiftKey);edRef(kind)}
+ else if(e.key==="Escape"){if(E.pend)edRej(kind);E.sel="";E.brush="";E.erase=false;edRef(kind)}});
 
 /* ---- tab switching ---- */
 document.querySelector(".app-tabs").addEventListener("click",function(e){
@@ -624,29 +968,25 @@ function homeCard(kind){
 
 /* ---- desktop overview (monitor) ---- */
 function dashTeam(kind){
- var geo=kind==="geo",label=geo?"Geologist":"Core Checkers",k=geo?schCur():ccSchCur(),M=k?(geo?SCHD:CCSCHD).months[k]:null;
- if(!M)return{h:'<section class="dp"><header><h2>'+label+'</h2><button type="button" class="dp-open" data-go="'+kind+'">Open</button></header><p class="dp-none">No schedule on this device yet. Open the tab to import a packet.</p></section>',on:0,today:0,cf:0,has:0};
+ var geo=kind==="geo",label=geo?"Geologist":"Core Checkers",k=geo?schCur():ccSchCur(),M=k?(geo?SCHD:CCSCHD).months[k]:null,open='<button type="button" class="dp-open" data-go="'+kind+'">Open schedule</button>';
+ if(!M)return{h:'<section class="dp"><header><h2>'+label+'<small>No schedule loaded</small></h2><span class="dp-hs"></span>'+open+'</header><div class="dp-mx"><p class="dp-none">Open the schedule tab to import a packet.</p></div></section>',on:0,today:0,cf:0,has:0,m:""};
  var A=geo?schAsg(M):ccSchAsg(M),CF=schConf(M,A),now=Date.now(),td=dkIso(new Date()),inM=td.slice(0,7)===M.month,dd=td.slice(8);
  var chip=function(c){return geo?schChip(M,c,true):ccSchChip(M,c,true)};
- var tag=function(s){return geo?'<span class="sch-mut">'+dkE(schShort(s))+'</span>':ccSchSPB(s)};
- var on=A.filter(function(a){return a.st<=now&&a.en>now}),tA=A.filter(function(a){return a.D.iso===td});
- var up=A.filter(function(a){return a.st>now}),h='<section class="dp"><header><h2>'+label+'<small>'+dkE(schMonLbl(M.month))+(M.rev?' · rev '+M.rev:'')+'</small></h2><button type="button" class="dp-open" data-go="'+kind+'">Open schedule</button></header>';
- h+='<div><h3>On duty now</h3>'+(on.length?'<div class="dp-l">'+on.map(function(a){return'<div class="dp-r on"><span><b>'+dkE(a.r.n)+'</b><br><i>'+dkE(a.r.site||"")+'</i></span><span>'+tag(a.s)+'<br><i>'+dkE(schSpan(a.s))+'</i></span><span class="sch-dw">'+chip(a.c)+'</span></div>'}).join("")+'</div>':'<p class="dp-none">Nobody is on shift right now.</p>')+'</div>';
- var nx=up[0],grp=nx?up.filter(function(a){return a.st===nx.st}):[];
- h+='<div><h3>Up next'+(nx?' · '+dkE(schDL(nx.D.iso)+' · '+sch12(nx.s.tf)):'')+'</h3>'+(grp.length?'<div class="dp-l">'+grp.map(function(a){return'<div class="dp-r"><span><b>'+dkE(a.r.n)+'</b><br><i>'+dkE(a.r.site||"")+'</i></span><span>'+tag(a.s)+'<br><i>'+dkE(schSpan(a.s))+'</i></span><span class="sch-dw">'+chip(a.c)+'</span></div>'}).join("")+'</div>':'<p class="dp-none">No more shifts in '+dkE(schMonLbl(M.month))+'.</p>')+'</div>';
- h+='<div><h3>Today'+(inM?' · '+dkE(schDL(td)):'')+'</h3>';
+ var on=A.filter(function(a){return a.st<=now&&a.en>now}),tA=A.filter(function(a){return a.D.iso===td}),up=A.filter(function(a){return a.st>now}),nx=up[0],grp=nx?up.filter(function(a){return a.st===nx.st}):[];
+ var h='<section class="dp"><header><h2>'+label+'<small>'+dkE(schMonLbl(M.month))+(M.rev?' · rev '+M.rev:'')+'</small></h2><span class="dp-hs"></span><span class="dp-pill'+(on.length?' ok':'')+'"><b>'+on.length+'</b> on duty</span><span class="dp-pill"><b>'+tA.length+'</b> today</span>'+open+'</header>';
+ h+='<div class="dp-mx">';
  if(!inM)h+='<p class="dp-none">Today falls outside the loaded month ('+dkE(schMonLbl(M.month))+').</p>';
  else if((M.off||{})[dd])h+='<p class="dp-none">No schedule today.</p>';
- else h+='<div class="dp-mx"><table><thead><tr><th>Rig</th>'+(M.shifts||[]).map(function(s){return'<th>'+dkE(schShort(s))+'<i>'+dkE(schSpan(s))+'</i></th>'}).join("")+'</tr></thead><tbody>'+(M.rigs||[]).map(function(r){return'<tr><th>'+dkE(r.n)+'</th>'+(M.shifts||[]).map(function(s){var a=tA.filter(function(x){return x.r===r&&x.s===s})[0];if(!a)return'<td>'+(geo?'<span class="sch-mut">—</span>':'<span class="sch-rd">RD</span>')+'</td>';return'<td class="'+(a.st<=now&&a.en>now?"now":a.en<=now?"past":"")+'">'+chip(a.c)+'</td>'}).join("")+'</tr>'}).join("")+'</tbody></table></div>';
- h+='</div>';
- return{h:h+'</section>',on:on.length,today:tA.length,cf:CF.list.length,has:1}
+ else h+='<table><thead><tr><th>Rig</th>'+(M.shifts||[]).map(function(s){return'<th class="'+(geo?"":ccSchSP(s))+'"><b>'+dkE(schShort(s))+'</b><small>'+dkE(schSpan(s))+'</small></th>'}).join("")+'</tr></thead><tbody>'+(M.rigs||[]).map(function(r,ri){return'<tr class="rgc-'+(ri%8)+'"><th>'+dkE(r.n)+'</th>'+(M.shifts||[]).map(function(s){var a=tA.filter(function(x){return x.r===r&&x.s===s})[0];if(!a)return'<td class="rd">'+(geo?"—":"Rest day")+'</td>';return'<td class="'+(a.st<=now&&a.en>now?"now":a.en<=now?"past":"")+(CF.k[schAK(a)]?" cf":"")+'">'+chip(a.c)+'</td>'}).join("")+'</tr>'}).join("")+'</tbody></table>';
+ h+='</div><div class="dp-ft"><h3>Up next'+(nx?' · <b>'+dkE(schDL(nx.D.iso)+' · '+sch12(nx.s.tf))+'</b>':'')+'</h3>'+(grp.length?'<div class="dp-up">'+grp.slice(0,grp.length>6?5:6).map(function(a){return'<div class="dp-u"><i>'+dkE(a.r.n)+'</i>'+chip(a.c)+'</div>'}).join("")+(grp.length>6?'<div class="dp-u dp-more">+'+(grp.length-5)+' more</div>':'')+'</div>':'<p class="sch-mut" style="margin:0;font-size:13px">No more shifts in '+dkE(schMonLbl(M.month))+'.</p>')+'</div></section>';
+ return{h:h,on:on.length,today:tA.length,cf:CF.list.length,has:1,m:M.month}
 }
 function dashRefresh(){
  var g=dashTeam("geo"),c=dashTeam("cc"),d=new Date(),n=g.on+c.on,cf=g.cf+c.cf,tm=g.has+c.has;
- var tile=function(l,v,cl){return'<div class="dsh-t '+(cl||"")+'"><small>'+l+'</small><b>'+v+'</b></div>'};
- document.getElementById("dash").innerHTML='<div class="dsh-h"><div><h1>Operations overview</h1><p>Who is on shift right now across both teams. Updates every 30 seconds.</p></div><div class="dsh-clock"><b>'+dkE(d.toLocaleTimeString([],{hour:"2-digit",minute:"2-digit"}))+'</b><span>'+dkE(d.toLocaleDateString(undefined,{weekday:"long",day:"numeric",month:"long",year:"numeric"}))+'</span></div></div>'+
-  '<div class="dsh-st">'+tile("On duty now",n,n?"ok":"")+tile("Shifts today",g.today+c.today)+tile("Double-bookings",cf,cf?"bad":"")+tile("Schedules loaded",tm+" / 2")+'</div>'+
-  '<div class="dsh-g">'+g.h+c.h+'</div>'
+ var tile=function(l,v,cap,cl){return'<div class="dsh-t '+(cl||"")+'"><small>'+l+'</small><b>'+v+'</b><span>'+cap+'</span></div>'};
+ var ml=g.m&&c.m&&g.m!==c.m?"Different months loaded":(g.m||c.m?schMonLbl(g.m||c.m):"Nothing loaded yet");
+ document.getElementById("dash").innerHTML='<div class="dsh-h"><span class="lb">Overview</span><span class="dt">'+dkE(d.toLocaleDateString(undefined,{weekday:"long",day:"numeric",month:"long",year:"numeric"}))+'</span><span class="sp"></span><span class="dt">Refreshes every 30 seconds</span><span class="clk"><i></i>'+dkE(d.toLocaleTimeString([],{hour:"2-digit",minute:"2-digit"}))+'</span></div>'+
+  '<div class="dsh-b"><div class="dsh-st">'+tile("On duty now",n,"people on shift, both teams",n?"ok":"")+tile("Shifts today",g.today+c.today,"assigned slots, both teams")+tile("Double-bookings",cf,cf?"need attention":"none found",cf?"bad":"")+tile("Schedules loaded",tm+" / 2",ml)+'</div><div class="dsh-g">'+g.h+c.h+'</div></div>'
 }
 function homeRefresh(){document.getElementById("hm-cards").innerHTML=homeCard("geo")+homeCard("cc");dashRefresh()}
 function navMark(n){document.querySelectorAll("#side button[data-nav]").forEach(function(b){b.classList.toggle("on",b.getAttribute("data-nav")===n)})}
@@ -665,6 +1005,7 @@ document.getElementById("go-col2").addEventListener("click",function(){colSheet.
 setInterval(function(){if(!homeEl.hidden)homeRefresh()},30000);
 
 /* ---- init ---- */
+edBind("geo");edBind("cc");
 geoRefresh();
 ccRefresh();
 showHome();
