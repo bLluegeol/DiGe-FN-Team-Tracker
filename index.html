@@ -146,66 +146,167 @@ html,body{overscroll-behavior:none;height:100%;margin:0;background:var(--bg);col
 .col-pal{display:flex;align-items:center;gap:9px;flex:1 1 128px}
 .col-sw{display:inline-flex;flex:none;width:22px;height:22px;border-radius:6px;border:1px solid var(--line);overflow:hidden}
 .col-sw i{display:block;width:50%;height:100%}
-.col-done{margin-top:16px;width:100%;min-height:44px;cursor:pointer;border-radius:12px;border:none;background:var(--acc-fill);color:#fff;font:700 13px/1 system-ui,sans-serif;letter-spacing:.06em}
+.col-done{margin-top:16px;width:100%;min-height:44px;cursor:pointer;border-radius:12px;border:none;background:var(--acc-fill);color:var(--bg);font:700 13px/1 system-ui,sans-serif;letter-spacing:.06em}
 
 
 [hidden]{display:none!important}
-/*HOME: hero home screen, styled after the logging app*/
-#home{position:fixed;inset:0;z-index:50;overflow-y:auto;background:#222b35;color:#eef2f6;
+/*HOME: hero home screen, driven by the palette tokens so the colour picker restyles it*/
+#home{position:fixed;inset:0;z-index:50;overflow-y:auto;background:radial-gradient(120% 70% at 50% 0%,var(--hl) 0%,var(--bg) 62%);color:var(--ink);
  padding:max(24px,env(safe-area-inset-top,0px)) max(18px,env(safe-area-inset-right,0px)) max(28px,env(safe-area-inset-bottom,0px)) max(18px,env(safe-area-inset-left,0px));
  display:flex;flex-direction:column;align-items:center;text-align:center;gap:14px}
-#home::before{content:"";position:absolute;inset:0;pointer-events:none;opacity:.5;
- background-image:radial-gradient(1.5px 1.5px at 12% 18%,#8fa6b8 50%,transparent 51%),radial-gradient(1.5px 1.5px at 78% 12%,#8fa6b8 50%,transparent 51%),radial-gradient(1.5px 1.5px at 34% 42%,#8fa6b8 50%,transparent 51%),radial-gradient(1.5px 1.5px at 88% 54%,#8fa6b8 50%,transparent 51%),radial-gradient(1.5px 1.5px at 22% 72%,#8fa6b8 50%,transparent 51%),radial-gradient(1.5px 1.5px at 62% 86%,#8fa6b8 50%,transparent 51%),radial-gradient(1.5px 1.5px at 50% 28%,#8fa6b8 50%,transparent 51%);
+#home::before{content:"";position:absolute;inset:0;pointer-events:none;opacity:.55;
+ background-image:radial-gradient(1.5px 1.5px at 12% 18%,var(--acc2) 50%,transparent 51%),radial-gradient(1.5px 1.5px at 78% 12%,var(--acc2) 50%,transparent 51%),radial-gradient(1.5px 1.5px at 34% 42%,var(--acc2) 50%,transparent 51%),radial-gradient(1.5px 1.5px at 88% 54%,var(--acc2) 50%,transparent 51%),radial-gradient(1.5px 1.5px at 22% 72%,var(--acc2) 50%,transparent 51%),radial-gradient(1.5px 1.5px at 62% 86%,var(--acc2) 50%,transparent 51%),radial-gradient(1.5px 1.5px at 50% 28%,var(--acc2) 50%,transparent 51%);
  background-repeat:no-repeat}
 #home>*{position:relative}
-.hm-hex{width:104px;height:104px;margin-top:10px;flex:none}
-.hm-eyebrow{margin:6px 0 0;font:700 11px/1.5 system-ui,sans-serif;letter-spacing:.18em;color:#8fa6b8}
+.hm-hex{width:104px;height:104px;margin-top:10px;flex:none;color:var(--acc-ink)}
+.hm-hex .hx-s{stroke:var(--acc-ink)}.hm-hex .hx-a{stroke:var(--acc)}.hm-hex .hx-f{fill:var(--acc-ink)}.hm-hex .hx-b{fill:var(--hl)}.hm-hex .hx-w{fill:var(--card)}.hm-hex .hx-p{fill:var(--ink)}.hm-hex .hx-m{stroke:var(--ink)}
+.hm-eyebrow{margin:6px 0 0;font:700 11px/1.5 system-ui,sans-serif;letter-spacing:.18em;color:var(--acc-ink)}
 #home h1{margin:2px 0 0;font:300 clamp(28px,8.5vw,42px)/1.12 system-ui,sans-serif;letter-spacing:.06em;text-wrap:balance}
-.hm-tag{margin:0;max-width:34ch;font:400 13px/1.6 system-ui,sans-serif;color:#aebecd}
+.hm-tag{margin:0;max-width:34ch;font:400 13px/1.6 system-ui,sans-serif;color:var(--mut)}
 .hm-cards{display:flex;flex-direction:column;gap:10px;width:100%;max-width:440px;margin-top:6px}
 .hm-card{display:flex;align-items:center;gap:12px;width:100%;padding:13px 14px;text-align:left;cursor:pointer;
- border:1px solid rgba(255,255,255,.14);border-radius:14px;background:rgba(255,255,255,.06);color:inherit;font:inherit}
-.hm-card:hover{background:rgba(255,255,255,.1)}
-.hm-ci{flex:none;width:38px;height:38px;display:grid;place-items:center;border-radius:10px;background:rgba(255,255,255,.1);color:#cfe0ee}
+ border:1px solid var(--line);border-radius:14px;background:var(--card);color:inherit;font:inherit}
+.hm-card:hover{background:var(--hl)}
+.hm-ci{flex:none;width:38px;height:38px;display:grid;place-items:center;border-radius:10px;background:var(--hl);color:var(--acc-ink)}
 .hm-ci svg{width:21px;height:21px}
-.hm-ci.on{background:#2f7d3b;color:#fff}
+.hm-ci.on{background:var(--okbg);color:var(--ok-ink);box-shadow:inset 0 0 0 1.5px var(--ok-ink)}
 .hm-ct{display:flex;flex-direction:column;gap:2px;min-width:0}
-.hm-ct small{font:700 10.5px/1.4 system-ui,sans-serif;letter-spacing:.1em;text-transform:uppercase;color:#8fa6b8}
+.hm-ct small{font:700 10.5px/1.4 system-ui,sans-serif;letter-spacing:.1em;text-transform:uppercase;color:var(--acc-ink)}
 .hm-ct b{font:600 15px/1.35 system-ui,sans-serif}
-.hm-ct>span{font:400 12.5px/1.45 system-ui,sans-serif;color:#aebecd}
-.hm-ct .rdy{color:#86d79b;font-weight:700}
+.hm-ct>span{font:400 12.5px/1.45 system-ui,sans-serif;color:var(--mut)}
+.hm-ct .rdy{color:var(--ok-ink);font-weight:700}
 .hm-go{display:flex;gap:10px;flex-wrap:wrap;justify-content:center;width:100%;max-width:440px;margin-top:2px}
-.hm-go button{flex:1 1 170px;min-height:46px;padding:0 16px;cursor:pointer;border-radius:12px;border:1px solid rgba(255,255,255,.2);
- background:#eef2f6;color:#222b35;font:700 12.5px/1 system-ui,sans-serif;letter-spacing:.08em}
-.hm-go button.alt{background:transparent;color:#eef2f6}
-.hm-foot{margin-top:auto;padding-top:16px;font:400 11.5px/1.6 system-ui,sans-serif;color:#7d8fa0}
+.hm-go button{flex:1 1 170px;min-height:46px;padding:0 16px;cursor:pointer;border-radius:12px;border:1px solid var(--acc-fill);
+ background:var(--acc-fill);color:var(--bg);font:700 12.5px/1 system-ui,sans-serif;letter-spacing:.08em}
+.hm-go button.alt{background:transparent;color:var(--acc-ink)}
+.hm-foot{margin-top:auto;padding-top:16px;font:400 11.5px/1.6 system-ui,sans-serif;color:var(--mut)}
 .app-home{margin-left:auto;min-height:34px;padding:0 12px;border-radius:999px;cursor:pointer;
  border:1px solid var(--line);background:var(--card);color:var(--ink);font:600 12.5px/1 system-ui,sans-serif}
+.sch-cf{margin:8px 0;padding:10px 12px;border:1px solid var(--err);border-radius:10px;background:var(--errbg);color:var(--err);font-size:13px}.sch-cf b{font-weight:700}.sch-cf ul{margin:6px 0 0;padding:0;list-style:none;display:flex;flex-direction:column;gap:6px}.sch-cf li{display:flex;flex-direction:column;gap:1px;color:var(--ink)}.sch-cf .sch-lk{align-self:flex-start;color:var(--err);padding:0}
+.sch-cfb{display:inline-block;margin-left:6px;padding:0 6px;border-radius:6px;background:var(--errbg);color:var(--err);font:700 11px/1.6 system-ui,sans-serif}
+.sch-pr.cf,.sch-dl.cf,.sch-rc.cf{box-shadow:inset 0 0 0 2px var(--err);border-radius:6px}
+.sch-t td.cf{outline:2px solid var(--err);outline-offset:-2px;background:var(--errbg)}
+
+/*DESK: desktop monitor mode. Phones keep the layout above untouched; at 1024px+ the app gets a sidebar and a live overview.*/
+#side,.dsh{display:none}
+@media(min-width:1024px){
+ #side{display:flex;flex-direction:column;gap:4px;position:fixed;left:0;top:0;bottom:0;width:236px;z-index:55;padding:20px 14px;background:var(--card);border-right:1px solid var(--line)}
+ .sd-brand{display:flex;align-items:center;gap:10px;padding:2px 8px 18px}
+ .sd-brand svg{width:34px;height:34px;flex:none;color:var(--acc-ink)}
+ .sd-brand b{display:block;font:700 15px/1.2 system-ui,sans-serif}.sd-brand span{font:500 11.5px/1.3 system-ui,sans-serif;color:var(--mut)}
+ .sd-lbl{margin:10px 8px 4px;font:700 10px/1.4 system-ui,sans-serif;letter-spacing:.12em;text-transform:uppercase;color:var(--mut)}
+ #side button{display:flex;align-items:center;gap:10px;width:100%;min-height:42px;padding:0 12px;border:0;border-radius:10px;background:none;color:var(--ink);font:600 14px/1 system-ui,sans-serif;text-align:left;cursor:pointer}
+ #side button svg{width:18px;height:18px;flex:none;color:var(--mut)}
+ #side button:hover{background:var(--hl)}
+ #side button.on{background:var(--hl);color:var(--acc-ink);box-shadow:inset 3px 0 0 var(--acc-fill)}#side button.on svg{color:var(--acc-ink)}
+ .sd-sp{flex:1}
+ .sd-foot{padding:10px 8px 0;font:400 11px/1.5 system-ui,sans-serif;color:var(--mut)}
+ #app{margin-left:236px;height:100%}
+ .app-h,.app-tabs{display:none}
+ .app-body{padding:24px 32px 40px;gap:16px}
+ .sch-top{gap:12px}.sch-seg{max-width:440px}.sch-day{max-width:520px}.sch-pick{max-width:520px}.sch-mrow{gap:14px}
+ .sch-me{align-self:flex-start}.sch-me.ask{min-width:360px}
+ .sch-pc{max-width:760px}
+ .sch-pl,.sch-rl{display:grid;grid-template-columns:repeat(auto-fill,minmax(380px,1fr));gap:8px;border:0;background:none;overflow:visible}
+ .sch-pr,.sch-rr{border:1px solid var(--line);border-radius:10px;background:var(--card)}.sch-pr:first-child,.sch-rr:first-child{border-top:1px solid var(--line)}
+ .sch-pr.today,.sch-rr.today{background:var(--hl)}.sch-pr.ccsp-ds.now{background:var(--ccsp-ds-bg)}.sch-pr.ccsp-ns.now{background:var(--ccsp-ns-bg)}
+ .sch-dc{grid-template-columns:repeat(auto-fit,minmax(300px,1fr));gap:12px}
+ .sch-tw{max-height:calc(100vh - 290px)}.sch-t{width:100%}.sch-t th,.sch-t td{min-width:31px;height:34px;font-size:12.5px}.sch-t th.sch-rh{min-width:150px}
+ .sch-tw td[data-sv]:hover,.sch-tw td[data-csv]:hover{outline:2px solid var(--acc);outline-offset:-2px}
+ #colsheet{place-items:center}#colsheet>div{border-radius:16px;border-bottom:1px solid var(--line);max-width:480px}
+ /* overview */
+ #home{left:236px;align-items:stretch;text-align:left;padding:28px 32px 40px;gap:18px;background:var(--bg)}
+ #home::before,.hm-m{display:none!important}
+ .dsh{display:flex;flex-direction:column;gap:18px;width:100%;max-width:1500px;margin:0 auto}
+ .dsh-h{display:flex;align-items:flex-end;justify-content:space-between;gap:16px;flex-wrap:wrap}
+ .dsh-h h1{margin:0;font:700 26px/1.2 system-ui,sans-serif;letter-spacing:0}.dsh-h p{margin:4px 0 0;font:500 13px/1.4 system-ui,sans-serif;color:var(--mut)}
+ .dsh-clock{text-align:right}.dsh-clock b{display:block;font:300 38px/1 system-ui,sans-serif;font-variant-numeric:tabular-nums;letter-spacing:.02em}.dsh-clock span{font:500 12.5px/1.6 system-ui,sans-serif;color:var(--mut)}
+ .dsh-st{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:12px}
+ .dsh-t{padding:14px 16px;border:1px solid var(--line);border-radius:12px;background:var(--card)}
+ .dsh-t small{display:block;font:700 10.5px/1.4 system-ui,sans-serif;letter-spacing:.1em;text-transform:uppercase;color:var(--mut)}
+ .dsh-t b{display:block;margin-top:4px;font:600 30px/1.1 system-ui,sans-serif;font-variant-numeric:tabular-nums}
+ .dsh-t.ok b{color:var(--ok-ink)}.dsh-t.bad b{color:var(--err)}
+ .dsh-g{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:16px;align-items:start}
+ .dp{display:flex;flex-direction:column;gap:14px;padding:18px;border:1px solid var(--line);border-radius:14px;background:var(--card);min-width:0}
+ .dp>header{display:flex;align-items:center;justify-content:space-between;gap:10px}.dp h2{margin:0;font:700 17px/1.3 system-ui,sans-serif}
+ .dp h2 small{margin-left:8px;font:500 12px/1 system-ui,sans-serif;color:var(--mut)}
+ .dp-open{min-height:34px;padding:0 14px;border:1px solid var(--line);border-radius:999px;background:var(--bg);color:var(--acc-ink);font:700 12.5px/1 system-ui,sans-serif;cursor:pointer}.dp-open:hover{background:var(--hl)}
+ .dp h3{margin:0 0 6px;font:700 10.5px/1.4 system-ui,sans-serif;letter-spacing:.1em;text-transform:uppercase;color:var(--mut)}
+ .dp-l{display:flex;flex-direction:column;gap:6px}
+ .dp-r{display:grid;grid-template-columns:minmax(0,1.15fr) auto minmax(0,1.4fr);gap:10px;align-items:center;padding:8px 12px;border-radius:10px;background:var(--bg);border:1px solid var(--line)}
+ .dp-r.on{background:var(--okbg);border-color:var(--ok-ink)}.dp-r b{font:600 13.5px/1.3 system-ui,sans-serif}.dp-r i{font:normal 12px/1.3 system-ui,sans-serif;color:var(--mut)}
+ .dp-r .sch-dw{justify-content:flex-end;flex-wrap:nowrap}
+ .dp-none{margin:0;padding:10px 12px;border:1px dashed var(--line);border-radius:10px;color:var(--mut);font-size:13px}
+ .dp-mx{overflow:auto;border:1px solid var(--line);border-radius:10px}
+ .dp-mx table{width:100%;border-collapse:collapse;font-size:13px}.dp-mx th,.dp-mx td{padding:8px 10px;border-bottom:1px solid var(--line);border-right:1px solid var(--line);text-align:left;vertical-align:middle}
+ .dp-mx tr>*:last-child{border-right:0}.dp-mx tbody tr:last-child>*{border-bottom:0}
+ .dp-mx thead th{background:var(--bg);font:700 11px/1.3 system-ui,sans-serif;color:var(--mut);letter-spacing:.04em}.dp-mx thead th i{display:block;font:normal 500 11px/1.3 system-ui,sans-serif}
+ .dp-mx tbody th{font:600 13px/1.3 system-ui,sans-serif;white-space:nowrap}
+ .dp-mx td.now{background:var(--okbg);box-shadow:inset 0 0 0 2px var(--ok-ink)}.dp-mx td.past{opacity:.5}
+ .dp-mx td .sch-nm{margin-left:6px}
+ .dsh-ft{font:400 11.5px/1.6 system-ui,sans-serif;color:var(--mut)}
+}
+@media(min-width:1024px) and (max-width:1320px){.dsh-g{grid-template-columns:minmax(0,1fr)}}
+@media(min-width:1024px) and (max-width:1180px){.dsh-st{grid-template-columns:repeat(2,minmax(0,1fr))}}
+
+/*DAYGRID: symmetrical day cards on desktop. Every shift row has the same two-line shape; columns are sized in JS so the last row never orphans.*/
+@media(min-width:1024px){
+ .sch-dc{grid-template-columns:repeat(var(--dc,auto-fit),minmax(0,1fr));gap:10px;align-items:stretch}
+ .sch-dc .sch-card{padding:10px;gap:8px;border-radius:12px;min-width:0}
+ .sch-dc .sch-ct{font-size:14px;padding:0 2px}
+ .sch-dc .sch-note{margin:-4px 0 0 2px;font-size:12px}
+ .sch-card .sch-dl,.sch-card .sch-dl.now{display:flex;flex-direction:column;gap:5px;margin:0;padding:8px 10px;min-height:66px;border:1px solid var(--line);border-radius:9px;background:var(--bg);box-shadow:none}
+ .sch-card .sch-dl.ccsp-ds{border-left:4px solid var(--ccsp-ds-ln)}.sch-card .sch-dl.ccsp-ns{border-left:4px solid var(--ccsp-ns-ln)}.sch-card .sch-dl.ccsp-rd{border-left:4px solid var(--ccsp-rd-ln)}
+ .sch-card .sch-dl.ccsp-ds.now{background:var(--ccsp-ds-bg);border-left-color:var(--ccsp-ds)}.sch-card .sch-dl.ccsp-ns.now{background:var(--ccsp-ns-bg);border-left-color:var(--ccsp-ns)}
+ .sch-card .sch-dl:not([class*=ccsp]).now{background:var(--okbg);border-color:var(--ok-ink)}
+ .sch-card .sch-dl.mine{outline:2px solid var(--acc);outline-offset:-2px}
+ .sch-card .sch-dl,.sch-card .sch-dl.now{align-items:stretch;justify-content:center}
+ .sch-card .sch-dl.now>.sch-dw>em{font-size:0;width:9px;height:9px;padding:0;border-radius:50%;background:var(--ok-ink);box-shadow:0 0 0 3px var(--okbg)}
+ .sch-card .sch-ds{flex-direction:row;align-items:center;gap:6px;min-width:0;flex-wrap:nowrap}
+ .sch-card .sch-ds b{font-size:12.5px;white-space:nowrap}.sch-card .sch-ds i{font-size:11.5px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+ .sch-card .sch-ds .sch-sp{margin-left:auto;flex:none}
+ .sch-card .sch-dw{flex-wrap:nowrap;min-width:0;gap:6px;min-height:24px}
+ .sch-card .sch-dw .sch-nm{margin-left:0;min-width:0;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;font-size:13px}
+ .sch-card .sch-dw .sch-c,.sch-card .sch-dw .sch-rd{flex:none}
+ .sch-card .sch-dw em{margin-left:auto;flex:none}
+}
 </style>
 </head>
 <body>
 <div id="colsheet" hidden role="dialog" aria-modal="true" aria-label="Colour mode"><div><h2>Colour</h2><p class="col-lbl">Mode</p><div class="col-row" id="col-th"><button type="button" data-th="auto">Auto</button><button type="button" data-th="light">Light</button><button type="button" data-th="dark">Dark</button></div><p class="col-lbl">Palette</p><div class="col-row" id="col-pal"><button type="button" class="col-pal" data-pal="slate"><span class="col-sw"><i style="background:#718A9B"></i><i style="background:#222B33"></i></span>Slate</button><button type="button" class="col-pal" data-pal="claude"><span class="col-sw"><i style="background:#D97757"></i><i style="background:#262624"></i></span>Claude</button><button type="button" class="col-pal" data-pal="sage"><span class="col-sw"><i style="background:#7D9A82"></i><i style="background:#1F2823"></i></span>Sage</button><button type="button" class="col-pal" data-pal="dusk"><span class="col-sw"><i style="background:#8A84A8"></i><i style="background:#24222E"></i></span>Dusk</button><button type="button" class="col-pal" data-pal="mono"><span class="col-sw"><i style="background:#6B6B6B"></i><i style="background:#121212"></i></span>Mono</button></div><button type="button" class="col-done" id="col-done">DONE</button></div></div>
+<aside id="side" aria-label="Navigation">
+ <div class="sd-brand"><svg viewBox="0 0 50 48" fill="none" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M8 31c0-10 7-17 16-17s16 6 16 16-7 13-16 13S8 41 8 31Z" fill="currentColor" fill-opacity=".14" stroke="currentColor" stroke-width="2.6"/><circle cx="19" cy="30" r="2.4" fill="currentColor"/><circle cx="29" cy="30" r="2.4" fill="currentColor"/><path d="M21.4 34.6q2.6 2.2 5.2 0" stroke="currentColor" stroke-width="1.8"/><path d="M32 6l8 10M29 9l7-5 3 4" stroke="currentColor" stroke-width="2.2"/></svg><div><b>Team Schedule</b><span>DiGe-FN</span></div></div>
+ <p class="sd-lbl">Monitor</p>
+ <button type="button" data-nav="home"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="7" height="9" rx="1.5"/><rect x="14" y="3" width="7" height="5" rx="1.5"/><rect x="14" y="12" width="7" height="9" rx="1.5"/><rect x="3" y="16" width="7" height="5" rx="1.5"/></svg>Overview</button>
+ <p class="sd-lbl">Schedules</p>
+ <button type="button" data-nav="geo"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="5" width="18" height="16" rx="2"/><path d="M8 3v4M16 3v4M3 10h18"/></svg>Geologist</button>
+ <button type="button" data-nav="cc"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="5" width="18" height="16" rx="2"/><path d="M8 3v4M16 3v4M3 10h18M8 15h8"/></svg>Core Checkers</button>
+ <div class="sd-sp"></div>
+ <button type="button" id="go-col2" aria-haspopup="dialog"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="9"/><path d="M12 3a9 9 0 0 0 0 18Z" fill="currentColor"/></svg>Colour</button>
+ <p class="sd-foot">by PPC</p>
+</aside>
 <div id="home">
-<svg class="hm-hex" viewBox="0 0 50 48" aria-hidden="true" fill="none" stroke-linecap="round" stroke-linejoin="round">
-<path d="M32 6l8 10M29 9l7-5 3 4" stroke="#8fa6b8" stroke-width="2.1"/>
-<path d="M8 31c0-10 7-17 16-17s16 6 16 16-7 13-16 13S8 41 8 31Z" fill="rgba(255,255,255,.16)" stroke="#cfe0ee" stroke-width="2.4"/>
-<circle cx="19" cy="30" r="2.6" fill="#eef2f6"/><circle cx="29" cy="30" r="2.6" fill="#eef2f6"/>
-<circle cx="19.9" cy="29.1" r=".85" fill="#222b35"/><circle cx="29.9" cy="29.1" r=".85" fill="#222b35"/>
-<path d="M21.4 34.6q2.6 2.2 5.2 0" stroke="#eef2f6" stroke-width="1.7"/>
-<path d="M5.6 29.4v2.6M11.4 29.4v2.6" stroke="#cfe0ee" stroke-width="1.9"/>
-<rect x="2.4" y="31.4" width="12.2" height="12.2" rx="1.8" fill="rgba(255,255,255,.16)" stroke="#cfe0ee" stroke-width="2.1"/>
-<path d="M2.4 35.3h12.2" stroke="#cfe0ee" stroke-width="1.7"/>
-<g fill="#cfe0ee"><circle cx="5.5" cy="38.3" r=".95"/><circle cx="8.5" cy="38.3" r=".95"/><circle cx="11.5" cy="38.3" r=".95"/><circle cx="5.5" cy="41.2" r=".95"/><circle cx="8.5" cy="41.2" r=".95"/><circle cx="11.5" cy="41.2" r=".95"/></g>
-<path d="M45 18l1 2.2 2.2 1-2.2 1-1 2.2-1-2.2-2.2-1 2.2-1Z" fill="#8fa6b8"/></svg>
- <p class="hm-eyebrow">DIGITAL GEOLOGY FIELD NOTEBOOK</p>
- <h1>TEAM SCHEDULE</h1>
- <p class="hm-tag">Your rig geologist and core checker shifts, on your phone, offline.</p>
- <div class="hm-cards" id="hm-cards"></div>
- <div class="hm-go">
+<svg class="hm-hex hm-m" viewBox="0 0 50 48" aria-hidden="true" fill="none" stroke-linecap="round" stroke-linejoin="round">
+<path class="hx-a" d="M32 6l8 10M29 9l7-5 3 4" stroke-width="2.1"/>
+<path class="hx-s hx-b" d="M8 31c0-10 7-17 16-17s16 6 16 16-7 13-16 13S8 41 8 31Z" stroke-width="2.4"/>
+<circle class="hx-w" cx="19" cy="30" r="2.6"/><circle class="hx-w" cx="29" cy="30" r="2.6"/>
+<circle class="hx-p" cx="19.9" cy="29.1" r=".85"/><circle class="hx-p" cx="29.9" cy="29.1" r=".85"/>
+<path class="hx-m" d="M21.4 34.6q2.6 2.2 5.2 0" stroke-width="1.7"/>
+<path class="hx-s" d="M5.6 29.4v2.6M11.4 29.4v2.6" stroke-width="1.9"/>
+<rect class="hx-s hx-b" x="2.4" y="31.4" width="12.2" height="12.2" rx="1.8" stroke-width="2.1"/>
+<path class="hx-s" d="M2.4 35.3h12.2" stroke-width="1.7"/>
+<g class="hx-f"><circle cx="5.5" cy="38.3" r=".95"/><circle cx="8.5" cy="38.3" r=".95"/><circle cx="11.5" cy="38.3" r=".95"/><circle cx="5.5" cy="41.2" r=".95"/><circle cx="8.5" cy="41.2" r=".95"/><circle cx="11.5" cy="41.2" r=".95"/></g>
+<path class="hx-a" d="M45 18l1 2.2 2.2 1-2.2 1-1 2.2-1-2.2-2.2-1 2.2-1Z" fill="var(--acc)" stroke="none"/></svg>
+ <p class="hm-eyebrow hm-m">DIGITAL GEOLOGY FIELD NOTEBOOK</p>
+ <h1 class="hm-m">TEAM SCHEDULE</h1>
+ <p class="hm-tag hm-m">Your rig geologist and core checker shifts, on your phone, offline.</p>
+ <div class="hm-cards hm-m" id="hm-cards"></div>
+ <div class="hm-go hm-m">
   <button type="button" data-go="geo">GEOLOGIST</button>
   <button type="button" data-go="cc" class="alt">CORE CHECKERS</button>
  </div>
- <p class="hm-foot">DiGe-FN Team Schedule · by PPC</p>
+ <div id="dash" class="dsh sch"></div>
+ <p class="hm-foot hm-m">DiGe-FN Team Schedule · by PPC</p>
 </div>
 <div class="app" id="app" hidden>
  <div class="app-h">
@@ -284,13 +385,26 @@ function schImportFiles(fl,done){fl=[].slice.call(fl||[]);if(!fl.length)return;P
   if(p&&Array.isArray(p.schedules)){var rs=[];p.schedules.forEach(function(s){rs.push(schImportObj(s,f.name))});if(Array.isArray(p.ccSchedules))p.ccSchedules.forEach(function(s){rs.push(schImportObj(s,f.name))});return rs.length?rs:[{ok:0,msg:f.name+": no schedules in packet."}]}
   return[schImportObj(p,f.name)]},function(){return[{ok:0,msg:f.name+": could not be read."}]})})).then(function(rs){var flat=[].concat.apply([],rs);SCHMSG=flat;geoRefresh();ccRefresh();if(done)done(flat)})}
 
+
+/* ---- double-booking detection (shared by both teams) ---- */
+function schAK(a){return a.r.id+"|"+a.s.id+"|"+a.D.d}
+function schConf(M,A){var by={},k={},list=[];A.forEach(function(a){(by[a.c]=by[a.c]||[]).push(a)});
+ Object.keys(by).forEach(function(c){var L=by[c];for(var i=0;i<L.length;i++)for(var j=i+1;j<L.length;j++){var x=L[i],y=L[j];if(x.st<y.en&&y.st<x.en){list.push({c:c,a:x,b:y});(k[schAK(x)]=k[schAK(x)]||[]).push(y);(k[schAK(y)]=k[schAK(y)]||[]).push(x)}}});
+ list.sort(function(p,q){return p.a.st-q.a.st});return{k:k,list:list}}
+function schCfK(CF,key){return CF&&CF.k[key]?" cf":""}
+function schCfOne(a){return schDL(a.D.iso)+" · "+a.s.n+" · "+a.r.n}
+function schCfB(CF,a){var o=CF&&CF.k[schAK(a)];return o?'<span class="sch-cfb" title="Double-booked">⚠ also '+dkE(o.map(function(x){return x.r.n+" · "+schShort(x.s)}).join(", "))+'</span>':""}
+function schCfBanner(M,CF,attr,who){if(!CF||!CF.list.length)return"";
+ return'<div class="sch-cf" role="alert"><b>⚠ '+CF.list.length+' double-booking'+(CF.list.length===1?"":"s")+'</b><span class="sch-mut"> Same person on two overlapping shifts.</span><ul>'+CF.list.map(function(f){var p=who(M,f.c);
+  return'<li><button type="button" class="sch-lk" '+attr+'="cfp" data-v="'+dkE(f.c)+'">'+dkE(f.c+(p&&p.n?" · "+p.n:""))+'</button><span>'+dkE(schCfOne(f.a))+' <b>↔</b> '+dkE(schCfOne(f.b))+'</span></li>'}).join("")+'</ul></div>'}
+
 /* ---- Geologist schedule views ---- */
 function schMsgHTML(){if(!SCHMSG||!SCHMSG.length)return"";return'<div class="sch-msg">'+SCHMSG.map(function(r){return'<p class="'+(r.ok?"ok":"bad")+'">'+dkE(r.msg)+'</p>'}).join("")+'<button type="button" class="sch-x" data-sv="msgx" aria-label="Dismiss">✕</button></div>'}
 function schViewHTML(M){var me=schMeCode(M),meP=schWho(M,me),v=SCHV.v,now=Date.now(),td=dkIso(new Date());
  var h='<div class="sch-top">';
  h+=meP?'<div class="sch-me"><span>You:</span><b>'+dkE(meP.c+" · "+meP.n)+'</b><button type="button" class="sch-lk" data-sv="mechg">Change</button></div>':'<label class="sch-me ask"><b>Who are you?</b><span>Pick your name so the schedule highlights your shifts.</span><select data-sv="mepick">'+schOpts(M,"","Choose your name…")+'</select></label>';
  var ms=schMonths();h+='<div class="sch-mrow">'+(ms.length>1?'<select data-sv="month" aria-label="Month">'+ms.map(function(k){return'<option value="'+k+'"'+(k===M.month?" selected":"")+'>'+dkE(schMonLbl(k))+'</option>'}).join("")+'</select>':'<b>'+dkE(schMonLbl(M.month))+'</b>')+'<span class="sch-rev">'+dkE((M.title||"")+(M.rev?" · rev "+M.rev:"")+(M.upd?" · "+M.upd:"")+(M.by?" · "+M.by:""))+'</span></div>';
- var A=schAsg(M);
+ var A=schAsg(M),CF=schConf(M,A);h+=schCfBanner(M,CF,"data-sv",schWho);
  if(v==="month"){var hw0=schN(SCHV.who),cnt0=hw0?A.filter(function(a){return a.c===hw0}).length:0,hp0=schWho(M,hw0);
   h+='<div class="sch-leg">'+SCHGO.filter(function(g){return g!=="OT"}).map(function(g){return'<span class="sch-c sg-'+g.toLowerCase()+'">'+g+'</span><span>'+dkE(SCHG[g])+'</span>'}).join("")+'</div>';
   h+=hw0?'<p class="sch-hlp">Highlighted: '+schChip(M,hw0)+' <b>'+dkE(hp0?hp0.n:"not in roster")+'</b> · '+cnt0+' shift'+(cnt0===1?"":"s")+' <button type="button" class="sch-lk" data-sv="hlx">Clear</button></p>':'<p class="sch-mut sch-hlp">Tap any code to highlight that person\'s shifts.</p>'}
@@ -300,21 +414,21 @@ function schViewHTML(M){var me=schMeCode(M),meP=schWho(M,me),v=SCHV.v,now=Date.n
   if(!who)h+='<p class="sch-empty">Pick a name or code to see their shifts.</p>';else{var L=A.filter(function(a){return a.c===who}),nx=null,on=null;L.forEach(function(a){if(a.st<=now&&a.en>now)on=a;else if(a.st>now&&!nx)nx=a});var cnt={};L.forEach(function(a){cnt[a.s.id]=(cnt[a.s.id]||0)+1});
    h+='<div class="sch-pc"><div class="sch-pch">'+schChip(M,who)+'<b>'+dkE(P?P.n:"Not in roster")+'</b><span class="sch-mut">'+dkE(SCHG[schGrp(M,who)]||"")+'</span></div>'+(on?'<p class="sch-now"><b>On duty</b> · '+dkE(schAsgL(on))+'</p>':'')+(nx?'<p class="sch-nx"><span>Next shift</span><b>'+dkE(schAsgL(nx))+'</b></p>':(!on?'<p class="sch-mut">No more shifts in '+dkE(schMonLbl(M.month))+'.</p>':''))+
     '<p class="sch-cnt">'+L.length+' shift'+(L.length===1?"":"s")+' in '+dkE(schMonLbl(M.month))+(L.length?' · '+(M.shifts||[]).filter(function(s){return cnt[s.id]}).map(function(s){return dkE(schShort(s))+" "+cnt[s.id]}).join(" · "):'')+'</p></div>';
-   h+=L.length?'<div class="sch-pl">'+L.map(function(a){var cl=a.en<=now?" past":a.D.iso===td?" today":"";if(on===a)cl+=" now";return'<div class="sch-pr'+cl+'"><span class="sch-pd"><b>'+a.D.n+'</b><i>'+SCHWL[a.D.w]+'</i></span><span class="sch-ps"><b>'+dkE(a.s.n)+'</b><i>'+dkE(schSpan(a.s))+'</i></span><span class="sch-pg">'+dkE(schRigL(a.r))+'</span></div>'}).join("")+'</div>':'<p class="sch-empty">'+dkE(P?P.n:who)+' has no shifts in '+dkE(schMonLbl(M.month))+'.</p>'}}
+   h+=L.length?'<div class="sch-pl">'+L.map(function(a){var cl=a.en<=now?" past":a.D.iso===td?" today":"";if(on===a)cl+=" now";cl+=schCfK(CF,schAK(a));return'<div class="sch-pr'+cl+'"><span class="sch-pd"><b>'+a.D.n+'</b><i>'+SCHWL[a.D.w]+'</i></span><span class="sch-ps"><b>'+dkE(a.s.n)+'</b><i>'+dkE(schSpan(a.s))+'</i></span><span class="sch-pg">'+dkE(schRigL(a.r))+schCfB(CF,a)+'</span></div>'}).join("")+'</div>':'<p class="sch-empty">'+dkE(P?P.n:who)+' has no shifts in '+dkE(schMonLbl(M.month))+'.</p>'}}
  else if(v==="rig"){var rid=SCHV.rig&&(M.rigs||[]).some(function(r){return r.id===SCHV.rig})?SCHV.rig:((M.rigs||[])[0]||{}).id,R0=(M.rigs||[]).filter(function(r){return r.id===rid})[0];
   h+='<div class="sch-chips">'+(M.rigs||[]).map(function(r){return'<button type="button" data-sv="rig" data-v="'+dkE(r.id)+'" class="'+(r.id===rid?"on":"")+'">'+dkE(schRigL(r))+'</button>'}).join("")+'</div>'+(R0&&R0.note?'<p class="sch-mut sch-note">'+dkE(R0.note)+'</p>':'');
   if(R0)h+='<div class="sch-rl">'+schDays(M.month).map(function(D){if((M.off||{})[D.d])return'<div class="sch-rr off"><span class="sch-pd"><b>'+D.n+'</b><i>'+SCHWL[D.w]+'</i></span><span class="sch-mut">No schedule</span></div>';
-   return'<div class="sch-rr'+(D.iso===td?" today":D.iso<td?" past":"")+'"><span class="sch-pd"><b>'+D.n+'</b><i>'+SCHWL[D.w]+'</i></span><span class="sch-rs">'+(M.shifts||[]).map(function(s){var c=schN((M.cells||{})[R0.id+"|"+s.id+"|"+D.d]);return'<span class="sch-rc"><i>'+dkE(schShort(s))+'</i>'+(c?schChip(M,c)+'<span class="sch-nm">'+dkE(schFirst(schWho(M,c))||"")+'</span>':'<span class="sch-mut">—</span>')+'</span>'}).join("")+'</span></div>'}).join("")+'</div>'}
+   return'<div class="sch-rr'+(D.iso===td?" today":D.iso<td?" past":"")+'"><span class="sch-pd"><b>'+D.n+'</b><i>'+SCHWL[D.w]+'</i></span><span class="sch-rs">'+(M.shifts||[]).map(function(s){var c=schN((M.cells||{})[R0.id+"|"+s.id+"|"+D.d]);return'<span class="sch-rc'+schCfK(CF,R0.id+"|"+s.id+"|"+D.d)+'"><i>'+dkE(schShort(s))+'</i>'+(c?schChip(M,c)+'<span class="sch-nm">'+dkE(schFirst(schWho(M,c))||"")+'</span>':'<span class="sch-mut">—</span>')+'</span>'}).join("")+'</span></div>'}).join("")+'</div>'}
  else if(v==="day"){var day=SCHV.day&&SCHV.day.slice(0,7)===M.month?SCHV.day:(td.slice(0,7)===M.month?td:M.month+"-01"),dd=day.slice(8);
   h+='<div class="sch-day"><button type="button" data-sv="dstep" data-v="-1" aria-label="Previous day">◀</button><input type="date" data-sv="dpick" value="'+dkE(day)+'" aria-label="Day"><button type="button" data-sv="dstep" data-v="1" aria-label="Next day">▶</button><button type="button" data-sv="dtoday">Today</button></div><h3 class="sch-dh">'+dkE(schDL(day))+(day===td?' · today':'')+'</h3>';
-  if((M.off||{})[dd])h+='<p class="sch-empty">No schedule on this day.</p>';else h+='<div class="sch-dc">'+(M.rigs||[]).map(function(r){return'<div class="sch-card"><b class="sch-ct">'+dkE(schRigL(r))+'</b>'+(r.note?'<span class="sch-mut sch-note">'+dkE(r.note)+'</span>':'')+(M.shifts||[]).map(function(s){var c=schN((M.cells||{})[r.id+"|"+s.id+"|"+dd]),a=A.filter(function(x){return x.r===r&&x.s===s&&x.D.d===dd})[0],isOn=a&&a.st<=now&&a.en>now;return'<div class="sch-dl'+(isOn?" now":"")+(c&&c===me?" mine":"")+'"><span class="sch-ds"><b>'+dkE(schShort(s))+'</b><i>'+dkE(schSpan(s))+'</i></span><span class="sch-dw">'+(c?schChip(M,c,true):'<span class="sch-mut">—</span>')+(isOn?'<em>On duty</em>':'')+'</span></div>'}).join("")+'</div>'}).join("")+'</div>'}
+  if((M.off||{})[dd])h+='<p class="sch-empty">No schedule on this day.</p>';else h+='<div class="sch-dc">'+(M.rigs||[]).map(function(r){return'<div class="sch-card"><b class="sch-ct">'+dkE(schRigL(r))+'</b>'+(r.note?'<span class="sch-mut sch-note">'+dkE(r.note)+'</span>':'')+(M.shifts||[]).map(function(s){var c=schN((M.cells||{})[r.id+"|"+s.id+"|"+dd]),a=A.filter(function(x){return x.r===r&&x.s===s&&x.D.d===dd})[0],isOn=a&&a.st<=now&&a.en>now;return'<div class="sch-dl'+schCfK(CF,r.id+"|"+s.id+"|"+dd)+(isOn?" now":"")+(c&&c===me?" mine":"")+'"><span class="sch-ds"><b>'+dkE(schShort(s))+'</b><i>'+dkE(schSpan(s))+'</i></span><span class="sch-dw">'+(c?schChip(M,c,true):'<span class="sch-mut">—</span>')+(isOn?'<em>On duty</em>':'')+'</span></div>'}).join("")+'</div>'}).join("")+'</div>'}
  else{var hw=schN(SCHV.who);h+=schGridHTML(M,hw,td)}
  return h}
-function schGridHTML(M,hw,td){var days=schDays(M.month),off=M.off||{};
+function schGridHTML(M,hw,td){var days=schDays(M.month),off=M.off||{},CF=schConf(M,schAsg(M));
  var h='<div class="sch-tw"><table class="sch-t'+(hw?" hlon":"")+'"><thead><tr><th class="sch-rh" rowspan="2">Rig / shift</th>'+days.map(function(D){return'<th class="'+(off[D.d]?"off ":"")+(D.iso===td?"today ":"")+(D.w===0?"sun":"")+'">'+D.n+'</th>'}).join("")+'</tr><tr>'+days.map(function(D){return'<th class="sch-wd'+(off[D.d]?" off":"")+'">'+SCHWS[D.w]+'</th>'}).join("")+'</tr></thead><tbody>';
  (M.rigs||[]).forEach(function(r,rx){(M.shifts||[]).forEach(function(s,sx){h+='<tr class="'+(sx===0?"rg0 ":"")+'sh'+sx+'">'+'<th class="sch-rh">'+(sx===0?'<b>'+dkE(r.n)+'</b>'+(r.site?' <small>'+dkE(r.site)+'</small>':''):'')+'<span>'+dkE(s.n)+'</span></th>';
   days.forEach(function(D){var k=r.id+"|"+s.id+"|"+D.d,c=schN((M.cells||{})[k]);
-   h+='<td class="'+(off[D.d]?"off":"")+(c?" sg-"+schGrp(M,c).toLowerCase():"")+(hw&&c===hw?" hl":"")+'"'+(c?' data-sv="hl" data-v="'+dkE(c)+'"':'')+'>'+(off[D.d]?'':dkE(c))+'</td>'});
+   h+='<td class="'+(off[D.d]?"off":"")+(off[D.d]?"":schCfK(CF,k))+(c?" sg-"+schGrp(M,c).toLowerCase():"")+(hw&&c===hw?" hl":"")+'"'+(c?' data-sv="hl" data-v="'+dkE(c)+'"':'')+'>'+(off[D.d]?'':dkE(c))+'</td>'});
   h+='</tr>'})});
  return h+'</tbody></table></div>'}
 
@@ -351,7 +465,7 @@ function ccSchViewHTML(M){var me=ccSchMeCode(M),meP=ccSchWho(M,me),v=CCSCHV.v,no
  var h='<div class="sch-top">';
  h+=meP?'<div class="sch-me"><span>You:</span><b>'+dkE(meP.c+" · "+meP.n)+'</b><button type="button" class="sch-lk" data-csv="mechg">Change</button></div>':'<label class="sch-me ask"><b>Who are you?</b><span>Pick your name so the schedule highlights your shifts.</span><select data-csv="mepick">'+ccSchOpts(M,"","Choose your name…")+'</select></label>';
  var ms=ccSchMonths();h+='<div class="sch-mrow">'+(ms.length>1?'<select data-csv="month" aria-label="Month">'+ms.map(function(k){return'<option value="'+k+'"'+(k===M.month?" selected":"")+'>'+dkE(schMonLbl(k))+'</option>'}).join("")+'</select>':'<b>'+dkE(schMonLbl(M.month))+'</b>')+'<span class="sch-rev">'+dkE((M.title||"")+(M.rev?" · rev "+M.rev:"")+(M.upd?" · "+M.upd:"")+(M.by?" · "+M.by:""))+'</span></div>';
- var A=ccSchAsg(M);
+ var A=ccSchAsg(M),CF=schConf(M,A);h+=schCfBanner(M,CF,"data-csv",ccSchWho);
  if(v==="month"){var hw0=schN(CCSCHV.who),cnt0=hw0?A.filter(function(a){return a.c===hw0}).length:0,hp0=ccSchWho(M,hw0);
   h+='<div class="sch-leg"><span class="sch-sp ccsp-ds">D/S</span><span>Day shift</span><span class="sch-sp ccsp-ns">N/S</span><span>Night shift</span><span class="sch-rd">RD</span><span>Rest day</span></div>';
   h+=hw0?'<p class="sch-hlp">Highlighted: '+ccSchChip(M,hw0)+' <b>'+dkE(hp0?hp0.n:"not in roster")+'</b> · '+cnt0+' shift'+(cnt0===1?"":"s")+' <button type="button" class="sch-lk" data-csv="hlx">Clear</button></p>':'<p class="sch-mut sch-hlp">Tap any code to highlight that person\'s shifts.</p>'}
@@ -365,22 +479,22 @@ function ccSchViewHTML(M){var me=ccSchMeCode(M),meP=ccSchWho(M,me),v=CCSCHV.v,no
    h+=L.length?'<div class="sch-pl">'+schDays(M.month).map(function(D){if((M.off||{})[D.d])return'';
      var la=byd[D.d],dc=(D.iso===td?" today":D.iso<td?" past":"");
      if(!la)return'<div class="sch-pr ccsp-rd'+dc+'"><span class="sch-pd"><b>'+D.n+'</b><i>'+SCHWL[D.w]+'</i></span><span class="sch-ps"><b class="ccsp-rd">Rest day</b><i>off</i></span><span class="sch-pg"><span class="sch-rd">RD</span></span></div>';
-     return la.map(function(a){var cl=a.en<=now?" past":a.D.iso===td?" today":"";if(on===a)cl+=" now";
-      return'<div class="sch-pr ccsp-'+ccSchSP(a.s)+cl+'"><span class="sch-pd"><b>'+a.D.n+'</b><i>'+SCHWL[a.D.w]+'</i></span><span class="sch-ps"><b>'+dkE(a.s.n)+'</b><i>'+dkE(schSpan(a.s))+'</i></span><span class="sch-pg">'+ccSchSPB(a.s)+' '+dkE(schRigL(a.r))+'</span></div>'}).join("")}).join("")+'</div>':'<p class="sch-empty">'+dkE(P?P.n:who)+' has no shifts in '+dkE(schMonLbl(M.month))+'.</p>'}}
+     return la.map(function(a){var cl=a.en<=now?" past":a.D.iso===td?" today":"";if(on===a)cl+=" now";cl+=schCfK(CF,schAK(a));
+      return'<div class="sch-pr ccsp-'+ccSchSP(a.s)+cl+'"><span class="sch-pd"><b>'+a.D.n+'</b><i>'+SCHWL[a.D.w]+'</i></span><span class="sch-ps"><b>'+dkE(a.s.n)+'</b><i>'+dkE(schSpan(a.s))+'</i></span><span class="sch-pg">'+ccSchSPB(a.s)+' '+dkE(schRigL(a.r))+schCfB(CF,a)+'</span></div>'}).join("")}).join("")+'</div>':'<p class="sch-empty">'+dkE(P?P.n:who)+' has no shifts in '+dkE(schMonLbl(M.month))+'.</p>'}}
  else if(v==="rig"){var rid=CCSCHV.rig&&(M.rigs||[]).some(function(r){return r.id===CCSCHV.rig})?CCSCHV.rig:((M.rigs||[])[0]||{}).id,R0=(M.rigs||[]).filter(function(r){return r.id===rid})[0];
   h+='<div class="sch-chips">'+(M.rigs||[]).map(function(r){return'<button type="button" data-csv="rig" data-v="'+dkE(r.id)+'" class="'+(r.id===rid?"on":"")+'">'+dkE(schRigL(r))+'</button>'}).join("")+'</div>'+(R0&&R0.note?'<p class="sch-mut sch-note">'+dkE(R0.note)+'</p>':'');
   if(R0)h+='<div class="sch-rl">'+schDays(M.month).map(function(D){if((M.off||{})[D.d])return'<div class="sch-rr off"><span class="sch-pd"><b>'+D.n+'</b><i>'+SCHWL[D.w]+'</i></span><span class="sch-mut">No schedule</span></div>';
-   return'<div class="sch-rr'+(D.iso===td?" today":D.iso<td?" past":"")+'"><span class="sch-pd"><b>'+D.n+'</b><i>'+SCHWL[D.w]+'</i></span><span class="sch-rs">'+(M.shifts||[]).map(function(s){var c=schN((M.cells||{})[R0.id+"|"+s.id+"|"+D.d]);return'<span class="sch-rc ccsp-'+ccSchSP(s)+'"><i>'+dkE(schShort(s))+'</i>'+(c?ccSchChip(M,c)+'<span class="sch-nm">'+dkE(schFirst(ccSchWho(M,c))||"")+'</span>':'<span class="sch-rd">RD</span><span class="sch-nm ccsp-rd">Rest day</span>')+'</span>'}).join("")+'</span></div>'}).join("")+'</div>'}
+   return'<div class="sch-rr'+(D.iso===td?" today":D.iso<td?" past":"")+'"><span class="sch-pd"><b>'+D.n+'</b><i>'+SCHWL[D.w]+'</i></span><span class="sch-rs">'+(M.shifts||[]).map(function(s){var c=schN((M.cells||{})[R0.id+"|"+s.id+"|"+D.d]);return'<span class="sch-rc ccsp-'+ccSchSP(s)+schCfK(CF,R0.id+"|"+s.id+"|"+D.d)+'"><i>'+dkE(schShort(s))+'</i>'+(c?ccSchChip(M,c)+'<span class="sch-nm">'+dkE(schFirst(ccSchWho(M,c))||"")+'</span>':'<span class="sch-rd">RD</span><span class="sch-nm ccsp-rd">Rest day</span>')+'</span>'}).join("")+'</span></div>'}).join("")+'</div>'}
  else if(v==="day"){var day=CCSCHV.day&&CCSCHV.day.slice(0,7)===M.month?CCSCHV.day:(td.slice(0,7)===M.month?td:M.month+"-01"),dd=day.slice(8);
   h+='<div class="sch-day"><button type="button" data-csv="dstep" data-v="-1" aria-label="Previous day">◀</button><input type="date" data-csv="dpick" value="'+dkE(day)+'" aria-label="Day"><button type="button" data-csv="dstep" data-v="1" aria-label="Next day">▶</button><button type="button" data-csv="dtoday">Today</button></div><h3 class="sch-dh">'+dkE(schDL(day))+(day===td?' · today':'')+'</h3>';
-  if((M.off||{})[dd])h+='<p class="sch-empty">No schedule on this day.</p>';else h+='<div class="sch-dc">'+(M.rigs||[]).map(function(r){return'<div class="sch-card"><b class="sch-ct">'+dkE(schRigL(r))+'</b>'+(r.note?'<span class="sch-mut sch-note">'+dkE(r.note)+'</span>':'')+(M.shifts||[]).map(function(s){var c=schN((M.cells||{})[r.id+"|"+s.id+"|"+dd]),a=A.filter(function(x){return x.r===r&&x.s===s&&x.D.d===dd})[0],isOn=a&&a.st<=now&&a.en>now;return'<div class="sch-dl ccsp-'+(c?ccSchSP(s):"rd")+(isOn?" now":"")+(c&&c===me?" mine":"")+'"><span class="sch-ds"><b>'+dkE(schShort(s))+'</b><i>'+dkE(schSpan(s))+'</i>'+ccSchSPB(s)+'</span><span class="sch-dw">'+(c?ccSchChip(M,c,true):'<span class="sch-rd">RD</span><span class="sch-nm ccsp-rd">Rest day</span>')+(isOn?'<em>On duty</em>':'')+'</span></div>'}).join("")+'</div>'}).join("")+'</div>'}
+  if((M.off||{})[dd])h+='<p class="sch-empty">No schedule on this day.</p>';else h+='<div class="sch-dc">'+(M.rigs||[]).map(function(r){return'<div class="sch-card"><b class="sch-ct">'+dkE(schRigL(r))+'</b>'+(r.note?'<span class="sch-mut sch-note">'+dkE(r.note)+'</span>':'')+(M.shifts||[]).map(function(s){var c=schN((M.cells||{})[r.id+"|"+s.id+"|"+dd]),a=A.filter(function(x){return x.r===r&&x.s===s&&x.D.d===dd})[0],isOn=a&&a.st<=now&&a.en>now;return'<div class="sch-dl ccsp-'+(c?ccSchSP(s):"rd")+schCfK(CF,r.id+"|"+s.id+"|"+dd)+(isOn?" now":"")+(c&&c===me?" mine":"")+'"><span class="sch-ds"><b>'+dkE(schShort(s))+'</b><i>'+dkE(schSpan(s))+'</i>'+ccSchSPB(s)+'</span><span class="sch-dw">'+(c?ccSchChip(M,c,true):'<span class="sch-rd">RD</span><span class="sch-nm ccsp-rd">Rest day</span>')+(isOn?'<em>On duty</em>':'')+'</span></div>'}).join("")+'</div>'}).join("")+'</div>'}
  else{h+=ccSchGridHTML(M,schN(CCSCHV.who),td)}
  return h}
-function ccSchGridHTML(M,hw,td){var days=schDays(M.month),off=M.off||{};
+function ccSchGridHTML(M,hw,td){var days=schDays(M.month),off=M.off||{},CF=schConf(M,ccSchAsg(M));
  var h='<div class="sch-tw"><table class="sch-t'+(hw?" hlon":"")+'"><thead><tr><th class="sch-rh" rowspan="2">Rig / shift</th>'+days.map(function(D){return'<th class="'+(off[D.d]?"off ":"")+(D.iso===td?"today ":"")+(D.w===0?"sun":"")+'">'+D.n+'</th>'}).join("")+'</tr><tr>'+days.map(function(D){return'<th class="sch-wd'+(off[D.d]?" off":"")+'">'+SCHWS[D.w]+'</th>'}).join("")+'</tr></thead><tbody>';
  (M.rigs||[]).forEach(function(r,rx){(M.shifts||[]).forEach(function(s,sx){h+='<tr class="'+(sx===0?"rg0 ":"")+'sh'+sx+' ccsp-'+ccSchSP(s)+'">'+'<th class="sch-rh">'+(sx===0?'<b>'+dkE(r.n)+'</b>'+(r.site?' <small>'+dkE(r.site)+'</small>':''):'')+'<span>'+dkE(s.n)+'</span></th>';
   days.forEach(function(D){var k=r.id+"|"+s.id+"|"+D.d,c=schN((M.cells||{})[k]);
-   h+='<td class="'+(off[D.d]?"off":(c?"ccsg-"+ccSchGrp(M,c).toLowerCase():"rdc"))+(hw&&c===hw?" hl":"")+'"'+(c?' data-csv="hl" data-v="'+dkE(c)+'"':'')+'>'+(off[D.d]?'':(c?dkE(c):"RD"))+'</td>'});
+   h+='<td class="'+(off[D.d]?"off":(c?"ccsg-"+ccSchGrp(M,c).toLowerCase():"rdc"))+(off[D.d]?"":schCfK(CF,k))+(hw&&c===hw?" hl":"")+'"'+(c?' data-csv="hl" data-v="'+dkE(c)+'"':'')+'>'+(off[D.d]?'':(c?dkE(c):"RD"))+'</td>'});
   h+='</tr>'})});
  return h+'</tbody></table></div>'}
 
@@ -393,13 +507,23 @@ fi.addEventListener("change",function(){var f=fi.files;if(f&&f.length)schImportF
 function geoRefresh(){
  var mk=schCur(),M=SCHD.months[mk];SCHV.m=mk;
  if(!M){geoEl.innerHTML=schMsgHTML()+'<div class="sch-blank"><b>No geologist schedule on this device yet.</b><p>Import a schedule packet or a compiled DiGe-FN packet that contains schedules.</p><button type="button" class="sch-big" data-sv="imp">Import schedule</button></div>';return}
- geoEl.innerHTML=schMsgHTML()+schViewHTML(M)+'<div class="sch-foot"><button type="button" class="sch-lk" data-sv="imp">Import schedule packet</button></div>'
+ geoEl.innerHTML=schMsgHTML()+schViewHTML(M)+'<div class="sch-foot"><button type="button" class="sch-lk" data-sv="imp">Import schedule packet</button></div>';dayCols()
 }
 function ccRefresh(){
  var mk=ccSchCur(),M=CCSCHD.months[mk];CCSCHV.m=mk;
  if(!M){ccEl.innerHTML='<div class="sch-blank"><b>No core checkers schedule on this device yet.</b><p>Import a CC schedule packet or a compiled DiGe-FN packet that contains schedules.</p><button type="button" class="sch-big" data-csv="imp">Import CC schedule</button></div>';return}
- ccEl.innerHTML=ccSchViewHTML(M)+'<div class="sch-foot"><button type="button" class="sch-lk" data-csv="imp">Import CC schedule packet</button></div>'
+ ccEl.innerHTML=ccSchViewHTML(M)+'<div class="sch-foot"><button type="button" class="sch-lk" data-csv="imp">Import CC schedule packet</button></div>';dayCols()
 }
+
+
+/* day view columns: pick a column count that divides the rigs evenly where it can, so every row is full */
+var DKMQ=window.matchMedia?matchMedia("(min-width:1024px)"):null;
+function dayCols(){document.querySelectorAll(".sch-dc").forEach(function(g){
+ if(!DKMQ||!DKMQ.matches){g.style.removeProperty("--dc");return}
+ var n=g.children.length,w=g.clientWidth,gap=10,min=180,mx=Math.max(1,Math.floor((w+gap)/(min+gap))),c=Math.min(n,mx);
+ if(n>mx){var best=0,bs=-1;for(var k=mx;k>=Math.max(2,Math.ceil(mx/2));k--){var r=n%k,sc=r===0?1000+k:r*10+k;if(sc>bs){bs=sc;best=k}}c=best||mx}
+ g.style.setProperty("--dc",String(Math.max(1,c)))})}
+window.addEventListener("resize",dayCols);
 
 /* ---- tab switching ---- */
 document.querySelector(".app-tabs").addEventListener("click",function(e){
@@ -415,7 +539,7 @@ document.querySelector(".app-tabs").addEventListener("click",function(e){
 geoEl.addEventListener("click",function(e){var b=e.target.closest&&e.target.closest("[data-sv]");if(!b||!geoEl.contains(b))return;
  var a=b.getAttribute("data-sv"),v=b.getAttribute("data-v"),mk=schCur(),m=mk?SCHD.months[mk]:null;
  if(b.tagName==="SELECT"||b.tagName==="INPUT")return;
- if(a==="msgx"){SCHMSG=null}else if(a==="view"){SCHV.v=v}else if(a==="rig"){SCHV.rig=v}else if(a==="hl"){SCHV.who=schN(SCHV.who)===v?"":v}else if(a==="hlx"){SCHV.who=""}
+ if(a==="msgx"){SCHMSG=null}else if(a==="view"){SCHV.v=v}else if(a==="rig"){SCHV.rig=v}else if(a==="hl"){SCHV.who=schN(SCHV.who)===v?"":v}else if(a==="hlx"){SCHV.who=""}else if(a==="cfp"){SCHV.v="person";SCHV.who=schN(v)}
  else if(a==="whome"){SCHV.who=m?schMeCode(m):""}else if(a==="mechg"){schSetMe(null);return}
  else if(a==="dstep"||a==="dtoday"){var d0=SCHV.day&&m&&SCHV.day.slice(0,7)===m.month?SCHV.day:dkIso(new Date()),d1=new Date(d0+"T12:00:00");if(a==="dtoday")d1=new Date();else d1.setDate(d1.getDate()+(+v));var iso=dkIso(d1);SCHV.day=iso;if(SCHD.months[iso.slice(0,7)])SCHV.m=iso.slice(0,7)}
  else if(a==="imp"){fi.click();return}
@@ -432,7 +556,7 @@ geoEl.addEventListener("change",function(e){var t=e.target,a=t.getAttribute("dat
 ccEl.addEventListener("click",function(e){var b=e.target.closest&&e.target.closest("[data-csv]");if(!b||!ccEl.contains(b))return;
  var a=b.getAttribute("data-csv"),v=b.getAttribute("data-v"),mk=ccSchCur(),m=mk?CCSCHD.months[mk]:null;
  if(b.tagName==="SELECT"||b.tagName==="INPUT")return;
- if(a==="msgx"){SCHMSG=null}else if(a==="view"){CCSCHV.v=v}else if(a==="rig"){CCSCHV.rig=v}else if(a==="hl"){CCSCHV.who=schN(CCSCHV.who)===v?"":v}else if(a==="hlx"){CCSCHV.who=""}
+ if(a==="msgx"){SCHMSG=null}else if(a==="view"){CCSCHV.v=v}else if(a==="rig"){CCSCHV.rig=v}else if(a==="hl"){CCSCHV.who=schN(CCSCHV.who)===v?"":v}else if(a==="hlx"){CCSCHV.who=""}else if(a==="cfp"){CCSCHV.v="person";CCSCHV.who=schN(v)}
  else if(a==="whome"){CCSCHV.who=m?ccSchMeCode(m):""}else if(a==="mechg"){ccSchSetMe(null);return}
  else if(a==="dstep"||a==="dtoday"){var d0=CCSCHV.day&&m&&CCSCHV.day.slice(0,7)===m.month?CCSCHV.day:dkIso(new Date()),d1=new Date(d0+"T12:00:00");if(a==="dtoday")d1=new Date();else d1.setDate(d1.getDate()+(+v));var iso=dkIso(d1);CCSCHV.day=iso;if(CCSCHD.months[iso.slice(0,7)])CCSCHV.m=iso.slice(0,7)}
  else if(a==="imp"){fi.click();return}
@@ -497,10 +621,38 @@ function homeCard(kind){
  else sub='<span>No more shifts in '+dkE(schMonLbl(r.M.month))+'.</span>';
  return b+ci+'<span class="hm-ct"><small>'+label+'</small><b>'+nm+'</b>'+sub+'</span></button>'
 }
-function homeRefresh(){document.getElementById("hm-cards").innerHTML=homeCard("geo")+homeCard("cc")}
-function showHome(){homeRefresh();homeEl.hidden=false;appEl.hidden=true}
+
+/* ---- desktop overview (monitor) ---- */
+function dashTeam(kind){
+ var geo=kind==="geo",label=geo?"Geologist":"Core Checkers",k=geo?schCur():ccSchCur(),M=k?(geo?SCHD:CCSCHD).months[k]:null;
+ if(!M)return{h:'<section class="dp"><header><h2>'+label+'</h2><button type="button" class="dp-open" data-go="'+kind+'">Open</button></header><p class="dp-none">No schedule on this device yet. Open the tab to import a packet.</p></section>',on:0,today:0,cf:0,has:0};
+ var A=geo?schAsg(M):ccSchAsg(M),CF=schConf(M,A),now=Date.now(),td=dkIso(new Date()),inM=td.slice(0,7)===M.month,dd=td.slice(8);
+ var chip=function(c){return geo?schChip(M,c,true):ccSchChip(M,c,true)};
+ var tag=function(s){return geo?'<span class="sch-mut">'+dkE(schShort(s))+'</span>':ccSchSPB(s)};
+ var on=A.filter(function(a){return a.st<=now&&a.en>now}),tA=A.filter(function(a){return a.D.iso===td});
+ var up=A.filter(function(a){return a.st>now}),h='<section class="dp"><header><h2>'+label+'<small>'+dkE(schMonLbl(M.month))+(M.rev?' · rev '+M.rev:'')+'</small></h2><button type="button" class="dp-open" data-go="'+kind+'">Open schedule</button></header>';
+ h+='<div><h3>On duty now</h3>'+(on.length?'<div class="dp-l">'+on.map(function(a){return'<div class="dp-r on"><span><b>'+dkE(a.r.n)+'</b><br><i>'+dkE(a.r.site||"")+'</i></span><span>'+tag(a.s)+'<br><i>'+dkE(schSpan(a.s))+'</i></span><span class="sch-dw">'+chip(a.c)+'</span></div>'}).join("")+'</div>':'<p class="dp-none">Nobody is on shift right now.</p>')+'</div>';
+ var nx=up[0],grp=nx?up.filter(function(a){return a.st===nx.st}):[];
+ h+='<div><h3>Up next'+(nx?' · '+dkE(schDL(nx.D.iso)+' · '+sch12(nx.s.tf)):'')+'</h3>'+(grp.length?'<div class="dp-l">'+grp.map(function(a){return'<div class="dp-r"><span><b>'+dkE(a.r.n)+'</b><br><i>'+dkE(a.r.site||"")+'</i></span><span>'+tag(a.s)+'<br><i>'+dkE(schSpan(a.s))+'</i></span><span class="sch-dw">'+chip(a.c)+'</span></div>'}).join("")+'</div>':'<p class="dp-none">No more shifts in '+dkE(schMonLbl(M.month))+'.</p>')+'</div>';
+ h+='<div><h3>Today'+(inM?' · '+dkE(schDL(td)):'')+'</h3>';
+ if(!inM)h+='<p class="dp-none">Today falls outside the loaded month ('+dkE(schMonLbl(M.month))+').</p>';
+ else if((M.off||{})[dd])h+='<p class="dp-none">No schedule today.</p>';
+ else h+='<div class="dp-mx"><table><thead><tr><th>Rig</th>'+(M.shifts||[]).map(function(s){return'<th>'+dkE(schShort(s))+'<i>'+dkE(schSpan(s))+'</i></th>'}).join("")+'</tr></thead><tbody>'+(M.rigs||[]).map(function(r){return'<tr><th>'+dkE(r.n)+'</th>'+(M.shifts||[]).map(function(s){var a=tA.filter(function(x){return x.r===r&&x.s===s})[0];if(!a)return'<td>'+(geo?'<span class="sch-mut">—</span>':'<span class="sch-rd">RD</span>')+'</td>';return'<td class="'+(a.st<=now&&a.en>now?"now":a.en<=now?"past":"")+'">'+chip(a.c)+'</td>'}).join("")+'</tr>'}).join("")+'</tbody></table></div>';
+ h+='</div>';
+ return{h:h+'</section>',on:on.length,today:tA.length,cf:CF.list.length,has:1}
+}
+function dashRefresh(){
+ var g=dashTeam("geo"),c=dashTeam("cc"),d=new Date(),n=g.on+c.on,cf=g.cf+c.cf,tm=g.has+c.has;
+ var tile=function(l,v,cl){return'<div class="dsh-t '+(cl||"")+'"><small>'+l+'</small><b>'+v+'</b></div>'};
+ document.getElementById("dash").innerHTML='<div class="dsh-h"><div><h1>Operations overview</h1><p>Who is on shift right now across both teams. Updates every 30 seconds.</p></div><div class="dsh-clock"><b>'+dkE(d.toLocaleTimeString([],{hour:"2-digit",minute:"2-digit"}))+'</b><span>'+dkE(d.toLocaleDateString(undefined,{weekday:"long",day:"numeric",month:"long",year:"numeric"}))+'</span></div></div>'+
+  '<div class="dsh-st">'+tile("On duty now",n,n?"ok":"")+tile("Shifts today",g.today+c.today)+tile("Double-bookings",cf,cf?"bad":"")+tile("Schedules loaded",tm+" / 2")+'</div>'+
+  '<div class="dsh-g">'+g.h+c.h+'</div>'
+}
+function homeRefresh(){document.getElementById("hm-cards").innerHTML=homeCard("geo")+homeCard("cc");dashRefresh()}
+function navMark(n){document.querySelectorAll("#side button[data-nav]").forEach(function(b){b.classList.toggle("on",b.getAttribute("data-nav")===n)})}
+function showHome(){homeRefresh();homeEl.hidden=false;appEl.hidden=true;navMark("home")}
 function showApp(tab){
- homeEl.hidden=true;appEl.hidden=false;
+ homeEl.hidden=true;appEl.hidden=false;navMark(tab);
  var b=document.querySelector('.app-tabs button[data-tab="'+tab+'"]');
  if(b){curTab=tab;document.querySelectorAll(".app-tabs button").forEach(function(x){x.classList.toggle("on",x===b)});
   geoEl.style.display=tab==="geo"?"":"none";ccEl.style.display=tab==="cc"?"":"none"}
@@ -508,6 +660,9 @@ function showApp(tab){
 }
 homeEl.addEventListener("click",function(e){var b=e.target.closest&&e.target.closest("[data-go]");if(!b)return;showApp(b.getAttribute("data-go"))});
 document.getElementById("go-home").addEventListener("click",showHome);
+document.getElementById("side").addEventListener("click",function(e){var b=e.target.closest&&e.target.closest("button[data-nav]");if(!b)return;var n=b.getAttribute("data-nav");if(n==="home")showHome();else showApp(n)});
+document.getElementById("go-col2").addEventListener("click",function(){colSheet.hidden=false});
+setInterval(function(){if(!homeEl.hidden)homeRefresh()},30000);
 
 /* ---- init ---- */
 geoRefresh();
