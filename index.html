@@ -856,8 +856,22 @@ function edDelPerson(kind,c){var K=edK(kind),M=K.M(),E=ED[kind],p=(M.roster||[])
  var idx=M.roster.indexOf(p);edDo(kind,[{fn:function(){var i=M.roster.indexOf(p);if(i>=0)M.roster.splice(i,1)},un:function(){if(M.roster.indexOf(p)<0)M.roster.splice(Math.min(idx,M.roster.length),0,p)}}]);E.pm=""}
 function edPerson(kind,c,f,v){var M=edK(kind).M(),p=(M.roster||[]).filter(function(x){return schN(x.c)===schN(c)})[0];if(!p)return;v=String(v||"").trim();
  var m=null;if(f==="pn"&&v)m=edMeta(p,"n",v);else if(f==="pg")m=edMeta(p,"g",v);if(m)edDo(kind,[m])}
-function edPanelHTML(kind,M){if(ED[kind].ppl)return edPplHTML(kind,M);if(ED[kind].row)return edRowHTML(kind,M);var E=ED[kind],K=edK(kind),slot=E.sel?edSlot(kind,M,E.sel):null;
- if(!slot)return'<div class="ed-ph hint"><small>Availability</small><h3>Click any cell to select a slot</h3><p class="sch-mut">You will see who is free, who is busy, and who fits best. Click a name to assign.</p><p class="sch-mut"><b>To add a person:</b> click <b>People</b> in the bar above, type a code and name, then Add person.</p><p class="sch-mut"><b>To rename:</b> click a rig or shift label to edit its name, site and times, or to add and remove rigs.</p><p class="sch-mut"><b>To paint:</b> choose a person under Paint, then click or drag across cells. Use the eraser to clear.</p>'+(kind==="cc"?'<p class="sch-mut">For core checkers a blank cell is a rest day, so auto-fill only touches the scope you choose.</p>':'')+'</div>';
+function edSwapHTML(kind,M){var E=ED[kind],K=edK(kind),h='<div class="ed-ph"><small>Swap shifts</small><h3>'+(E.sw1?'Now click the second slot':'Click the first slot')+'</h3>';
+ if(E.sw1){var s=edSlot(kind,M,E.sw1),c=schN((M.cells||{})[E.sw1]||"");h+='<p class="sch-mut">First slot: <b>'+(s?dkE(s.r.n+" · "+schShort(s.s)+" · "+schDL(s.D.iso)):"")+'</b></p><div class="ed-cur">'+(c?K.chip(M,c,true):'<span class="sch-mut">Empty</span>')+'</div><p class="sch-mut">The two people trade places. Click the same slot again to cancel.</p><div class="ed-acts"><button type="button" class="ed-b" data-ed="swc">Cancel pick</button></div>'}
+ else h+='<p class="sch-mut">Pick any two slots, on the same day or different days, same rig or different rigs. The two people exchange places. Choosing an empty slot moves the person there.</p>';
+ if(E.sm)h+='<p class="ed-pm">'+dkE(E.sm)+'</p>';
+ return h+'<div class="ed-acts"><button type="button" class="ed-b pri" data-ed="swd">Done swapping</button></div></div>'}
+function edSwapPick(kind,k){var K=edK(kind),M=K.M(),E=ED[kind];E.sm="";
+ if(!E.sw1){E.sw1=k;E.sel=k;return}
+ if(E.sw1===k){E.sw1="";E.sel="";return}
+ var a=E.sw1,ca=schN(M.cells[a]||""),cb=schN(M.cells[k]||"");E.sw1="";E.sel="";
+ if(ca===cb){E.sm="Both slots have the same value, nothing to swap.";return}
+ edDo(kind,[{k:a,from:ca,to:cb},{k:k,from:cb,to:ca}]);
+ var sa=edSlot(kind,M,a),sb=edSlot(kind,M,k),w=[];
+ [[sa,cb],[sb,ca]].forEach(function(x){if(!x[0]||!x[1])return;var e=edCands(kind,M,x[0],K.asg(M)).filter(function(y){return y.c===x[1]})[0];if(e&&e.st!=="ok")w.push(x[1]+" on "+x[0].r.n+" "+schShort(x[0].s)+" "+schDL(x[0].D.iso)+": "+(e.st==="busy"?e.why:e.warn.join(" · ")))});
+ E.sm="Swapped "+(ca||"empty")+" and "+(cb||"empty")+"."+(w.length?" Heads-up: "+w.join(" | "):"")}
+function edPanelHTML(kind,M){if(ED[kind].ppl)return edPplHTML(kind,M);if(ED[kind].swap&&!ED[kind].row)return edSwapHTML(kind,M);if(ED[kind].row)return edRowHTML(kind,M);var E=ED[kind],K=edK(kind),slot=E.sel?edSlot(kind,M,E.sel):null;
+ if(!slot)return'<div class="ed-ph hint"><small>Availability</small><h3>Click any cell to select a slot</h3><p class="sch-mut">You will see who is free, who is busy, and who fits best. Click a name to assign.</p><p class="sch-mut"><b>To swap two people:</b> click <b>Swap shifts</b>, then click the two slots.</p><p class="sch-mut"><b>To add a person:</b> click <b>People</b> in the bar above, type a code and name, then Add person.</p><p class="sch-mut"><b>To rename:</b> click a rig or shift label to edit its name, site and times, or to add and remove rigs.</p><p class="sch-mut"><b>To paint:</b> choose a person under Paint, then click or drag across cells. Use the eraser to clear.</p>'+(kind==="cc"?'<p class="sch-mut">For core checkers a blank cell is a rest day, so auto-fill only touches the scope you choose.</p>':'')+'</div>';
  var cur=schN((M.cells||{})[E.sel]||"");
  return'<div class="ed-ph"><small>'+dkE(slot.r.n)+'</small><h3>'+dkE(schShort(slot.s))+' · '+dkE(schDL(slot.D.iso))+'</h3><p class="sch-mut">'+dkE(schSpan(slot.s))+'</p><div class="ed-cur">'+(cur?K.chip(M,cur,true)+'<button type="button" class="sch-lk" data-ed="clr" style="margin-left:auto">Clear</button>':'<span class="sch-mut">'+(kind==="cc"?"Rest day (blank)":"Unassigned")+'</span>')+'</div></div><input class="ed-q" data-ed="q" placeholder="Search name or code" value="'+dkE(E.q)+'"><div class="ed-list">'+edListHTML(kind,M,slot)+'</div>'}
 function edBarHTML(kind,M){var K=edK(kind),E=ED[kind],v=K.V().v,p=E.pend,sel=E.sel?edSlot(kind,M,E.sel):null,h='<div class="ed-bar"><span class="ed-lb">Editing</span>';
@@ -865,7 +879,7 @@ function edBarHTML(kind,M){var K=edK(kind),E=ED[kind],v=K.V().v,p=E.pend,sel=E.s
  h+='<label class="ed-f"><span>Paint</span><select data-ed="brush">'+K.opts(M,E.brush,"Off · click a slot instead")+'</select></label><button type="button" class="ed-b'+(E.erase?" on":"")+'" data-ed="erase">Eraser</button><span class="ed-d"></span>';
  h+='<label class="ed-f"><span>Auto-fill</span><select data-ed="auto"><option value="">Choose scope…</option><option value="day"'+(sel?"":" disabled")+'>Empty slots on selected day</option><option value="rig"'+(sel?"":" disabled")+'>Empty slots on selected rig</option><option value="month">Every empty slot this month</option></select></label>';
  if(p)h+='<span class="ed-pv"><b>'+p.ch.length+'</b> suggested'+(p.miss?" · "+p.miss+" could not be filled":"")+'</span><button type="button" class="ed-b pri" data-ed="acc">Accept</button><button type="button" class="ed-b" data-ed="rej">Discard</button>';
- return h+'<span class="ed-sp"></span><button type="button" class="ed-b'+(E.ppl?" on":"")+'" data-ed="ppl">People</button><button type="button" class="ed-b" data-ed="undo"'+(E.hist.length&&!p?"":" disabled")+'>Undo</button><button type="button" class="ed-b" data-ed="redo"'+(E.redo.length&&!p?"":" disabled")+'>Redo</button><button type="button" class="ed-b" data-ed="revert"'+(E.hist.length&&!p?"":" disabled")+'>Revert all</button><button type="button" class="ed-b pri" data-ed="export"'+(p?" disabled":"")+'>Export packet</button></div>'}
+ return h+'<span class="ed-sp"></span><button type="button" class="ed-b'+(E.swap?" on":"")+'" data-ed="swap">Swap shifts</button><button type="button" class="ed-b'+(E.ppl?" on":"")+'" data-ed="ppl">People</button><button type="button" class="ed-b" data-ed="undo"'+(E.hist.length&&!p?"":" disabled")+'>Undo</button><button type="button" class="ed-b" data-ed="redo"'+(E.redo.length&&!p?"":" disabled")+'>Redo</button><button type="button" class="ed-b" data-ed="revert"'+(E.hist.length&&!p?"":" disabled")+'>Revert all</button><button type="button" class="ed-b pri" data-ed="export"'+(p?" disabled":"")+'>Export packet</button></div>'}
 function edDecorate(kind){var K=edK(kind),el=K.el,M=K.M(),top=el.querySelector(":scope>.sch-top");if(!top||!M)return;
  if(!top.querySelector(".ed-tg"))top.insertAdjacentHTML("beforeend",'<button type="button" class="ed-tg'+(EDIT?" on":"")+'" data-ed="tg">'+(EDIT?"Editing":"Edit schedule")+'</button>');
  var rv=top.querySelector(".sch-rev");if(rv&&M.ed)rv.textContent+=" · edited, not exported";
@@ -884,11 +898,12 @@ function edPaint(kind,td){var E=ED[kind],K=edK(kind),M=K.M(),k=td.getAttribute("
  if(code)M.cells[k]=code;else delete M.cells[k];E.drag.push({k:k,from:from,to:code});td.classList.add("pt");td.textContent=code||(kind==="cc"?"RD":"")}
 function edAct(kind,a,v){var K=edK(kind),E=ED[kind],M=K.M();if(!M)return;
  if(E.pend&&a!=="acc"&&a!=="rej"&&a!=="tg")edRej(kind);
- if(a==="tg"){EDIT=!EDIT;if(EDIT){E.m="";var vw=K.V();if(vw.v!=="month"&&vw.v!=="day"){vw.v="month";K.uk()}}else{E.pend&&edRej(kind);E.brush="";E.erase=false;E.sel="";E.ppl=false}}
+ if(a==="tg"){EDIT=!EDIT;if(EDIT){E.m="";var vw=K.V();if(vw.v!=="month"&&vw.v!=="day"){vw.v="month";K.uk()}}else{E.pend&&edRej(kind);E.brush="";E.erase=false;E.sel="";E.ppl=false;E.swap=false;E.sw1=""}}
  else if(a==="jm"){K.V().v="month";K.uk()}
- else if(a==="ppl"){E.ppl=!E.ppl;E.row=null;E.sel="";E.pm=""}else if(a==="pdone"){E.ppl=false;E.pm=""}else if(a==="padd"){edAddPerson(kind)}else if(a==="pdel"){edDelPerson(kind,v)}
+ else if(a==="swap"){E.swap=!E.swap;E.sw1="";E.sm="";E.sel="";E.row=null;E.ppl=false;if(E.swap){E.brush="";E.erase=false}}else if(a==="swc"){E.sw1="";E.sel=""}else if(a==="swd"){E.swap=false;E.sw1="";E.sm="";E.sel=""}
+ else if(a==="ppl"){E.swap=false;E.ppl=!E.ppl;E.row=null;E.sel="";E.pm=""}else if(a==="pdone"){E.ppl=false;E.pm=""}else if(a==="padd"){edAddPerson(kind)}else if(a==="pdel"){edDelPerson(kind,v)}
  else if(a==="rowx"){E.row=null}else if(a==="addrig"){edAddRig(kind)}else if(a==="delrig"){edDelRig(kind)}
- else if(a==="erase"){E.erase=!E.erase;if(E.erase)E.brush=""}
+ else if(a==="erase"){E.erase=!E.erase;if(E.erase){E.brush="";E.swap=false;E.sw1=""}}
  else if(a==="undo")edUndo(kind,false);else if(a==="redo")edUndo(kind,true);
  else if(a==="acc")edAcc(kind);else if(a==="rej")edRej(kind);
  else if(a==="as"&&E.sel&&v)edDo(kind,[{k:E.sel,from:schN(M.cells[E.sel]||""),to:schN(v)}]);
@@ -901,11 +916,11 @@ function edBind(kind){var K=edK(kind),el=K.el,E=ED[kind];
  el.addEventListener("click",function(e){var t=e.target;
   var b=t.closest&&t.closest("[data-ed]");
   if(b&&el.contains(b)){if(b.tagName==="SELECT"||b.tagName==="INPUT")return;edAct(kind,b.getAttribute("data-ed"),b.getAttribute("data-v"));return}
-  var th=t.closest&&t.closest("[data-er]");if(th&&el.contains(th)&&edOn()){var ra=th.getAttribute("data-er").split("|");E.row={r:ra[0],s:ra[1]};E.sel="";E.ppl=false;edRef(kind);return}
+  var th=t.closest&&t.closest("[data-er]");if(th&&el.contains(th)&&edOn()){var ra=th.getAttribute("data-er").split("|");E.row={r:ra[0],s:ra[1]};E.sel="";E.ppl=false;E.swap=false;E.sw1="";edRef(kind);return}
   var td=t.closest&&t.closest("td[data-ek]");if(!td||!el.contains(td)||!edOn()||E.brush||E.erase)return;
-  var k=td.getAttribute("data-ek");E.sel=E.sel===k?"":k;E.row=null;E.ppl=false;E.q="";edRef(kind)});
+  var k=td.getAttribute("data-ek");if(E.swap){edSwapPick(kind,k);edRef(kind);return}E.sel=E.sel===k?"":k;E.row=null;E.ppl=false;E.q="";edRef(kind)});
  el.addEventListener("change",function(e){var t=e.target,ep=t.getAttribute&&t.getAttribute("data-ep");if(ep){if(ep==="ng"){(E.np||(E.np={c:"",n:"",g:""})).g=t.value}else if(ep==="pn"||ep==="pg"){edPerson(kind,t.getAttribute("data-pc"),ep,t.value);edRef(kind)}return}var ef=t.getAttribute&&t.getAttribute("data-ef");if(ef){edField(kind,ef,t.value);edRef(kind);return}var a=t.getAttribute&&t.getAttribute("data-ed");if(!a)return;
-  if(a==="brush"){if(E.pend)edRej(kind);E.brush=t.value;E.erase=false;edRef(kind)}
+  if(a==="brush"){if(E.pend)edRej(kind);E.brush=t.value;E.erase=false;if(t.value){E.swap=false;E.sw1=""}edRef(kind)}
   else if(a==="auto"&&t.value){edAuto(kind,t.value);edRef(kind)}});
  el.addEventListener("input",function(e){var t=e.target;if(t.getAttribute&&/^n[cn]$/.test(t.getAttribute("data-ep")||"")){var np=E.np||(E.np={c:"",n:"",g:""});np[t.getAttribute("data-ep").charAt(1)]=t.value;return}if(!t.getAttribute||t.getAttribute("data-ed")!=="q")return;E.q=t.value;var M=K.M(),slot=E.sel&&M?edSlot(kind,M,E.sel):null,l=el.querySelector(".ed-list");if(slot&&l)l.innerHTML=edListHTML(kind,M,slot)});
  el.addEventListener("keydown",function(e){var t=e.target,ep=t.getAttribute&&t.getAttribute("data-ep");if(!ep||e.key!=="Enter")return;if(ep==="nc"||ep==="nn"){e.preventDefault();var np=E.np||(E.np={c:"",n:"",g:""});np[ep.charAt(1)]=t.value;edAct(kind,"padd")}else if(ep==="pn"){t.blur()}});
