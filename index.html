@@ -437,6 +437,13 @@ html,body{overscroll-behavior:none;height:100%;margin:0;background:var(--bg);col
  .ed-fl{display:flex;flex-direction:column;gap:4px;margin:10px 0 0;font:600 11.5px/1.2 system-ui,sans-serif;color:var(--mut)}
  .ed-fl input{min-height:36px;padding:0 10px;border:1px solid var(--line);border-radius:6px;background:var(--bg);color:var(--ink);font:14px system-ui,sans-serif}
  .ed-fl input:focus{outline:2px solid var(--acc);outline-offset:-1px}
+.ed-pp{display:grid;grid-template-columns:auto 1fr 118px 28px;gap:6px;align-items:center;margin:4px 0}
+.ed-pp input,.ed-sel{min-height:32px;padding:0 8px;border:1px solid var(--line);border-radius:6px;background:var(--bg);color:var(--ink);font:13px system-ui,sans-serif;min-width:0}
+.ed-fl .ed-sel{min-height:36px;font-size:14px}
+.ed-pp input:focus,.ed-sel:focus{outline:2px solid var(--acc);outline-offset:-1px}
+.ed-x{width:28px;height:28px;border:1px solid var(--line);border-radius:6px;background:var(--bg);color:var(--mut);font:700 16px/1 system-ui,sans-serif;cursor:pointer}.ed-x:hover{color:#b3261e;border-color:#b3261e}
+.ed-gh{margin:12px 0 2px;font:700 11px/1.2 system-ui,sans-serif;text-transform:uppercase;letter-spacing:.04em;color:var(--mut)}
+.ed-pm{margin:10px 0 0;padding:8px 10px;border-radius:6px;background:var(--hl);font:600 12.5px/1.35 system-ui,sans-serif}
  .ed-2{display:grid;grid-template-columns:1fr 1fr;gap:10px}
  .ed-acts{display:flex;flex-wrap:wrap;gap:8px;margin-top:18px;padding-top:14px;border-top:1px solid var(--line)}.ed-acts .pri{margin-left:auto}
 }
@@ -796,7 +803,7 @@ function edExport(kind){var K=edK(kind),M=K.M();if(!M)return;M.rev=(+M.rev||0)+1
  var o={kind:kind==="geo"?"dige-schedule":"dige-cc-schedule",month:M.month,title:M.title,rev:M.rev,upd:M.upd,by:M.by,rigs:M.rigs,shifts:M.shifts,roster:M.roster,cells:M.cells,off:M.off};
  var a=document.createElement("a");a.href=URL.createObjectURL(new Blob([JSON.stringify(o,null,1)],{type:"application/json"}));a.download=(kind==="geo"?"geologist":"core-checkers")+"-schedule-"+M.month+"-rev"+M.rev+".json";document.body.appendChild(a);a.click();setTimeout(function(){URL.revokeObjectURL(a.href);a.remove()},600)}
 function edRef(kind){var K=edK(kind),el=K.el,tw=el.querySelector(".sch-tw"),pn=el.querySelector(".ed-pan"),st=el.scrollTop,tl=tw?tw.scrollLeft:0,tt=tw?tw.scrollTop:0,pt=pn?pn.scrollTop:0;K.ref();
- var tw2=el.querySelector(".sch-tw"),pn2=el.querySelector(".ed-pan");el.scrollTop=st;if(tw2){tw2.scrollLeft=tl;tw2.scrollTop=tt}if(pn2)pn2.scrollTop=pt}
+ var tw2=el.querySelector(".sch-tw"),pn2=el.querySelector(".ed-pan");el.scrollTop=st;if(tw2){tw2.scrollLeft=tl;tw2.scrollTop=tt}if(pn2)pn2.scrollTop=pt;var Ee=ED[kind];if(Ee.pfocus){var f=el.querySelector('[data-ep="'+Ee.pfocus+'"]');Ee.pfocus="";if(f)f.focus()}}
 function edRow(K,M,x,cls,click,cur){var why=cls==="busy"?x.why:(cls==="warn"?x.warn.join(" · "):x.why.slice(0,2).join(" · "));
  return(click?'<button type="button" class="ed-r '+cls+(x.c===cur?" cur":"")+'" data-ed="as" data-v="'+dkE(x.c)+'">':'<div class="ed-r '+cls+'">')+K.chip(M,x.c,false)+'<span class="ed-n">'+dkE(x.p.n||"")+'</span><span class="ed-m">'+x.load+' shift'+(x.load===1?"":"s")+'</span>'+(why?'<i>'+dkE(why)+'</i>':'')+(click?'</button>':'</div>')}
 function edListHTML(kind,M,slot){var K=edK(kind),E=ED[kind],cur=schN((M.cells||{})[E.sel]||""),c=edCands(kind,M,slot,K.asg(M)),q=String(E.q||"").toLowerCase(),
@@ -826,8 +833,31 @@ function edDelRig(kind){var M=edK(kind).M(),E=ED[kind],rg=E.row&&(M.rigs||[]).fi
  var cnt=Object.keys(M.cells).filter(function(k){return k.indexOf(rg.id+"|")===0}).length;if(!window.confirm("Delete "+rg.n+(cnt?" and its "+cnt+" assignments":"")+"? You can still undo this."))return;
  var idx=M.rigs.indexOf(rg),saved={};Object.keys(M.cells).forEach(function(k){if(k.indexOf(rg.id+"|")===0)saved[k]=M.cells[k]});
  edDo(kind,[{fn:function(){M.rigs.splice(M.rigs.indexOf(rg),1);Object.keys(saved).forEach(function(k){delete M.cells[k]})},un:function(){M.rigs.splice(Math.min(idx,M.rigs.length),0,rg);Object.keys(saved).forEach(function(k){M.cells[k]=saved[k]})}}]);E.row=null}
-function edPanelHTML(kind,M){if(ED[kind].row)return edRowHTML(kind,M);var E=ED[kind],K=edK(kind),slot=E.sel?edSlot(kind,M,E.sel):null;
- if(!slot)return'<div class="ed-ph hint"><small>Availability</small><h3>Click any cell to select a slot</h3><p class="sch-mut">You will see who is free, who is busy, and who fits best. Click a name to assign.</p><p class="sch-mut"><b>To rename:</b> click a rig or shift label to edit its name, site and times, or to add and remove rigs.</p><p class="sch-mut"><b>To paint:</b> choose a person under Paint, then click or drag across cells. Use the eraser to clear.</p>'+(kind==="cc"?'<p class="sch-mut">For core checkers a blank cell is a rest day, so auto-fill only touches the scope you choose.</p>':'')+'</div>';
+function edPplHTML(kind,M){var K=edK(kind),E=ED[kind],np=E.np||(E.np={c:"",n:"",g:""}),R=M.roster||[],h='<div class="ed-ph"><small>People</small><h3>Add or edit people</h3><p class="sch-mut">Everyone listed here appears in the Paint list and in the availability list. Undo works here too.</p></div>';
+ var gopt=function(sel,blank){return'<option value="">'+blank+'</option>'+Object.keys(K.G).map(function(g){return'<option value="'+g+'"'+(g===sel?" selected":"")+'>'+dkE(K.G[g])+'</option>'}).join("")};
+ h+='<p class="ed-sec"><b>New person</b></p><label class="ed-fl"><span>Code (shown in the grid)</span><input type="text" data-ep="nc" maxlength="12" placeholder="e.g. 52 or MN07" value="'+dkE(np.c)+'"></label><label class="ed-fl"><span>Full name</span><input type="text" data-ep="nn" placeholder="e.g. Juan Dela Cruz" value="'+dkE(np.n)+'"></label><label class="ed-fl"><span>Group</span><select data-ep="ng" class="ed-sel">'+gopt(np.g,"Automatic from code")+'</select></label>';
+ if(E.pm)h+='<p class="ed-pm">'+dkE(E.pm)+'</p>';
+ h+='<div class="ed-acts"><button type="button" class="ed-b pri" data-ed="padd">Add person</button><button type="button" class="ed-b" data-ed="pdone">Done</button></div>';
+ h+='<p class="ed-sec"><b>Roster</b> · '+R.length+'</p>';
+ Object.keys(K.G).forEach(function(g){var L=R.filter(function(p){return K.grp(M,p.c)===g}).sort(function(a,b){return String(a.c).localeCompare(String(b.c),undefined,{numeric:true})});if(!L.length)return;
+  h+='<p class="ed-gh">'+dkE(K.G[g])+' · '+L.length+'</p>'+L.map(function(p){var c=dkE(schN(p.c));return'<div class="ed-pp">'+K.chip(M,p.c,false)+'<input type="text" data-ep="pn" data-pc="'+c+'" value="'+dkE(p.n||"")+'" aria-label="Name of '+c+'"><select data-ep="pg" data-pc="'+c+'" class="ed-sel" aria-label="Group of '+c+'">'+gopt(p.g&&K.G[p.g]?p.g:"","Auto")+'</select><button type="button" class="ed-x" data-ed="pdel" data-v="'+c+'" title="Remove from roster" aria-label="Remove '+c+'">&times;</button></div>'}).join("")});
+ return h}
+function edAddPerson(kind){var K=edK(kind),M=K.M(),E=ED[kind],np=E.np||(E.np={c:"",n:"",g:""}),c=schN(np.c),n=String(np.n||"").trim();
+ if(!c){E.pm="Enter a code first.";return}
+ if(!/^[A-Z0-9._-]{1,12}$/.test(c)){E.pm="Use letters, numbers, dot, dash or underscore only (no spaces).";return}
+ if(K.asg&&(M.roster||[]).some(function(p){return schN(p.c)===c})){E.pm="Code "+c+" is already in the roster.";return}
+ if(!n){E.pm="Enter the person's name.";return}
+ var p={c:c,n:n};if(np.g&&K.G[np.g])p.g=np.g;if(!M.roster)M.roster=[];
+ edDo(kind,[{fn:function(){if(M.roster.indexOf(p)<0)M.roster.push(p)},un:function(){var i=M.roster.indexOf(p);if(i>=0)M.roster.splice(i,1)}}]);
+ E.np={c:"",n:"",g:np.g||""};E.pm="Added "+c+" · "+n+". You can now paint or assign "+c+".";E.pfocus="nc"}
+function edDelPerson(kind,c){var K=edK(kind),M=K.M(),E=ED[kind],p=(M.roster||[]).filter(function(x){return schN(x.c)===schN(c)})[0];if(!p)return;
+ var cnt=Object.keys(M.cells||{}).filter(function(k){return schN(M.cells[k])===schN(p.c)}).length;
+ if(!window.confirm("Remove "+p.c+" · "+(p.n||"")+" from the roster?"+(cnt?" They still have "+cnt+" assignment"+(cnt===1?"":"s")+" in the grid; those stay but show as not in roster.":"")+" You can undo this."))return;
+ var idx=M.roster.indexOf(p);edDo(kind,[{fn:function(){var i=M.roster.indexOf(p);if(i>=0)M.roster.splice(i,1)},un:function(){if(M.roster.indexOf(p)<0)M.roster.splice(Math.min(idx,M.roster.length),0,p)}}]);E.pm=""}
+function edPerson(kind,c,f,v){var M=edK(kind).M(),p=(M.roster||[]).filter(function(x){return schN(x.c)===schN(c)})[0];if(!p)return;v=String(v||"").trim();
+ var m=null;if(f==="pn"&&v)m=edMeta(p,"n",v);else if(f==="pg")m=edMeta(p,"g",v);if(m)edDo(kind,[m])}
+function edPanelHTML(kind,M){if(ED[kind].ppl)return edPplHTML(kind,M);if(ED[kind].row)return edRowHTML(kind,M);var E=ED[kind],K=edK(kind),slot=E.sel?edSlot(kind,M,E.sel):null;
+ if(!slot)return'<div class="ed-ph hint"><small>Availability</small><h3>Click any cell to select a slot</h3><p class="sch-mut">You will see who is free, who is busy, and who fits best. Click a name to assign.</p><p class="sch-mut"><b>To add a person:</b> click <b>People</b> in the bar above, type a code and name, then Add person.</p><p class="sch-mut"><b>To rename:</b> click a rig or shift label to edit its name, site and times, or to add and remove rigs.</p><p class="sch-mut"><b>To paint:</b> choose a person under Paint, then click or drag across cells. Use the eraser to clear.</p>'+(kind==="cc"?'<p class="sch-mut">For core checkers a blank cell is a rest day, so auto-fill only touches the scope you choose.</p>':'')+'</div>';
  var cur=schN((M.cells||{})[E.sel]||"");
  return'<div class="ed-ph"><small>'+dkE(slot.r.n)+'</small><h3>'+dkE(schShort(slot.s))+' · '+dkE(schDL(slot.D.iso))+'</h3><p class="sch-mut">'+dkE(schSpan(slot.s))+'</p><div class="ed-cur">'+(cur?K.chip(M,cur,true)+'<button type="button" class="sch-lk" data-ed="clr" style="margin-left:auto">Clear</button>':'<span class="sch-mut">'+(kind==="cc"?"Rest day (blank)":"Unassigned")+'</span>')+'</div></div><input class="ed-q" data-ed="q" placeholder="Search name or code" value="'+dkE(E.q)+'"><div class="ed-list">'+edListHTML(kind,M,slot)+'</div>'}
 function edBarHTML(kind,M){var K=edK(kind),E=ED[kind],v=K.V().v,p=E.pend,sel=E.sel?edSlot(kind,M,E.sel):null,h='<div class="ed-bar"><span class="ed-lb">Editing</span>';
@@ -835,12 +865,12 @@ function edBarHTML(kind,M){var K=edK(kind),E=ED[kind],v=K.V().v,p=E.pend,sel=E.s
  h+='<label class="ed-f"><span>Paint</span><select data-ed="brush">'+K.opts(M,E.brush,"Off · click a slot instead")+'</select></label><button type="button" class="ed-b'+(E.erase?" on":"")+'" data-ed="erase">Eraser</button><span class="ed-d"></span>';
  h+='<label class="ed-f"><span>Auto-fill</span><select data-ed="auto"><option value="">Choose scope…</option><option value="day"'+(sel?"":" disabled")+'>Empty slots on selected day</option><option value="rig"'+(sel?"":" disabled")+'>Empty slots on selected rig</option><option value="month">Every empty slot this month</option></select></label>';
  if(p)h+='<span class="ed-pv"><b>'+p.ch.length+'</b> suggested'+(p.miss?" · "+p.miss+" could not be filled":"")+'</span><button type="button" class="ed-b pri" data-ed="acc">Accept</button><button type="button" class="ed-b" data-ed="rej">Discard</button>';
- return h+'<span class="ed-sp"></span><button type="button" class="ed-b" data-ed="undo"'+(E.hist.length&&!p?"":" disabled")+'>Undo</button><button type="button" class="ed-b" data-ed="redo"'+(E.redo.length&&!p?"":" disabled")+'>Redo</button><button type="button" class="ed-b" data-ed="revert"'+(E.hist.length&&!p?"":" disabled")+'>Revert all</button><button type="button" class="ed-b pri" data-ed="export"'+(p?" disabled":"")+'>Export packet</button></div>'}
+ return h+'<span class="ed-sp"></span><button type="button" class="ed-b'+(E.ppl?" on":"")+'" data-ed="ppl">People</button><button type="button" class="ed-b" data-ed="undo"'+(E.hist.length&&!p?"":" disabled")+'>Undo</button><button type="button" class="ed-b" data-ed="redo"'+(E.redo.length&&!p?"":" disabled")+'>Redo</button><button type="button" class="ed-b" data-ed="revert"'+(E.hist.length&&!p?"":" disabled")+'>Revert all</button><button type="button" class="ed-b pri" data-ed="export"'+(p?" disabled":"")+'>Export packet</button></div>'}
 function edDecorate(kind){var K=edK(kind),el=K.el,M=K.M(),top=el.querySelector(":scope>.sch-top");if(!top||!M)return;
  if(!top.querySelector(".ed-tg"))top.insertAdjacentHTML("beforeend",'<button type="button" class="ed-tg'+(EDIT?" on":"")+'" data-ed="tg">'+(EDIT?"Editing":"Edit schedule")+'</button>');
  var rv=top.querySelector(".sch-rev");if(rv&&M.ed)rv.textContent+=" · edited, not exported";
  if(!edOn())return;var E=ED[kind];
- if(E.m!==M.month){E.m=M.month;E.hist=[];E.redo=[];E.sel="";E.pend=null;E.orig={m:M.month,cells:Object.assign({},M.cells),rigs:JSON.parse(JSON.stringify(M.rigs||[])),shifts:JSON.parse(JSON.stringify(M.shifts||[]))}}
+ if(E.m!==M.month){E.m=M.month;E.hist=[];E.redo=[];E.sel="";E.pend=null;E.orig={m:M.month,cells:Object.assign({},M.cells),rigs:JSON.parse(JSON.stringify(M.rigs||[])),shifts:JSON.parse(JSON.stringify(M.shifts||[])),roster:JSON.parse(JSON.stringify(M.roster||[]))}}
  el.querySelectorAll("td[data-sv],td[data-csv]").forEach(function(t){t.removeAttribute("data-sv");t.removeAttribute("data-csv")});
  top.insertAdjacentHTML("afterend",edBarHTML(kind,M));var bar=top.nextElementSibling,v=K.V().v;if(v!=="month"&&v!=="day")return;
  var wrap=document.createElement("div"),main=document.createElement("div"),pan=document.createElement("aside"),n=bar.nextElementSibling,mv=[];
@@ -854,15 +884,16 @@ function edPaint(kind,td){var E=ED[kind],K=edK(kind),M=K.M(),k=td.getAttribute("
  if(code)M.cells[k]=code;else delete M.cells[k];E.drag.push({k:k,from:from,to:code});td.classList.add("pt");td.textContent=code||(kind==="cc"?"RD":"")}
 function edAct(kind,a,v){var K=edK(kind),E=ED[kind],M=K.M();if(!M)return;
  if(E.pend&&a!=="acc"&&a!=="rej"&&a!=="tg")edRej(kind);
- if(a==="tg"){EDIT=!EDIT;if(EDIT){E.m="";var vw=K.V();if(vw.v!=="month"&&vw.v!=="day"){vw.v="month";K.uk()}}else{E.pend&&edRej(kind);E.brush="";E.erase=false;E.sel=""}}
+ if(a==="tg"){EDIT=!EDIT;if(EDIT){E.m="";var vw=K.V();if(vw.v!=="month"&&vw.v!=="day"){vw.v="month";K.uk()}}else{E.pend&&edRej(kind);E.brush="";E.erase=false;E.sel="";E.ppl=false}}
  else if(a==="jm"){K.V().v="month";K.uk()}
+ else if(a==="ppl"){E.ppl=!E.ppl;E.row=null;E.sel="";E.pm=""}else if(a==="pdone"){E.ppl=false;E.pm=""}else if(a==="padd"){edAddPerson(kind)}else if(a==="pdel"){edDelPerson(kind,v)}
  else if(a==="rowx"){E.row=null}else if(a==="addrig"){edAddRig(kind)}else if(a==="delrig"){edDelRig(kind)}
  else if(a==="erase"){E.erase=!E.erase;if(E.erase)E.brush=""}
  else if(a==="undo")edUndo(kind,false);else if(a==="redo")edUndo(kind,true);
  else if(a==="acc")edAcc(kind);else if(a==="rej")edRej(kind);
  else if(a==="as"&&E.sel&&v)edDo(kind,[{k:E.sel,from:schN(M.cells[E.sel]||""),to:schN(v)}]);
  else if(a==="clr"&&E.sel)edDo(kind,[{k:E.sel,from:schN(M.cells[E.sel]||""),to:""}]);
- else if(a==="revert"){if(E.orig&&E.orig.m===M.month&&window.confirm("Discard every edit made in this session and restore the schedule as it was when you started editing?")){M.cells=Object.assign({},E.orig.cells);M.rigs=JSON.parse(JSON.stringify(E.orig.rigs));M.shifts=JSON.parse(JSON.stringify(E.orig.shifts));E.row=null;E.hist=[];E.redo=[];E.sel="";K.save()}}
+ else if(a==="revert"){if(E.orig&&E.orig.m===M.month&&window.confirm("Discard every edit made in this session and restore the schedule as it was when you started editing?")){M.cells=Object.assign({},E.orig.cells);M.rigs=JSON.parse(JSON.stringify(E.orig.rigs));M.shifts=JSON.parse(JSON.stringify(E.orig.shifts));if(E.orig.roster)M.roster=JSON.parse(JSON.stringify(E.orig.roster));E.row=null;E.ppl=false;E.hist=[];E.redo=[];E.sel="";K.save()}}
  else if(a==="export"){edExport(kind)}
  else return;
  edRef(kind)}
@@ -870,13 +901,14 @@ function edBind(kind){var K=edK(kind),el=K.el,E=ED[kind];
  el.addEventListener("click",function(e){var t=e.target;
   var b=t.closest&&t.closest("[data-ed]");
   if(b&&el.contains(b)){if(b.tagName==="SELECT"||b.tagName==="INPUT")return;edAct(kind,b.getAttribute("data-ed"),b.getAttribute("data-v"));return}
-  var th=t.closest&&t.closest("[data-er]");if(th&&el.contains(th)&&edOn()){var ra=th.getAttribute("data-er").split("|");E.row={r:ra[0],s:ra[1]};E.sel="";edRef(kind);return}
+  var th=t.closest&&t.closest("[data-er]");if(th&&el.contains(th)&&edOn()){var ra=th.getAttribute("data-er").split("|");E.row={r:ra[0],s:ra[1]};E.sel="";E.ppl=false;edRef(kind);return}
   var td=t.closest&&t.closest("td[data-ek]");if(!td||!el.contains(td)||!edOn()||E.brush||E.erase)return;
-  var k=td.getAttribute("data-ek");E.sel=E.sel===k?"":k;E.row=null;E.q="";edRef(kind)});
- el.addEventListener("change",function(e){var t=e.target,ef=t.getAttribute&&t.getAttribute("data-ef");if(ef){edField(kind,ef,t.value);edRef(kind);return}var a=t.getAttribute&&t.getAttribute("data-ed");if(!a)return;
+  var k=td.getAttribute("data-ek");E.sel=E.sel===k?"":k;E.row=null;E.ppl=false;E.q="";edRef(kind)});
+ el.addEventListener("change",function(e){var t=e.target,ep=t.getAttribute&&t.getAttribute("data-ep");if(ep){if(ep==="ng"){(E.np||(E.np={c:"",n:"",g:""})).g=t.value}else if(ep==="pn"||ep==="pg"){edPerson(kind,t.getAttribute("data-pc"),ep,t.value);edRef(kind)}return}var ef=t.getAttribute&&t.getAttribute("data-ef");if(ef){edField(kind,ef,t.value);edRef(kind);return}var a=t.getAttribute&&t.getAttribute("data-ed");if(!a)return;
   if(a==="brush"){if(E.pend)edRej(kind);E.brush=t.value;E.erase=false;edRef(kind)}
   else if(a==="auto"&&t.value){edAuto(kind,t.value);edRef(kind)}});
- el.addEventListener("input",function(e){var t=e.target;if(!t.getAttribute||t.getAttribute("data-ed")!=="q")return;E.q=t.value;var M=K.M(),slot=E.sel&&M?edSlot(kind,M,E.sel):null,l=el.querySelector(".ed-list");if(slot&&l)l.innerHTML=edListHTML(kind,M,slot)});
+ el.addEventListener("input",function(e){var t=e.target;if(t.getAttribute&&/^n[cn]$/.test(t.getAttribute("data-ep")||"")){var np=E.np||(E.np={c:"",n:"",g:""});np[t.getAttribute("data-ep").charAt(1)]=t.value;return}if(!t.getAttribute||t.getAttribute("data-ed")!=="q")return;E.q=t.value;var M=K.M(),slot=E.sel&&M?edSlot(kind,M,E.sel):null,l=el.querySelector(".ed-list");if(slot&&l)l.innerHTML=edListHTML(kind,M,slot)});
+ el.addEventListener("keydown",function(e){var t=e.target,ep=t.getAttribute&&t.getAttribute("data-ep");if(!ep||e.key!=="Enter")return;if(ep==="nc"||ep==="nn"){e.preventDefault();var np=E.np||(E.np={c:"",n:"",g:""});np[ep.charAt(1)]=t.value;edAct(kind,"padd")}else if(ep==="pn"){t.blur()}});
  el.addEventListener("mousedown",function(e){if(!edOn()||e.button!==0||!(E.brush||E.erase))return;var td=e.target.closest&&e.target.closest("td[data-ek]");if(!td||!el.contains(td))return;
   e.preventDefault();if(E.pend){edRej(kind);edRef(kind);td=el.querySelector('td[data-ek="'+td.getAttribute("data-ek")+'"]');if(!td)return}
   E.painting=true;E.drag=[];edPaint(kind,td)});
