@@ -385,6 +385,15 @@ html,body{overscroll-behavior:none;height:100%;margin:0;background:var(--bg);col
  .ed-r i{grid-column:2/-1;font:normal 12px/1.35 system-ui,sans-serif;color:var(--mut)}
  .ed-r.sug{background:var(--okbg)}.ed-r.sug i{color:var(--ok-ink)}
  .ed-r.warn i{color:var(--warn)}.ed-r.busy{opacity:.55}
+ .sch-lg{margin:14px 0 6px;padding:12px 14px;border:1px solid var(--line);border-radius:12px;background:var(--card)}
+ .sch-lgh{display:flex;align-items:center;gap:10px;flex-wrap:wrap}.sch-lgh b{font:800 11px/1 system-ui,sans-serif;letter-spacing:.08em;text-transform:uppercase}.sch-lgh span{font:600 12px system-ui,sans-serif;color:var(--mut)}
+ .sch-lgb{margin-left:auto;min-height:34px;padding:0 14px;border:1px solid var(--line);border-radius:8px;background:var(--bg);color:var(--ink);font:700 12.5px system-ui,sans-serif;cursor:pointer}.sch-lgb:hover{border-color:var(--acc)}
+ .sch-lgg{display:grid;grid-template-columns:repeat(auto-fit,minmax(250px,1fr));gap:14px 22px;margin-top:10px}.sch-lgk h4{margin:0 0 6px;font:800 11px/1.2 system-ui,sans-serif;letter-spacing:.05em;text-transform:uppercase;color:var(--mut)}
+ .sch-lgi{display:flex;align-items:center;gap:8px;padding:2px 0;font:13px/1.3 system-ui,sans-serif}.sch-lgi small{margin-left:auto;color:var(--mut);font-size:11px}
+ .ed-rl h4{margin:14px 0 4px;font:800 11px/1.2 system-ui,sans-serif;letter-spacing:.06em;text-transform:uppercase;color:var(--mut)}
+ .ed-rr{display:flex;flex-wrap:wrap;gap:6px;align-items:center;margin:4px 0}.ed-rr select,.ed-rr input[type=text],.ed-rr input[type=date],.ed-rr input[type=number]{min-height:34px;padding:0 8px;border:1px solid var(--line);border-radius:8px;background:var(--bg);color:var(--ink);font:13px system-ui,sans-serif}.ed-rr label{display:flex;flex-direction:column;gap:2px;font:600 11px system-ui,sans-serif;color:var(--mut)}
+ .ed-rx{list-style:none;margin:6px 0;padding:0;display:flex;flex-direction:column;gap:4px}.ed-rx li{display:flex;align-items:center;gap:8px;padding:6px 8px;border:1px solid var(--line);border-radius:8px;font:13px system-ui,sans-serif}.ed-rx small{display:block;color:var(--mut);font-size:11px}.ed-rx .sch-lk{margin-left:auto}
+ .ed-gt{border-collapse:collapse;font:12px system-ui,sans-serif;margin:4px 0}.ed-gt th,.ed-gt td{padding:3px 8px;text-align:center}.ed-gt tbody th{text-align:left;font-weight:600}.ed-ck{display:flex;gap:8px;align-items:flex-start;margin:6px 0;font:13px/1.35 system-ui,sans-serif}.ed-fl{display:flex;flex-wrap:wrap;gap:6px;margin:6px 0}.ed-fc{display:flex;align-items:center;gap:6px;padding:3px 8px;border:1px solid var(--line);border-radius:999px;font:12.5px system-ui,sans-serif}
  td[data-ek]{cursor:cell}
  .ed-main td.sel{outline:2px solid var(--acc);outline-offset:-2px;box-shadow:none}
  .ed-main td.pend{outline:2px dashed var(--acc);outline-offset:-2px;font-style:italic}
@@ -656,7 +665,7 @@ function schGridHTML(M,hw,td){var days=schDays(M.month),off=M.off||{},CF=schConf
   days.forEach(function(D){var k=r.id+"|"+s.id+"|"+D.d,c=schN((M.cells||{})[k]);
    h+='<td class="'+(off[D.d]?"off":"")+(off[D.d]?"":schCfK(CF,k))+(c?" sg-"+schGrp(M,c).toLowerCase():"")+(hw&&c===hw?" hl":"")+'"'+(c?' data-sv="hl" data-v="'+dkE(c)+'"':'')+(off[D.d]?'':' data-ek="'+k+'"')+'>'+(off[D.d]?'':dkE(c))+'</td>'});
   h+='</tr>'})});
- return h+'</tbody></table></div>'}
+ return h+'</tbody></table></div>'+schLegend("geo",M)}
 
 
 /* ---- desktop day view: one rig x shift table, shift names and times once in the header ---- */
@@ -733,7 +742,7 @@ function ccSchGridHTML(M,hw,td){var days=schDays(M.month),off=M.off||{},CF=schCo
   days.forEach(function(D){var k=r.id+"|"+s.id+"|"+D.d,c=schN((M.cells||{})[k]);
    h+='<td class="'+(off[D.d]?"off":(c?"ccsg-"+ccSchGrp(M,c).toLowerCase():"rdc"))+(off[D.d]?"":schCfK(CF,k))+(hw&&c===hw?" hl":"")+'"'+(c?' data-csv="hl" data-v="'+dkE(c)+'"':'')+(off[D.d]?'':' data-ek="'+k+'"')+'>'+(off[D.d]?'':(c?dkE(c):"RD"))+'</td>'});
   h+='</tr>'})});
- return h+'</tbody></table></div>'}
+ return h+'</tbody></table></div>'+schLegend("cc",M)}
 
 /* ---- render and wire ---- */
 var curTab="geo";
@@ -766,6 +775,37 @@ window.addEventListener("resize",dayCols);
 
 /* ---- supervisor edit mode (desktop browser) ---- */
 var EDIT=false,ED={geo:edNew(),cc:edNew()};
+/*LEGEND+IMG: every code name under the month grid, and a Save image button that paints the whole month (grid + legend, not just the visible part) to a PNG.*/
+function schLegend(kind,M){var cc=kind==="cc",chip=cc?ccSchChip:schChip,gr=cc?ccSchGrp:schGrp,G=cc?CCSCHG:SCHG,O=cc?CCSCHGO:SCHGO,cnt={},R=(M.roster||[]).map(function(p){return{c:schN(p.c),n:p.n||""}}),seen={};
+ Object.keys(M.cells||{}).forEach(function(k){var c=schN(M.cells[k]);if(c)cnt[c]=(cnt[c]||0)+1});R.forEach(function(p){seen[p.c]=1});Object.keys(cnt).forEach(function(c){if(!seen[c])R.push({c:c,n:""})});
+ var by={};R.forEach(function(p){var g=gr(M,p.c)||"OT";(by[g]||(by[g]=[])).push(p)});
+ var h='<section class="sch-lg"><div class="sch-lgh"><b>Code names</b><span>'+R.length+' people</span><button type="button" class="sch-lgb" data-simg="'+kind+'">Save image</button></div><div class="sch-lgg">';
+ O.forEach(function(g){var L=by[g];if(!L||!L.length)return;L.sort(function(a,b){return a.c.localeCompare(b.c,undefined,{numeric:true})});
+  h+='<div class="sch-lgk"><h4>'+dkE(G[g]||g)+'</h4>'+L.map(function(p){return'<div class="sch-lgi">'+chip(M,p.c,true)+'<small>'+(cnt[p.c]||0)+'</small></div>'}).join("")+'</div>'});
+ return h+'</div></section>'}
+function schRR(c,x,y,w,h,r){r=Math.min(r,w/2,h/2);c.beginPath();c.moveTo(x+r,y);c.arcTo(x+w,y,x+w,y+h,r);c.arcTo(x+w,y+h,x,y+h,r);c.arcTo(x,y+h,x,y,r);c.arcTo(x,y,x+w,y,r);c.closePath()}
+function schDrawDom(c,root,ox,oy){var base=root.getBoundingClientRect(),all=[root].concat([].slice.call(root.querySelectorAll("*")));
+ all.forEach(function(e){if(e.closest&&e.closest(".sch-lgb"))return;var cs=getComputedStyle(e);if(cs.display==="none"||cs.visibility==="hidden")return;var r=e.getBoundingClientRect();if(r.width<1||r.height<1)return;
+  var op=1,q=e;while(q&&q!==root.parentNode){var o=parseFloat(getComputedStyle(q).opacity);if(o===o)op*=o;q=q.parentNode}
+  var x=ox+r.left-base.left,y=oy+r.top-base.top;c.globalAlpha=op;
+  var bg=cs.backgroundColor,has=bg&&bg!=="rgba(0, 0, 0, 0)"&&bg!=="transparent";
+  if(has){c.fillStyle=bg;schRR(c,x,y,r.width,r.height,parseFloat(cs.borderTopLeftRadius)||0);c.fill()}
+  else if(/gradient/.test(cs.backgroundImage)){c.fillStyle="rgba(200,110,110,.14)";c.fillRect(x,y,r.width,r.height)}
+  [["Top",0],["Bottom",1],["Left",2],["Right",3]].forEach(function(s){var w=parseFloat(cs["border"+s[0]+"Width"]);if(w>0&&cs["border"+s[0]+"Style"]!=="none"){c.fillStyle=cs["border"+s[0]+"Color"];if(s[1]===0)c.fillRect(x,y,r.width,w);else if(s[1]===1)c.fillRect(x,y+r.height-w,r.width,w);else if(s[1]===2)c.fillRect(x,y,w,r.height);else c.fillRect(x+r.width-w,y,w,r.height)}});
+  c.font=cs.fontStyle+" "+cs.fontWeight+" "+cs.fontSize+" "+cs.fontFamily;c.fillStyle=cs.color;c.textBaseline="middle";c.textAlign="left";try{c.letterSpacing=cs.letterSpacing==="normal"?"0px":cs.letterSpacing}catch(x2){}
+  for(var i=0;i<e.childNodes.length;i++){var n=e.childNodes[i];if(n.nodeType!==3)continue;var t=n.nodeValue.replace(/\s+/g," ").trim();if(!t)continue;if(cs.textTransform==="uppercase")t=t.toUpperCase();
+   var rg=document.createRange();rg.selectNodeContents(n);var rs=[].slice.call(rg.getClientRects()).filter(function(z){return z.width>0});if(!rs.length)continue;
+   if(rs.length===1){c.fillText(t,ox+rs[0].left-base.left,oy+rs[0].top-base.top+rs[0].height/2)}
+   else{var ws=t.split(" "),li=0,ln="";ws.forEach(function(w){var tr=ln?ln+" "+w:w;if(li<rs.length-1&&c.measureText(tr).width>rs[li].width+1&&ln){c.fillText(ln,ox+rs[li].left-base.left,oy+rs[li].top-base.top+rs[li].height/2);li++;ln=w}else ln=tr});c.fillText(ln,ox+rs[li].left-base.left,oy+rs[li].top-base.top+rs[li].height/2)}}});
+ c.globalAlpha=1}
+function schSaveImg(kind){var K=edK(kind),M=K.M();if(!M)return;var el=K.el,tbl=el.querySelector(".sch-t"),lg=el.querySelector(".sch-lg");if(!tbl)return;
+ var tw=tbl.getBoundingClientRect(),lr=lg?lg.getBoundingClientRect():{width:0,height:0},pad=24,th=46,gap=lg?16:0,W=Math.ceil(Math.max(tw.width,lr.width)+pad*2),H=Math.ceil(pad+th+tw.height+gap+lr.height+pad),sc=Math.min(2,16000/W,16000/H),cv=document.createElement("canvas");cv.width=Math.round(W*sc);cv.height=Math.round(H*sc);
+ var c=cv.getContext("2d");c.scale(sc,sc);var cs=getComputedStyle(document.body);c.fillStyle=cs.backgroundColor&&cs.backgroundColor!=="rgba(0, 0, 0, 0)"?cs.backgroundColor:"#ffffff";c.fillRect(0,0,W,H);
+ c.fillStyle=cs.color;c.textBaseline="alphabetic";c.textAlign="left";c.font="800 20px system-ui,sans-serif";c.fillText((kind==="cc"?"Core Checkers":"Geologist")+" schedule · "+schMonLbl(M.month),pad,pad+16);c.font="500 12px system-ui,sans-serif";c.globalAlpha=.65;c.fillText((M.title||"")+(M.rev?" · rev "+M.rev:""),pad,pad+36);c.globalAlpha=1;
+ schDrawDom(c,tbl,pad,pad+th);if(lg)schDrawDom(c,lg,pad,pad+th+tw.height+gap);
+ var nm=(kind==="cc"?"core-checkers":"geologist")+"-schedule-"+M.month+".png";
+ cv.toBlob(function(b){if(!b)return;var u=URL.createObjectURL(b),a=document.createElement("a");a.href=u;a.download=nm;document.body.appendChild(a);a.click();setTimeout(function(){a.remove();URL.revokeObjectURL(u)},4000)},"image/png")}
+document.addEventListener("click",function(e){var b=e.target.closest&&e.target.closest("[data-simg]");if(b)schSaveImg(b.getAttribute("data-simg"))});
 function edNew(){return{brush:"",erase:false,sel:"",row:null,hist:[],redo:[],pend:null,orig:null,q:"",m:"",painting:false,drag:null}}
 function edOn(){return EDIT&&DKMQ&&DKMQ.matches}
 function edK(kind){return kind==="geo"?{M:function(){var k=schCur();return k?SCHD.months[k]:null},asg:schAsg,grp:schGrp,chip:schChip,G:SCHG,opts:schOpts,V:function(){return SCHV},uk:schUiKeep,save:function(){try{localStorage.setItem(SCHK,JSON.stringify(SCHD))}catch(e){}},ref:geoRefresh,el:geoEl}
@@ -773,22 +813,29 @@ function edK(kind){return kind==="geo"?{M:function(){var k=schCur();return k?SCH
 function edSlot(kind,M,k){var a=String(k).split("|"),r=(M.rigs||[]).filter(function(x){return x.id===a[0]})[0],s=(M.shifts||[]).filter(function(x){return x.id===a[1]})[0],D=schDays(M.month).filter(function(x){return x.d===a[2]})[0];if(!r||!s||!D)return null;
  var f=schMin(s.tf),t=schMin(s.tt),len=(f!=null&&t!=null)?((t-f+1440)%1440||1440):(kind==="geo"?480:720),st=new Date(D.iso+"T00:00:00").getTime()+(f||0)*6e4;return{r:r,s:s,D:D,st:st,en:st+len*6e4,k:k}}
 /* who can take a slot: busy = overlapping shift, warn = short rest or long streak, ok = free. Ranked for suggestions. */
-function edCands(kind,M,slot,A){var K=edK(kind),by={},rowG={},dom="",mx=0,out=[],H=36e5;
+function edCands(kind,M,slot,A,R){var K=edK(kind),by={},rowG={},dom="",mx=0,out=[],H=36e5;
  A.forEach(function(a){if(schAK(a)===slot.k)return;(by[a.c]=by[a.c]||[]).push(a);if(a.r.id===slot.r.id&&a.s.id===slot.s.id){var g=K.grp(M,a.c);rowG[g]=(rowG[g]||0)+1}});
  for(var g in rowG)if(rowG[g]>mx){mx=rowG[g];dom=g}
  var yd=new Date(slot.D.iso+"T12:00:00");yd.setDate(yd.getDate()-1);var y=dkIso(yd);
  ((M&&M.roster)||[]).forEach(function(p){var c=schN(p.c);if(!c)return;var L=by[c]||[],busy=null,i;
   for(i=0;i<L.length;i++)if(L[i].st<slot.en&&slot.st<L[i].en){busy=L[i];break}
   if(busy){out.push({p:p,c:c,st:"busy",why:"Already on "+busy.r.n+" · "+schShort(busy.s)+" at that time",load:L.length,score:-99,warn:[]});return}
+  if(R){var bz=function(w){out.push({p:p,c:c,st:"busy",why:w,load:L.length,score:-99,warn:[]})},xe=R.exFor?R.exFor(c,slot.D.iso):"";if(xe){bz(xe);return}
+   var al=R.grp&&R.grp[K.grp(M,c)];if(al&&al.length&&al.indexOf(slot.s.id)<0){bz("Not set to work this shift");return}
+   if(R.only&&R.only.indexOf(c)<0){bz("Not a filler");return}if(!R.only&&R.res&&R.fill&&R.fill.indexOf(c)>=0){bz("Kept as a filler");return}if(R.noRep&&R.noRep===c){bz("Filled this slot yesterday (a filler works one day only)");return}
+   if(R.nrest&&!edNightA(slot.st,slot.en)&&L.some(function(a){return a.D.iso===y&&edNightA(a.st,a.en)})){bz("Rest day after 3rd shift");return}}
   var gb=Infinity,ga=Infinity,warn=[],why=[],score=-L.length,days={},before=0,after=0;
   L.forEach(function(a){days[a.D.iso]=1;if(a.en<=slot.st)gb=Math.min(gb,slot.st-a.en);if(a.st>=slot.en)ga=Math.min(ga,a.st-slot.en)});
   var gap=Math.min(gb,ga);if(gap<10*H)warn.push("Only "+Math.round(gap/H)+"h rest");
   for(i=1;i<=7;i++){var q=new Date(slot.D.iso+"T12:00:00");q.setDate(q.getDate()-i);if(days[dkIso(q)])before++;else break}
   for(i=1;i<=7;i++){var z=new Date(slot.D.iso+"T12:00:00");z.setDate(z.getDate()+i);if(days[dkIso(z)])after++;else break}
+  if(R&&R.run&&before+1+after>R.run){out.push({p:p,c:c,st:"busy",why:"Max "+R.run+" days in a row",load:L.length,score:-99,warn:[]});return}
   if(before+1+after>6)warn.push((before+1+after)+" days in a row");
   if(L.some(function(a){return a.D.iso===y&&a.s.id===slot.s.id})){score+=2;why.push("Worked this shift yesterday")}
   if(L.some(function(a){return a.D.iso===y&&a.r.id===slot.r.id})){score+=1;why.push("On this rig yesterday")}
   if(dom&&K.grp(M,c)===dom){score+=3;why.push("Usual "+(K.G[dom]||dom).toLowerCase()+" for this row")}
+  if(R&&R.same){if(L.some(function(a){return a.D.iso===y&&a.s.id===slot.s.id}))score+=8;else if(before>0&&L.some(function(a){return a.D.iso===y&&a.s.id!==slot.s.id}))score-=10}
+  if(R&&R.ret&&R.ret===c){score+=10;why.push("Back from rest")}
   if(warn.length)score-=6;
   out.push({p:p,c:c,st:warn.length?"warn":"ok",why:why,warn:warn,load:L.length,score:score})});
  out.sort(function(a,b){return b.score-a.score||String(a.c).localeCompare(String(b.c),undefined,{numeric:true})});return out}
@@ -798,11 +845,36 @@ function edDo(kind,ch){var M=edK(kind).M();ch=ch.filter(function(c){return c&&(c
 function edUndo(kind,redo){var E=ED[kind],K=edK(kind),M=K.M(),ch=(redo?E.redo:E.hist).pop();if(!ch)return;edApply(M,ch,!redo);(redo?E.hist:E.redo).push(ch);M.ed=1;K.save()}
 function edRej(kind){var E=ED[kind],M=edK(kind).M();if(!E.pend)return;E.pend.ch.forEach(function(c){delete M.cells[c.k]});E.pend=null}
 function edAcc(kind){var E=ED[kind];if(!E.pend)return;var ch=E.pend.ch;E.pend=null;edPush(kind,ch)}
-function edAuto(kind,scope){var K=edK(kind),M=K.M(),E=ED[kind];edRej(kind);var sel=E.sel?edSlot(kind,M,E.sel):null,off=M.off||{},slots=[],ch=[],miss=0;
+function edRules(kind){var R=(kind==="cc"?CCSCHD:SCHD);if(!R.rules||typeof R.rules!=="object")R.rules={};var r=R.rules;if(!Array.isArray(r.ex))r.ex=[];if(!r.grp||typeof r.grp!=="object")r.grp={};if(!Array.isArray(r.fill))r.fill=[];r.run=+r.run>0?Math.round(+r.run):0;r.same=!!r.same;r.nrest=!!r.nrest;r.res=r.res!==false;return r}
+function edNightA(st,en){return new Date(st).getDate()!==new Date(en).getDate()}
+function edRuleObj(kind){var Rl=edRules(kind);return{grp:Rl.grp,nrest:Rl.nrest,run:Rl.run,same:Rl.same,fill:Rl.fill,res:Rl.res,exFor:function(c,iso){for(var i=0;i<Rl.ex.length;i++){var x=Rl.ex[i];if(schN(x.c)!==c)continue;if(x.a&&iso<x.a)continue;if(x.b&&iso>x.b)continue;return"Unavailable"+(x.w?" · "+x.w:"")+(x.a||x.b?" ("+(x.a?schDL(x.a):"…")+" to "+(x.b?schDL(x.b):"until further notice")+")":" · left out of auto-fill")}return""}}}
+function edAuto(kind,scope){var K=edK(kind),M=K.M(),E=ED[kind];edRej(kind);var sel=E.sel?edSlot(kind,M,E.sel):null,off=M.off||{},slots=[],ch=[],miss=0,fills=0,R0=edRuleObj(kind),reg={},fil={};
  schDays(M.month).forEach(function(D){if(off[D.d])return;(M.rigs||[]).forEach(function(r){(M.shifts||[]).forEach(function(s){var k=r.id+"|"+s.id+"|"+D.d;if(M.cells[k])return;
   if(scope==="day"&&(!sel||D.d!==sel.D.d))return;if(scope==="rig"&&(!sel||r.id!==sel.r.id))return;slots.push(k)})})});
- slots.forEach(function(k){var slot=edSlot(kind,M,k),best=edCands(kind,M,slot,K.asg(M)).filter(function(x){return x.st==="ok"})[0];if(!best){miss++;return}M.cells[k]=best.c;ch.push({k:k,from:"",to:best.c})});
- E.pend={ch:ch,miss:miss,scope:scope}}
+ slots.forEach(function(k){var slot=edSlot(kind,M,k),A=K.asg(M),rs=slot.r.id+"|"+slot.s.id,pd=new Date(slot.D.iso+"T12:00:00");pd.setDate(pd.getDate()-1);var pdi=dkIso(pd),pk=pdi.slice(0,7)===M.month?rs+"|"+pdi.slice(8,10):"",pc=pk?schN(M.cells[pk]||""):"";
+  if(pc&&!fil[pk]&&!reg[rs])reg[rs]=pc;
+  var base=Object.assign({},R0,{ret:reg[rs]||"",noRep:pk&&fil[pk]?pc:""}),all=edCands(kind,M,slot,A,base),ok=function(x){return x.st==="ok"},best=all.filter(ok)[0],isF=false;
+  if(R0.fill.length&&pc&&!fil[pk]){var e=all.filter(function(x){return x.c===pc})[0];if(e&&e.st==="busy"&&/^(Rest day|Max )/.test(e.why)){var fo=edCands(kind,M,slot,A,Object.assign({},base,{only:R0.fill})).filter(ok)[0];if(fo){best=fo;isF=true}}}
+  if(!best){miss++;return}M.cells[k]=best.c;ch.push({k:k,from:"",to:best.c});if(isF){fil[k]=1;fills++}else reg[rs]=best.c});
+ E.pend={ch:ch,miss:miss,scope:scope,fills:fills}}
+function edRuleSet(kind,f,t){var Rl=edRules(kind),M=edK(kind).M();if(f==="run"){Rl.run=Math.max(0,Math.min(31,Math.round(+t.value||0)))}else if(f==="same"){Rl.same=!!t.checked}else if(f==="nrest"){Rl.nrest=!!t.checked}else if(f==="res"){Rl.res=!!t.checked}
+ else if(f.indexOf("g:")===0){var p=f.split(":"),g=p[1],sid=p[2],all=(M.shifts||[]).map(function(s){return s.id}),cur=Rl.grp[g]&&Rl.grp[g].length?Rl.grp[g].slice():all.slice(),i=cur.indexOf(sid);if(t.checked&&i<0)cur.push(sid);if(!t.checked&&i>=0)cur.splice(i,1);if(cur.length===all.length)delete Rl.grp[g];else Rl.grp[g]=cur}
+ edK(kind).save()}
+function edRuleAct(kind,a,v){var K=edK(kind),Rl=edRules(kind),E=ED[kind],el=K.el;
+ if(a==="rxadd"){var c=(el.querySelector('[data-rx="c"]')||{}).value,f=(el.querySelector('[data-rx="a"]')||{}).value||"",t=(el.querySelector('[data-rx="b"]')||{}).value||"",w=((el.querySelector('[data-rx="w"]')||{}).value||"").trim();if(!c){E.rm="Pick the person first.";return}if(f&&t&&t<f){E.rm="The end date is before the start date.";return}Rl.ex.push({c:c,a:f,b:t,w:w});E.rm="";K.save()}
+ else if(a==="rxdel"){Rl.ex.splice(+v,1);K.save()}
+ else if(a==="rfadd"){var q=(el.querySelector('[data-rx="f"]')||{}).value;if(q&&Rl.fill.indexOf(q)<0){Rl.fill.push(q);K.save()}}
+ else if(a==="rfdel"){var i=Rl.fill.indexOf(v);if(i>=0){Rl.fill.splice(i,1);K.save()}}}
+function edRulesHTML(kind,M){var K=edK(kind),E=ED[kind],Rl=edRules(kind),GO=kind==="cc"?CCSCHGO:SCHGO,R=(M.roster||[]).slice().sort(function(a,b){return schN(a.c).localeCompare(schN(b.c),undefined,{numeric:true})}),
+  opt=function(s){return R.map(function(p){return'<option value="'+dkE(schN(p.c))+'"'+(schN(p.c)===s?" selected":"")+'>'+dkE(schN(p.c))+' · '+dkE(p.n||"")+'</option>'}).join("")},
+  nm=function(c){var p=schWho(M,c);return p?p.n:""},h='<div class="ed-ph"><small>Auto-fill</small><h3>Rules</h3><p class="sch-mut">Auto-fill follows these rules. They never change slots you already filled. Rules are remembered for the next months too.</p></div><div class="ed-rl">';
+ h+='<h4>Not available</h4><p class="sch-mut">Leave a person out of auto-fill, for example on vacation. Leave both dates empty to leave them out completely. Leave <b>To</b> empty for until further notice.</p><div class="ed-rr"><select data-rx="c"><option value="">Person…</option>'+opt("")+'</select></div><div class="ed-rr"><label>From<input type="date" data-rx="a"></label><label>To<input type="date" data-rx="b"></label></div><div class="ed-rr"><input type="text" data-rx="w" placeholder="Reason (vacation, leave…)" maxlength="40"><button type="button" class="ed-b" data-ed="rxadd">Add</button></div>'+(E.rm?'<p class="ed-pm">'+dkE(E.rm)+'</p>':'');
+ h+=Rl.ex.length?'<ul class="ed-rx">'+Rl.ex.map(function(x,i){return'<li><span class="sch-c">'+dkE(schN(x.c))+'</span><span>'+dkE(nm(schN(x.c)))+'<small>'+(x.a||x.b?dkE((x.a?schDL(x.a):"any time")+" → "+(x.b?schDL(x.b):"until further notice")):"Left out completely")+(x.w?" · "+dkE(x.w):"")+'</small></span><button type="button" class="sch-lk" data-ed="rxdel" data-v="'+i+'">Remove</button></li>'}).join("")+'</ul>':'<p class="sch-mut">Nobody is left out.</p>';
+ h+='<h4>Shifts each group may work</h4><p class="sch-mut">Untick a shift to stop auto-fill giving it to that group, for example geologists on 1st shift only.</p><table class="ed-gt"><thead><tr><th></th>'+(M.shifts||[]).map(function(s){return'<th>'+dkE(schShort(s))+'</th>'}).join("")+'</tr></thead><tbody>'+GO.filter(function(g){return(M.roster||[]).some(function(p){return K.grp(M,schN(p.c))===g})}).map(function(g){var al=Rl.grp[g]&&Rl.grp[g].length?Rl.grp[g]:null;return'<tr><th>'+dkE(K.G[g]||g)+'</th>'+(M.shifts||[]).map(function(s){return'<td><input type="checkbox" data-rl="g:'+g+':'+dkE(s.id)+'"'+(!al||al.indexOf(s.id)>=0?" checked":"")+'></td>'}).join("")+'</tr>'}).join("")+'</tbody></table>';
+ h+='<h4>Straight days</h4><label class="ed-rr">Most days in a row <input type="number" min="0" max="31" data-rl="run" value="'+(Rl.run||"")+'" placeholder="no limit" style="width:90px"></label><label class="ed-ck"><input type="checkbox" data-rl="same"'+(Rl.same?" checked":"")+'> Keep the same shift through the whole block (for example 5 mornings in a row, then a rest day)</label>';
+ h+='<h4>Rest after nights</h4><label class="ed-ck"><input type="checkbox" data-rl="nrest"'+(Rl.nrest?" checked":"")+'> Someone leaving the 3rd shift for the 1st or 2nd shift gets a full rest day first</label>';
+ h+='<h4>Filler loggers</h4><p class="sch-mut">When the usual person of a slot has to rest (day limit or rest after nights), one of these covers that slot for one day only. The usual person then returns.</p>'+(Rl.fill.length?'<div class="ed-fl">'+Rl.fill.map(function(c){return'<span class="ed-fc"><span class="sch-c">'+dkE(c)+'</span>'+dkE(nm(c))+'<button type="button" class="sch-lk" data-ed="rfdel" data-v="'+dkE(c)+'">✕</button></span>'}).join("")+'</div>':'<p class="sch-mut">No fillers chosen. Any free person is used.</p>')+'<label class="ed-ck"><input type="checkbox" data-rl="res"'+(Rl.res?" checked":"")+'> Use fillers only to cover a rest day, never for regular shifts</label><div class="ed-rr"><select data-rx="f"><option value="">Add a filler…</option>'+opt("")+'</select><button type="button" class="ed-b" data-ed="rfadd">Add</button></div></div><div class="ed-acts"><button type="button" class="ed-b pri" data-ed="rdone">Done</button></div>';
+ return h}
 function edExport(kind){var K=edK(kind),M=K.M();if(!M)return;M.rev=(+M.rev||0)+1;M.upd=dkIso(new Date());M.ed=0;K.save();
  var o={kind:kind==="geo"?"dige-schedule":"dige-cc-schedule",month:M.month,title:M.title,rev:M.rev,upd:M.upd,by:M.by,rigs:M.rigs,shifts:M.shifts,roster:M.roster,cells:M.cells,off:M.off};
  var a=document.createElement("a");a.href=URL.createObjectURL(new Blob([JSON.stringify(o,null,1)],{type:"application/json"}));a.download=(kind==="geo"?"geologist":"core-checkers")+"-schedule-"+M.month+"-rev"+M.rev+".json";document.body.appendChild(a);a.click();setTimeout(function(){URL.revokeObjectURL(a.href);a.remove()},600)}
@@ -892,7 +964,7 @@ function edSwapPick(kind,k){var K=edK(kind),M=K.M(),E=ED[kind];E.sm="";
  var sa=edSlot(kind,M,a),sb=edSlot(kind,M,k),w=[];
  [[sa,cb],[sb,ca]].forEach(function(x){if(!x[0]||!x[1])return;var e=edCands(kind,M,x[0],K.asg(M)).filter(function(y){return y.c===x[1]})[0];if(e&&e.st!=="ok")w.push(x[1]+" on "+x[0].r.n+" "+schShort(x[0].s)+" "+schDL(x[0].D.iso)+": "+(e.st==="busy"?e.why:e.warn.join(" · ")))});
  E.sm="Swapped "+(ca||"empty")+" and "+(cb||"empty")+"."+(w.length?" Heads-up: "+w.join(" | "):"")}
-function edPanelHTML(kind,M){if(ED[kind].ppl)return edPplHTML(kind,M);if(ED[kind].swap&&!ED[kind].row)return edSwapHTML(kind,M);if(ED[kind].row)return edRowHTML(kind,M);var E=ED[kind],K=edK(kind),slot=E.sel?edSlot(kind,M,E.sel):null;
+function edPanelHTML(kind,M){if(ED[kind].rules)return edRulesHTML(kind,M);if(ED[kind].ppl)return edPplHTML(kind,M);if(ED[kind].swap&&!ED[kind].row)return edSwapHTML(kind,M);if(ED[kind].row)return edRowHTML(kind,M);var E=ED[kind],K=edK(kind),slot=E.sel?edSlot(kind,M,E.sel):null;
  if(!slot)return'<div class="ed-ph hint"><small>Availability</small><h3>Click any cell to select a slot</h3><p class="sch-mut">You will see who is free, who is busy, and who fits best. Click a name to assign.</p><p class="sch-mut"><b>To swap two people:</b> click <b>Swap shifts</b>, then click the two slots.</p><p class="sch-mut"><b>To add a person:</b> click <b>People</b> in the bar above, type a code and name, then Add person.</p><p class="sch-mut"><b>To rename:</b> click a rig or shift label to edit its name, site and times, or to add and remove rigs.</p><p class="sch-mut"><b>To paint:</b> choose a person under Paint, then click or drag across cells. Use the eraser to clear.</p>'+(kind==="cc"?'<p class="sch-mut">For core checkers a blank cell is a rest day, so auto-fill only touches the scope you choose.</p>':'')+'</div>';
  var cur=schN((M.cells||{})[E.sel]||"");
  return'<div class="ed-ph"><small>'+dkE(slot.r.n)+'</small><h3>'+dkE(schShort(slot.s))+' · '+dkE(schDL(slot.D.iso))+'</h3><p class="sch-mut">'+dkE(schSpan(slot.s))+'</p><div class="ed-cur">'+(cur?K.chip(M,cur,true)+'<button type="button" class="sch-lk" data-ed="clr" style="margin-left:auto">Clear</button>':'<span class="sch-mut">'+(kind==="cc"?"Rest day (blank)":"Unassigned")+'</span>')+'</div></div><input class="ed-q" data-ed="q" placeholder="Search name or code" value="'+dkE(E.q)+'"><div class="ed-list">'+edListHTML(kind,M,slot)+'</div>'}
@@ -900,8 +972,8 @@ function edBarHTML(kind,M){var K=edK(kind),E=ED[kind],v=K.V().v,p=E.pend,sel=E.s
  if(v!=="month"&&v!=="day")return h+'<span class="sch-mut">Editing works in the Month and Day views.</span><button type="button" class="ed-b pri" data-ed="jm">Open Month view</button></div>';
  h+='<label class="ed-f"><span>Paint</span><select data-ed="brush">'+K.opts(M,E.brush,"Off · click a slot instead")+'</select></label><button type="button" class="ed-b'+(E.erase?" on":"")+'" data-ed="erase">Eraser</button><span class="ed-d"></span>';
  h+='<label class="ed-f"><span>Auto-fill</span><select data-ed="auto"><option value="">Choose scope…</option><option value="day"'+(sel?"":" disabled")+'>Empty slots on selected day</option><option value="rig"'+(sel?"":" disabled")+'>Empty slots on selected rig</option><option value="month">Every empty slot this month</option></select></label>';
- if(p)h+='<span class="ed-pv"><b>'+p.ch.length+'</b> suggested'+(p.miss?" · "+p.miss+" could not be filled":"")+'</span><button type="button" class="ed-b pri" data-ed="acc">Accept</button><button type="button" class="ed-b" data-ed="rej">Discard</button>';
- return h+'<span class="ed-sp"></span><button type="button" class="ed-b'+(E.swap?" on":"")+'" data-ed="swap">Swap shifts</button><button type="button" class="ed-b'+(E.ppl?" on":"")+'" data-ed="ppl">People</button><button type="button" class="ed-b" data-ed="undo"'+(E.hist.length&&!p?"":" disabled")+'>Undo</button><button type="button" class="ed-b" data-ed="redo"'+(E.redo.length&&!p?"":" disabled")+'>Redo</button><button type="button" class="ed-b" data-ed="revert"'+(E.hist.length&&!p?"":" disabled")+'>Revert all</button><button type="button" class="ed-b pri" data-ed="export"'+(p?" disabled":"")+'>Export packet</button></div>'}
+ if(p)h+='<span class="ed-pv"><b>'+p.ch.length+'</b> suggested'+(p.miss?" · "+p.miss+" could not be filled":"")+(p.fills?" · "+p.fills+" filler day"+(p.fills===1?"":"s"):"")+'</span><button type="button" class="ed-b pri" data-ed="acc">Accept</button><button type="button" class="ed-b" data-ed="rej">Discard</button>';
+ return h+'<span class="ed-sp"></span><button type="button" class="ed-b'+(E.swap?" on":"")+'" data-ed="swap">Swap shifts</button><button type="button" class="ed-b'+(E.ppl?" on":"")+'" data-ed="ppl">People</button><button type="button" class="ed-b'+(E.rules?" on":"")+'" data-ed="rules">Auto-fill rules</button><button type="button" class="ed-b" data-ed="undo"'+(E.hist.length&&!p?"":" disabled")+'>Undo</button><button type="button" class="ed-b" data-ed="redo"'+(E.redo.length&&!p?"":" disabled")+'>Redo</button><button type="button" class="ed-b" data-ed="revert"'+(E.hist.length&&!p?"":" disabled")+'>Revert all</button><button type="button" class="ed-b pri" data-ed="export"'+(p?" disabled":"")+'>Export packet</button></div>'}
 function edDecorate(kind){var K=edK(kind),el=K.el,M=K.M(),top=el.querySelector(":scope>.sch-top");if(!top||!M)return;
  if(!top.querySelector(".ed-tg"))top.insertAdjacentHTML("beforeend",'<button type="button" class="ed-tg'+(EDIT?" on":"")+'" data-ed="tg">'+(EDIT?"Editing":"Edit schedule")+'</button>');
  var rv=top.querySelector(".sch-rev");if(rv&&M.ed)rv.textContent+=" · edited, not exported";
@@ -920,10 +992,11 @@ function edPaint(kind,td){var E=ED[kind],K=edK(kind),M=K.M(),k=td.getAttribute("
  if(code)M.cells[k]=code;else delete M.cells[k];E.drag.push({k:k,from:from,to:code});td.classList.add("pt");td.textContent=code||(kind==="cc"?"RD":"")}
 function edAct(kind,a,v){var K=edK(kind),E=ED[kind],M=K.M();if(!M)return;
  if(E.pend&&a!=="acc"&&a!=="rej"&&a!=="tg")edRej(kind);
- if(a==="tg"){EDIT=!EDIT;if(EDIT){E.m="";var vw=K.V();if(vw.v!=="month"&&vw.v!=="day"){vw.v="month";K.uk()}}else{E.pend&&edRej(kind);E.brush="";E.erase=false;E.sel="";E.ppl=false;E.swap=false;E.sw1="";E.swr=null}}
+ if(a==="tg"){EDIT=!EDIT;if(EDIT){E.m="";var vw=K.V();if(vw.v!=="month"&&vw.v!=="day"){vw.v="month";K.uk()}}else{E.pend&&edRej(kind);E.brush="";E.erase=false;E.sel="";E.ppl=false;E.rules=false;E.swap=false;E.sw1="";E.swr=null}}
  else if(a==="jm"){K.V().v="month";K.uk()}
  else if(a==="swap"){E.swap=!E.swap;E.sw1="";E.swr=null;E.sm="";E.sel="";E.row=null;E.ppl=false;if(E.swap){E.brush="";E.erase=false}}else if(a==="swc"){E.sw1="";E.swr=null;E.sel=""}else if(a==="swd"){E.swap=false;E.sw1="";E.swr=null;E.sm="";E.sel=""}
- else if(a==="ppl"){E.swap=false;E.ppl=!E.ppl;E.row=null;E.sel="";E.pm=""}else if(a==="pdone"){E.ppl=false;E.pm=""}else if(a==="padd"){edAddPerson(kind)}else if(a==="pdel"){edDelPerson(kind,v)}
+ else if(a==="rules"){E.rules=!E.rules;E.swap=false;E.ppl=false;E.row=null;E.sel=""}else if(a==="rdone"){E.rules=false}else if(a==="rxadd"||a==="rxdel"||a==="rfadd"||a==="rfdel"){edRuleAct(kind,a,v)}
+ else if(a==="ppl"){E.swap=false;E.rules=false;E.ppl=!E.ppl;E.row=null;E.sel="";E.pm=""}else if(a==="pdone"){E.ppl=false;E.pm=""}else if(a==="padd"){edAddPerson(kind)}else if(a==="pdel"){edDelPerson(kind,v)}
  else if(a==="rowx"){E.row=null}else if(a==="addrig"){edAddRig(kind)}else if(a==="delrig"){edDelRig(kind)}
  else if(a==="erase"){E.erase=!E.erase;if(E.erase){E.brush="";E.swap=false;E.sw1="";E.swr=null}}
  else if(a==="undo")edUndo(kind,false);else if(a==="redo")edUndo(kind,true);
@@ -941,7 +1014,7 @@ function edBind(kind){var K=edK(kind),el=K.el,E=ED[kind];
   var th=t.closest&&t.closest("[data-er]");if(th&&el.contains(th)&&edOn()){if(E.swap){var rk=th.getAttribute("data-er"),tds=[].slice.call(th.parentNode.querySelectorAll("td[data-ek]")).map(function(c){return c.getAttribute("data-ek")});if(tds.length){edSwDone(kind,tds,true);edRef(kind)}return}var ra=th.getAttribute("data-er").split("|");E.row={r:ra[0],s:ra[1]};E.sel="";E.ppl=false;E.swap=false;E.sw1="";E.swr=null;edRef(kind);return}
   var td=t.closest&&t.closest("td[data-ek]");if(!td||!el.contains(td)||!edOn()||E.brush||E.erase)return;
   var k=td.getAttribute("data-ek");if(E.swap)return;E.sel=E.sel===k?"":k;E.row=null;E.ppl=false;E.q="";edRef(kind)});
- el.addEventListener("change",function(e){var t=e.target,ep=t.getAttribute&&t.getAttribute("data-ep");if(ep){if(ep==="ng"){(E.np||(E.np={c:"",n:"",g:""})).g=t.value}else if(ep==="pn"||ep==="pg"){edPerson(kind,t.getAttribute("data-pc"),ep,t.value);edRef(kind)}return}var ef=t.getAttribute&&t.getAttribute("data-ef");if(ef){edField(kind,ef,t.value);edRef(kind);return}var a=t.getAttribute&&t.getAttribute("data-ed");if(!a)return;
+ el.addEventListener("change",function(e){var t=e.target,ep=t.getAttribute&&t.getAttribute("data-ep");if(ep){if(ep==="ng"){(E.np||(E.np={c:"",n:"",g:""})).g=t.value}else if(ep==="pn"||ep==="pg"){edPerson(kind,t.getAttribute("data-pc"),ep,t.value);edRef(kind)}return}var rl=t.getAttribute&&t.getAttribute("data-rl");if(rl){edRuleSet(kind,rl,t);edRef(kind);return}var ef=t.getAttribute&&t.getAttribute("data-ef");if(ef){edField(kind,ef,t.value);edRef(kind);return}var a=t.getAttribute&&t.getAttribute("data-ed");if(!a)return;
   if(a==="brush"){if(E.pend)edRej(kind);E.brush=t.value;E.erase=false;if(t.value){E.swap=false;E.sw1="";E.swr=null}edRef(kind)}
   else if(a==="auto"&&t.value){edAuto(kind,t.value);edRef(kind)}});
  el.addEventListener("input",function(e){var t=e.target;if(t.getAttribute&&/^n[cn]$/.test(t.getAttribute("data-ep")||"")){var np=E.np||(E.np={c:"",n:"",g:""});np[t.getAttribute("data-ep").charAt(1)]=t.value;return}if(!t.getAttribute||t.getAttribute("data-ed")!=="q")return;E.q=t.value;var M=K.M(),slot=E.sel&&M?edSlot(kind,M,E.sel):null,l=el.querySelector(".ed-list");if(slot&&l)l.innerHTML=edListHTML(kind,M,slot)});
