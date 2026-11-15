@@ -385,6 +385,7 @@ html,body{overscroll-behavior:none;height:100%;margin:0;background:var(--bg);col
  .ed-r i{grid-column:2/-1;font:normal 12px/1.35 system-ui,sans-serif;color:var(--mut)}
  .ed-r.sug{background:var(--okbg)}.ed-r.sug i{color:var(--ok-ink)}
  .ed-r.warn i{color:var(--warn)}.ed-r.busy{opacity:.55}
+ .dsh-nav{display:flex;align-items:center;gap:6px;margin-left:14px}.dsh-nav button,.dsh-nav input{min-height:34px;border:1px solid var(--line);border-radius:8px;background:var(--bg);color:var(--ink);font:700 13px system-ui,sans-serif;padding:0 10px}.dsh-nav button{cursor:pointer;min-width:34px}.dsh-nav button:hover,.dsh-nav input:hover{border-color:var(--acc)}.dsh-nav .tdy{background:var(--acc);color:#fff;border-color:var(--acc)}
  .sch-lg{margin:14px 0 6px;padding:12px 14px;border:1px solid var(--line);border-radius:12px;background:var(--card)}
  .sch-lgh{display:flex;align-items:center;gap:10px;flex-wrap:wrap}.sch-lgh b{font:800 11px/1 system-ui,sans-serif;letter-spacing:.08em;text-transform:uppercase}.sch-lgh span{font:600 12px system-ui,sans-serif;color:var(--mut)}
  .sch-lgb{margin-left:auto;min-height:34px;padding:0 14px;border:1px solid var(--line);border-radius:8px;background:var(--bg);color:var(--ink);font:700 12.5px system-ui,sans-serif;cursor:pointer}.sch-lgb:hover{border-color:var(--acc)}
@@ -1130,28 +1131,32 @@ function homeCard(kind){
 }
 
 /* ---- desktop overview (monitor) ---- */
-function dashTeam(kind){
- var geo=kind==="geo",label=geo?"Geologist":"Core Checkers",k=geo?schCur():ccSchCur(),M=k?(geo?SCHD:CCSCHD).months[k]:null,open='<button type="button" class="dp-open" data-go="'+kind+'">Open schedule</button>';
- if(!M)return{h:'<section class="dp"><header><h2>'+label+'<small>No schedule loaded</small></h2><span class="dp-hs"></span>'+open+'</header><div class="dp-mx"><p class="dp-none">Open the schedule tab to import a packet.</p></div></section>',on:0,today:0,cf:0,has:0,m:""};
- var A=geo?schAsg(M):ccSchAsg(M),CF=schConf(M,A),now=Date.now(),td=dkIso(new Date()),inM=td.slice(0,7)===M.month,dd=td.slice(8);
+var DSHD="";
+function dashTeam(kind,sd){
+ var geo=kind==="geo",label=geo?"Geologist":"Core Checkers",k=sd?sd.slice(0,7):(geo?schCur():ccSchCur()),M=k?(geo?SCHD:CCSCHD).months[k]:null,open='<button type="button" class="dp-open" data-go="'+kind+'">Open schedule</button>';
+ if(!M)return{h:'<section class="dp"><header><h2>'+label+'<small>No schedule loaded</small></h2><span class="dp-hs"></span>'+open+'</header><div class="dp-mx"><p class="dp-none">'+(sd?"No schedule loaded for "+dkE(schMonLbl(k))+".":"Open the schedule tab to import a packet.")+'</p></div></section>',on:0,today:0,cf:0,has:0,m:""};
+ var A=geo?schAsg(M):ccSchAsg(M),CF=schConf(M,A),rd=dkIso(new Date()),td=sd||rd,oth=td!==rd,now=oth?0:Date.now(),inM=td.slice(0,7)===M.month,dd=td.slice(8);
  var chip=function(c){return geo?schChip(M,c,true):ccSchChip(M,c,true)};
  var on=A.filter(function(a){return a.st<=now&&a.en>now}),tA=A.filter(function(a){return a.D.iso===td}),up=A.filter(function(a){return a.st>now}),nx=up[0],grp=nx?up.filter(function(a){return a.st===nx.st}):[];
- var h='<section class="dp"><header><h2>'+label+'<small>'+dkE(schMonLbl(M.month))+(M.rev?' · rev '+M.rev:'')+'</small></h2><span class="dp-hs"></span><span class="dp-pill'+(on.length?' ok':'')+'"><b>'+on.length+'</b> on duty</span><span class="dp-pill"><b>'+tA.length+'</b> today</span>'+open+'</header>';
+ var h='<section class="dp"><header><h2>'+label+'<small>'+dkE(schMonLbl(M.month))+(M.rev?' · rev '+M.rev:'')+'</small></h2><span class="dp-hs"></span>'+(oth?'':'<span class="dp-pill'+(on.length?' ok':'')+'"><b>'+on.length+'</b> on duty</span>')+'<span class="dp-pill"><b>'+tA.length+'</b> '+(oth?"that day":"today")+'</span>'+open+'</header>';
  if(on.length)h+='<div class="dp-onl"><span class="dp-onk"><i></i>On duty now</span>'+on.map(function(a){return'<div class="dp-u dp-on"><i>'+dkE(a.r.n)+'</i>'+chip(a.c)+'<small>'+dkE(schShort(a.s))+'</small></div>'}).join("")+'</div>';
  h+='<div class="dp-mx">';
  if(!inM)h+='<p class="dp-none">Today falls outside the loaded month ('+dkE(schMonLbl(M.month))+').</p>';
- else if((M.off||{})[dd])h+='<p class="dp-none">No schedule today.</p>';
+ else if((M.off||{})[dd])h+='<p class="dp-none">No schedule '+(oth?"on this day":"today")+'.</p>';
  else h+='<table><thead><tr><th>Rig</th>'+(M.shifts||[]).map(function(s){return'<th class="'+(geo?"":ccSchSP(s))+'"><b>'+dkE(schShort(s))+'</b><small>'+dkE(schSpan(s))+'</small></th>'}).join("")+'</tr></thead><tbody>'+(M.rigs||[]).map(function(r,ri){return'<tr class="rgc-'+(ri%8)+'"><th>'+dkE(r.n)+'</th>'+(M.shifts||[]).map(function(s){var a=tA.filter(function(x){return x.r===r&&x.s===s})[0];if(!a)return'<td class="rd">'+(geo?"—":"Rest day")+'</td>';return'<td class="'+(a.st<=now&&a.en>now?"now":a.en<=now?"past":"")+(CF.k[schAK(a)]?" cf":"")+'">'+chip(a.c)+'</td>'}).join("")+'</tr>'}).join("")+'</tbody></table>';
- h+='</div><div class="dp-ft"><h3>Up next'+(nx?' · <b>'+dkE(schDL(nx.D.iso)+' · '+sch12(nx.s.tf))+'</b>':'')+'</h3>'+(grp.length?'<div class="dp-up">'+grp.slice(0,grp.length>6?5:6).map(function(a){return'<div class="dp-u"><i>'+dkE(a.r.n)+'</i>'+chip(a.c)+'</div>'}).join("")+(grp.length>6?'<div class="dp-u dp-more">+'+(grp.length-5)+' more</div>':'')+'</div>':'<p class="sch-mut" style="margin:0;font-size:13px">No more shifts in '+dkE(schMonLbl(M.month))+'.</p>')+'</div></section>';
+ h+='</div>'+(oth?'':'<div class="dp-ft"><h3>Up next'+(nx?' · <b>'+dkE(schDL(nx.D.iso)+' · '+sch12(nx.s.tf))+'</b>':'')+'</h3>'+(grp.length?'<div class="dp-up">'+grp.slice(0,grp.length>6?5:6).map(function(a){return'<div class="dp-u"><i>'+dkE(a.r.n)+'</i>'+chip(a.c)+'</div>'}).join("")+(grp.length>6?'<div class="dp-u dp-more">+'+(grp.length-5)+' more</div>':'')+'</div>':'<p class="sch-mut" style="margin:0;font-size:13px">No more shifts in '+dkE(schMonLbl(M.month))+'.</p>')+'</div>')+'</section>';
  return{h:h,on:on.length,today:tA.length,cf:CF.list.length,has:1,m:M.month}
 }
 function dashRefresh(){
- var g=dashTeam("geo"),c=dashTeam("cc"),d=new Date(),n=g.on+c.on,cf=g.cf+c.cf,tm=g.has+c.has;
+ if(DSHD&&document.activeElement&&document.activeElement.matches&&document.activeElement.matches("#dash input[data-dsh]"))return;var sd=DSHD&&DSHD!==dkIso(new Date())?DSHD:"",g=dashTeam("geo",sd),c=dashTeam("cc",sd),d=sd?new Date(sd+"T12:00:00"):new Date(),n=g.on+c.on,cf=g.cf+c.cf,tm=g.has+c.has;
  var tile=function(l,v,cap,cl){return'<div class="dsh-t '+(cl||"")+'"><small>'+l+'</small><b>'+v+'</b><span>'+cap+'</span></div>'};
  var ml=g.m&&c.m&&g.m!==c.m?"Different months loaded":(g.m||c.m?schMonLbl(g.m||c.m):"Nothing loaded yet");
- document.getElementById("dash").innerHTML='<div class="dsh-h"><span class="lb">Overview</span><span class="dt">'+dkE(d.toLocaleDateString(undefined,{weekday:"long",day:"numeric",month:"long",year:"numeric"}))+'</span><span class="sp"></span><span class="dt">Refreshes every 30 seconds</span><span class="clk"><i></i>'+dkE(d.toLocaleTimeString([],{hour:"2-digit",minute:"2-digit"}))+'</span></div>'+
-  '<div class="dsh-b"><div class="dsh-st">'+tile("On duty now",n,"people on shift, both teams",n?"ok":"")+tile("Shifts today",g.today+c.today,"assigned slots, both teams")+tile("Double-bookings",cf,cf?"need attention":"none found",cf?"bad":"")+tile("Schedules loaded",tm+" / 2",ml)+'</div><div class="dsh-g">'+g.h+c.h+'</div></div>'
+ document.getElementById("dash").innerHTML='<div class="dsh-h"><span class="lb">Overview</span><span class="dt">'+dkE(d.toLocaleDateString(undefined,{weekday:"long",day:"numeric",month:"long",year:"numeric"}))+'</span><span class="dsh-nav"><button type="button" data-dsh="-1" title="Previous day" aria-label="Previous day">‹</button><input type="date" data-dsh="d" value="'+dkE(sd||dkIso(new Date()))+'" aria-label="Choose a date"><button type="button" data-dsh="1" title="Next day" aria-label="Next day">›</button>'+(sd?'<button type="button" class="tdy" data-dsh="0">Today</button>':'')+'</span><span class="sp"></span>'+(sd?'<span class="dt">Viewing a different day</span>':'<span class="dt">Refreshes every 30 seconds</span><span class="clk"><i></i>'+dkE(d.toLocaleTimeString([],{hour:"2-digit",minute:"2-digit"}))+'</span>')+'</div>'+
+  '<div class="dsh-b"><div class="dsh-st">'+(sd?tile("Shifts that day",g.today+c.today,"assigned slots, both teams")+tile("Geologist",g.today,"slots that day")+tile("Core Checkers",c.today,"slots that day"):tile("On duty now",n,"people on shift, both teams",n?"ok":"")+tile("Shifts today",g.today+c.today,"assigned slots, both teams"))+tile("Double-bookings",cf,cf?"need attention":"none found",cf?"bad":"")+tile("Schedules loaded",tm+" / 2",ml)+'</div><div class="dsh-g">'+g.h+c.h+'</div></div>'
 }
+function dshGo(d){DSHD=d;try{document.activeElement.blur()}catch(e){}dashRefresh()}
+document.addEventListener("click",function(e){var b=e.target.closest&&e.target.closest("#dash [data-dsh]");if(!b||b.tagName==="INPUT")return;var a=b.getAttribute("data-dsh");if(a==="0"){dshGo("");return}var x=new Date((DSHD||dkIso(new Date()))+"T12:00:00");x.setDate(x.getDate()+(+a));dshGo(dkIso(x))});
+document.addEventListener("change",function(e){var t=e.target;if(t&&t.matches&&t.matches("#dash input[data-dsh]")&&t.value)dshGo(t.value)});
 function homeRefresh(){document.getElementById("hm-cards").innerHTML=homeCard("geo")+homeCard("cc");dashRefresh()}
 function navMark(n){document.querySelectorAll("#side button[data-nav]").forEach(function(b){b.classList.toggle("on",b.getAttribute("data-nav")===n)})}
 function showHome(){homeRefresh();homeEl.hidden=false;appEl.hidden=true;navMark("home")}
